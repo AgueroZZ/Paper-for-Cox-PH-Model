@@ -133,6 +133,10 @@ INPUT /usr/local/texlive/2017/texmf-dist/tex/generic/babel/babel.sty
 INPUT /usr/local/texlive/2017/texmf-dist/tex/generic/babel-english/english.ldf
 INPUT /usr/local/texlive/2017/texmf-dist/tex/generic/babel-english/english.ldf
 INPUT /usr/local/texlive/2017/texmf-dist/tex/generic/babel/babel.def
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/xcolor/xcolor.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/xcolor/xcolor.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/graphics-cfg/color.cfg
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/graphics-cfg/color.cfg
 INPUT draft_v6.aux
 INPUT draft_v6.aux
 OUTPUT draft_v6.aux
@@ -269,3 +273,4 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmri10.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmri12.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmsy10.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmsy7.pfb
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb

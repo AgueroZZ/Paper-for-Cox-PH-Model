@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex draft_v6"] 1584102335 "draft_v6.aux" "draft_v6.bbl" "draft_v6" 1584102336
+["bibtex draft_v6"] 1584118925 "draft_v6.aux" "draft_v6.bbl" "draft_v6" 1584119855
   "./biom.bst" 1584102058 24690 cbb84ff4a60f7eb5dd618bd02aa22325 ""
-  "draft_v6.aux" 1584102336 6977 45e9048f4c1e2ce3b6c4d07e81df825c ""
+  "draft_v6.aux" 1584119854 7780 70898890af899c79b4525489ba240e94 ""
   "myrefs.bib" 1584102058 9126 8cd30b602a64f3ae7b65e5665dd5461f ""
   (generated)
-  "draft_v6.blg"
   "draft_v6.bbl"
-["pdflatex"] 1584102335 "draft_v6.tex" "draft_v6.pdf" "draft_v6" 1584102336
+  "draft_v6.blg"
+["pdflatex"] 1584119854 "draft_v6.tex" "draft_v6.pdf" "draft_v6" 1584119855
   "/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1480098668 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1480098668 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
   "/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1480098668 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
@@ -49,6 +49,7 @@
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/lm/rm-lmr7.tfm" 1480098712 11852 5a9022f105fd1ee2797df861e79ae9a0 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/lm/rm-lmr9.tfm" 1480098712 11884 c93929a6974dce79eabb778f219d7e18 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1480098733 32722 d7379af29a190c3f453aba36302ff5a9 ""
+  "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb" 1480098734 34694 ad62b13721ee8eda1dcc8993c8bd7041 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmbx10.pfb" 1480098742 121021 1bf809ce4a594679006bd72263eba59b ""
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmbx12.pfb" 1480098742 116908 1fca96723793882c2e0160350c192fc8 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmbx9.pfb" 1480098742 126646 439622e6fd57f388c9979d39c4fce535 ""
@@ -107,6 +108,7 @@
   "/usr/local/texlive/2017/texmf-dist/tex/latex/caption/caption3.sty" 1480098823 64866 1ea74c5f2d1685881497f021b8f186b2 ""
   "/usr/local/texlive/2017/texmf-dist/tex/latex/caption/subcaption.sty" 1480098823 5038 413302044f9700cf65465d590c2f4ad1 ""
   "/usr/local/texlive/2017/texmf-dist/tex/latex/geometry/geometry.sty" 1480098829 40502 e003406220954b0716679d7928aedd8a ""
+  "/usr/local/texlive/2017/texmf-dist/tex/latex/graphics-cfg/color.cfg" 1480098830 1213 620bba36b25224fa9b7e1ccb4ecb76fd ""
   "/usr/local/texlive/2017/texmf-dist/tex/latex/graphics-cfg/graphics.cfg" 1480098830 1224 978390e9c2234eab29404bc21b268d1e ""
   "/usr/local/texlive/2017/texmf-dist/tex/latex/graphics-def/pdftex.def" 1485129666 58250 3792a9d2d1d664ee8c742498e295b051 ""
   "/usr/local/texlive/2017/texmf-dist/tex/latex/graphics/graphics.sty" 1492297155 14603 b288c52bd5d46d593af31dbc7e548236 ""
@@ -143,6 +145,7 @@
   "/usr/local/texlive/2017/texmf-dist/tex/latex/titling/titling.sty" 1480098841 7358 95ac619994bd30d405a74f3eca431c84 ""
   "/usr/local/texlive/2017/texmf-dist/tex/latex/upquote/upquote.sty" 1480098842 1048 517e01cde97c1c0baf72e69d43aa5a2e ""
   "/usr/local/texlive/2017/texmf-dist/tex/latex/url/url.sty" 1480098842 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
+  "/usr/local/texlive/2017/texmf-dist/tex/latex/xcolor/xcolor.sty" 1480098843 55589 34128738f682d033422ca125f82e5d62 ""
   "/usr/local/texlive/2017/texmf-dist/web2c/texmf.cnf" 1494087824 32646 eadc4ca26cdbe7105ac7c593aa8c4f72 ""
   "/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1495593472 2350277 a699055bee05bf8a40b0504752487295 ""
   "/usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt" 1495593487 4129592 0e6cfee100d68e6d96b92c0258f2ff73 ""
@@ -153,14 +156,14 @@
   "Leuk_PosterSigma.pdf" 1584102058 4733 5429ff6971231481a00fe1d2735675a5 ""
   "SmoothingSim_FinalPlot.pdf" 1584102058 6340 dd1b57588c0f2551089b665109c1b5bd ""
   "SmoothingSim_PosterSigma.pdf" 1584102058 4617 3129e9480a81cde0ad0068f62834ba77 ""
-  "draft_v6.aux" 1584102336 6977 45e9048f4c1e2ce3b6c4d07e81df825c ""
-  "draft_v6.bbl" 1584102335 3291 683aeb0b2bb560689ff2831e8decb609 "bibtex draft_v6"
-  "draft_v6.out" 1584102336 584 4fe6ce55134bf95f17e6b366faca5a5f ""
-  "draft_v6.tex" 1584102331 34430 c62d476302ba1047058c652ab2e2af07 ""
+  "draft_v6.aux" 1584119854 7780 70898890af899c79b4525489ba240e94 ""
+  "draft_v6.bbl" 1584118926 3101 2351706ee755d97dcfb5305d9a06a4b7 "bibtex draft_v6"
+  "draft_v6.out" 1584119854 856 00f3f7ffefad7b2dcf740f8955f78352 ""
+  "draft_v6.tex" 1584119853 39167 e69279d451b5161364aa2cf852fdee0f ""
   "leuk_FinalPlot.pdf" 1584102058 6345 2a5d7325cc7a4501e4b39bb3f4209de4 ""
   "sim_base.pdf" 1584102058 457302 70d2387ba5f2415094dd33a7f2b378c9 ""
   (generated)
-  "draft_v6.out"
-  "draft_v6.pdf"
   "draft_v6.log"
+  "draft_v6.pdf"
   "draft_v6.aux"
+  "draft_v6.out"
