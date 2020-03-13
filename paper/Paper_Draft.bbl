@@ -1,0 +1,79 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Braun}{Braun}{2014}]{trustoptim}
+Braun, M. (2014).
+\newblock {trustOptim}: An {R} package for trust region optimization with
+  sparse hessians.
+\newblock {\em Journal of Statistical Software} {\bf 60,} 1--16.
+
+\bibitem[\protect\citeauthoryear{Breslow}{Breslow}{1974}]{Breslow}
+Breslow, N. (1974).
+\newblock Covariance analysis of censored survival data.
+\newblock {\em Biometrics} {\bf 30,} 89--99.
+
+\bibitem[\protect\citeauthoryear{Cox}{Cox}{1972}]{coxph}
+Cox, D.~R. (1972).
+\newblock Regression models and life-tables.
+\newblock {\em Journal of the Royal Statistical Society. Series B
+  (Methodological)} {\bf 34,} 187--220.
+
+\bibitem[\protect\citeauthoryear{Lindgren and Rue}{Lindgren and
+  Rue}{2008}]{rw2}
+Lindgren, F. and Rue, H. (2008).
+\newblock On the second-order random walk model for irregular locations.
+\newblock {\em Scandinavian Journal of Statistics} {\bf 35,} 691--700.
+
+\bibitem[\protect\citeauthoryear{Martino, Akerkar, and Rue}{Martino
+  et~al.}{2011}]{inlacoxph}
+Martino, S., Akerkar, R., and Rue, H. (2011).
+\newblock Approximate bayesian inference for survival models.
+\newblock {\em Scandinavian Journal of Statistics} {\bf 38,} 514--528.
+
+\bibitem[\protect\citeauthoryear{McGilchrist and Aisbett}{McGilchrist and
+  Aisbett}{1991}]{kidney}
+McGilchrist, C.~A. and Aisbett, C.~W. (1991).
+\newblock Regression with frailty in survival analysis.
+\newblock {\em Biometrics} {\bf 47,} 461--466.
+
+\bibitem[\protect\citeauthoryear{Rue, Martino, and Chopin}{Rue
+  et~al.}{2009}]{inla}
+Rue, H., Martino, S., and Chopin, N. (2009).
+\newblock Approximate bayesian inference for latent gaussian models by using
+  integrated nested laplace approximations.
+\newblock {\em Journal of the Royal Statistical Society. Series B (Statistical
+  Methodology)} {\bf 71,} 319 -- 392.
+
+\bibitem[\protect\citeauthoryear{Simpson, Rue, Martins, Riebler, and
+  Sørbye}{Simpson et~al.}{2017}]{pcprior}
+Simpson, D., Rue, H., Martins, T.~G., Riebler, A., and Sørbye, S.~H. (2017).
+\newblock Penalising model component complexity: A principled, practical
+  approach to constructing priors.
+\newblock {\em Statistical Science} {\bf 32,}.
+
+\bibitem[\protect\citeauthoryear{Stringer, Brown, and Stafford}{Stringer
+  et~al.}{2020}]{casecross}
+Stringer, A., Brown, P., and Stafford, J. (2020).
+\newblock Approximate bayesian inference for case crossover models.
+\newblock {\em Biometrics} .
+
+\bibitem[\protect\citeauthoryear{Tierney and Kadane}{Tierney and
+  Kadane}{1986}]{tierney}
+Tierney, L. and Kadane, J.~B. (1986).
+\newblock Accurate approximations to posterior moments and marginal densities.
+\newblock {\em Journal of the American Statistical Association} {\bf 81,}.
+
+\bibitem[\protect\citeauthoryear{Vaupel, Manton, and Stallard}{Vaupel
+  et~al.}{1979}]{frailty}
+Vaupel, J.~W., Manton, K.~G., and Stallard, E. (1979).
+\newblock The impact of heterogeneity in individual frailty on the dynamics of
+  mortality.
+\newblock {\em Demography} {\bf 16,} 439--454.
+
+\bibitem[\protect\citeauthoryear{Wall}{Wall}{2004}]{Spatial}
+Wall, M.~M. (2004).
+\newblock A close look at the spatial structure implied by the car and sar
+  models.
+\newblock {\em Journal of Statistical Planning and Inference} {\bf 121,} 311 --
+  324.
+
+\end{thebibliography}
