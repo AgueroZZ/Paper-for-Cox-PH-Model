@@ -176,7 +176,19 @@ formula <- inla.surv(times,censoring) ~ age + sex + GN + AN + PKD + f(id,model =
 Inlaresult <- inla(formula = formula, control.compute = list(dic=TRUE),control.inla = list(strategy = 'gaussian',int.strategy = 'grid'), control.fixed = list(prec = 0.05), data = data, family = "coxph")
 Inlaresult$summary.fixed[,1][-1]
 Inlaresult$summary.random$id[,1:2]$mean
+datainla <- data_frame(x = Inlaresult$marginals.hyperpar$`Precision for id`[,1], y = Inlaresult$marginals.hyperpar$`Precision for id`[,2])
+sigma <- 1/sqrt(datainla$x)
+sigma_dens <- 2*(sigma^(-3))*datainla$y
+datainla_sigma <- data_frame(sigma = sigma[-c(1:8)], sigma_dens = sigma_dens[-c(1:8)])
 
+sigmapostplot1 <- margpost1$margpost %>%
+  mutate(sigma_post = exp(sigmalogmargpost)) %>%
+  ggplot(aes(x = sigma)) +
+  theme_classic() +
+  geom_line(aes(y = sigma_post),colour = "black",linetype = "solid",size = 1) +
+  labs(x = "",y = "") +
+  geom_line(aes(y = priorfuncsigma(sigma)),colour = 'black',linetype = 'dashed',size = 0.5) + 
+  geom_line(data = datainla_sigma, aes(y = sigma_dens, x = sigma),colour = 'black',linetype = 'dotdash',size = 0.5)
 
 
 # Compare with Coxph:
