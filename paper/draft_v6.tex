@@ -129,7 +129,8 @@ Let T denote a random variable representing the time to some event, supported on
 \begin{equation}\begin{aligned}\label{eqn:hazard}
 h(t) = \lim_{s\to 0} \frac{P(t\le T \le t+s |T\ge t)}{s}
 \end{aligned}\end{equation}
-\alex{Add to this section: notation for the observations that accomodates censoring. Redefine an ``observation'' to be the pair $(Y_{ij},d_{ij})$. Add a note that ``ties are handled according to the method of Breslow (cite)''. Also, I think we should denote the total number of datapoints as $N = \sum_{i=1}^{n}n_{i}$, and define this here.} Suppose we observe $i = 1,\ldots,n$ groups each with $j = 1,\ldots,n_{i}$ survival times. For example, we may observe $n$ subjects with $n_{i}$ measurements per subject. Denote the random variable representing the $j^{th}$ survival time in the $i^{th}$ group by $Y_{ij}$, and denote the survival times by $y = \left\{y_{ij}: i = 1,\ldots,n; j = 1,\ldots,n_{i} \right\}$. When there are some survival data in a data-set that are not observed exactly, we call these observations $censored$. Right-censoring is a common case of censoring when some survival times are only known to be longer than some specific times. For example, if the observation $y_{ij}$ is right-censored, then the only information available for $Y_{ij}$ is that $Y_{ij} > y_{ij}$. We will focus on this type of censoring in this paper.
+
+Suppose we observe $i = 1,\ldots,n$ groups each with $j = 1,\ldots,n_{i}$ observations. For example, we may observe $n$ subjects with $n_{i}$ measurements per subject. Denote the random variable representing the $j^{th}$ survival time in the $i^{th}$ group by $Y_{ij}$, and denote observations by the pairs $ \left\{(y_{ij},d_{ij}): i = 1,\ldots,n; j = 1,\ldots,n_{i} \right\}$, where $y_{ij}$ is the observed time and $d_{ij} = \text{I}(Y_{ij} = y_{ij})$ is the indicator for censoring. If $d_{ij} = 0$ implies $Y_{ij} > y_{ij}$, then that observation is called right-censored at $y_{ij}$. We will only consider this type of censoring in this paper. The total number of observations in the data set will be denoted by $N = \sum_{i=1}^{n}n_{i}$.
 Define $h_{ij}(t)$ to be the hazard function for random variable $Y_{ij}$. The Cox PH model assumes \citep{coxph}
 \begin{equation}\begin{aligned}\label{eqn:CoxHazardModel}
 h_{ij}(t) = h_0(t)\text{exp}(\eta_{ij})
@@ -140,14 +141,14 @@ where $h_0(t)$ is an unknown baseline hazard function that does not depend on th
 \end{aligned}\end{equation}
 Here $x_{ij}$ is a $p$-dimensional vector of covariates that are modelled as having linear associations with the log-hazard, and $\beta = (\beta_{1},\ldots,\beta_{p})$ are regression coefficients. The $u_{q} = \left\{u_{qij}: i = 1,\ldots,n; j = 1,\ldots,n_{i} \right\}, q = 1,\ldots,r$ are covariate vectors whose association with the log-hazard is modelled non-parametrically through unknown smooth functions $\gamma_1,\ldots,\gamma_r$. The vector of group intercepts $\xi = \left\{ \xi_{i}: i=1,\ldots,n\right\}$, referred to as ``frailty'' coefficients in the context of survival analysis \citep{frailty}, are included to model correlation between survival times coming from the same group $i$.
 
-Inference is carried out via a partial likelihood function. Define the \textit{risk set} $R_{ij} = \left\{k,l : y_{kl} \geq y_{ij}\right\}$. The partial likelihood can be written as follows: \alex{I removed all extra text from this paragraph. The censoring notation should already be defined. Make sure to modify the partial likelihood function appropriately, as discussed.}
+Inference is carried out via a partial likelihood function. Define the \textit{risk set} $R_{ij} = \left\{k,l : y_{kl} \geq y_{ij}\right\}$. Ties in survival times are handled according to the method of Breslow \citep{Breslow}. The partial likelihood can be written as follows: 
 \begin{equation}\begin{aligned}\label{eqn:partial}
-\pi(y|\eta) &= \prod_{i=1}^{n}\prod_{j=1}^{r_{i}} \bigg\{\frac{\exp[\eta_{ij}]}{{\sum_{l,k\in R_{ij}}^{}\exp[\eta_{lk}]}}\bigg \} \\
-&= \prod_{i=1}^{n}\prod_{j=1}^{r_{i}} \bigg\{\frac{1}{{1 + \sum_{l,k\in R_{ij} , (l,k) \neq (i,j)}\exp[\Delta_{lk,ij}]}}\bigg \} \\
+\pi(y|\eta) &= \prod_{i=1}^{n}\prod_{j=1}^{n_{i}} \bigg\{\frac{\exp[\eta_{ij}]}{{\sum_{l,k\in R_{ij}}^{}\exp[\eta_{lk}]}}\bigg \}^{d_{ij}} \\
+&= \prod_{i=1}^{n}\prod_{j=1}^{n_{i}} \bigg\{\frac{1}{{1 + \sum_{l,k\in R_{ij} , (l,k) \neq (i,j)}\exp[\Delta_{lk,ij}]}}\bigg \}^{d_{ij}} \\
 \end{aligned}\end{equation}
 where $\Delta_{lk,ij} = \eta_{lk} - \eta_{ij}$. Note that $h_{0}(t)$ does not appear in the partial likelihood, and hence inference may be carried out in the absence of assumptions about $h_{0}(t)$. Also note that this partial likelihood can be written in the following form:
 \begin{equation}\begin{aligned}\label{eqn:whyINLAfail1}
-\pi(y|\eta) &= \prod_{i=1}^{n}\prod_{j=1}^{r_{i}} \pi(y_{ij}|\eta)
+\pi(y|\eta) &= \prod_{i=1}^{n}\prod_{j=1}^{n_{i}} \pi(y_{ij}|\eta)
 \end{aligned}\end{equation}
 while in order for a model to be compatible with INLA, its likelihood must have the form:
 \begin{equation}\begin{aligned}\label{eqn:whyINLAfail2}
@@ -231,25 +232,22 @@ For fixed design matrices $A$, $B$ and $X$, we may write the additive predictor 
 \eta = A\Gamma + B\xi + X\beta + \epsilon
 \end{equation}
 where $\epsilon \sim \text{N}\left( 0,\tau^{-1}I_{N}\right)$.
-\alex{Now, I think you were right to split $A$ and $B$. It makes our procedure look more novel. Do you have the corresponding formula for the $Q_{\theta}$ matrix? I have only done this for the no-eps methodology, in which it is trivial to add new terms. If you don't have it, I think the easiest way to derive it would be to take my old formula for $Q_{\theta}$ from the case crossover paper, replace $A$ with $(A:B)$ and $\Gamma$ with $(\Gamma,\xi)$, and expand it out. }
-In \S\ref{sec:prelim}, it is shown that the partial likelihood function only depends on $\eta$ through $\Delta$ \alex{note: this is true for the vectors, but not true for the scalars as you put}. Hence the partial likelihood depends on $\Delta = D\eta$ where $D$ is an $(N -1) \times N $-dimensional matrix of rank $N -1$ \alex{see my note in section 2 about defining $N$. In general, whenever you find yourself writing a messy quantity more than once, consider defining a term for it.} The precision matrix is given by
+In \S\ref{sec:prelim}, it is shown that the partial likelihood function only depends on $\eta$ through $\Delta$. Hence the partial likelihood depends on $\Delta = D\eta$ where $D$ is an $(N -1) \times N $-dimensional matrix of rank $N -1$. The precision matrix is given by
 \begin{equation}\label{eqn:precmat}
 Q_{\theta} = \tau\begin{pmatrix}
-\Lambda^{-1} & -\Lambda^{-1}DA & - \Lambda^{-1}DX \\
-- A^{T}D^{T}\Lambda^{-1} & \frac{1}{\tau}\Sigma_{\Gamma}^{-1} +  A^{T}D^{T}\Lambda^{-1}DA &  A^{T}D^{T}\Lambda^{-1}DX \\
-- X^{T}D^{T}\Lambda^{-1} &  X^{T}D^{T}\Lambda^{-1}DA & \frac{1}{\tau}\Sigma_{\beta}^{-1} +  X^{T}D^{T}\Lambda^{-1}DX \\
+\Lambda^{-1} & -\Lambda^{-1}DA & -\Lambda^{-1}DB & - \Lambda^{-1}DX \\
+- A^{T}D^{T}\Lambda^{-1} & \frac{1}{\tau}\Sigma_{\Gamma}^{-1} +  A^{T}D^{T}\Lambda^{-1}DA &  A^{T}D^{T}\Lambda^{-1}DB &  A^{T}D^{T}\Lambda^{-1}DX \\
+- B^{T}D^{T}\Lambda^{-1} &  B^{T}D^{T}\Lambda^{-1}DA & \frac{1}{\tau}\Sigma_{\xi}^{-1} +  B^{T}D^{T}\Lambda^{-1}DB & B^{T}D^{T}\Lambda^{-1}DX \\
+- X^{T}D^{T}\Lambda^{-1} &  X^{T}D^{T}\Lambda^{-1}DA & X^{T}D^{T}\Lambda^{-1}DB & \frac{1}{\tau}\Sigma_{\beta}^{-1} +  X^{T}D^{T}\Lambda^{-1}DX \\
 \end{pmatrix}
 \end{equation}
-\alex{we need to agree on whether or not to include $B$ and then modify this formula} where $\Lambda = DD^{T}$. Expressions for $D$ and $\Lambda^{-1}$ are given in Appendix A. The specific form of the partial likelihood and this differencing matrix allow estimation of the frailty coefficients $\xi_{i},i = 1,\ldots,n$. In contrast, these are not estimable in the model considered by \citet{casecross}.
+where $\Lambda = DD^{T}$. Expressions for $D$ and $\Lambda^{-1}$ are given in Appendix A. The specific form of the partial likelihood and this differencing matrix allow estimation of the frailty coefficients $\xi_{i},i = 1,\ldots,n$. In contrast, these are not estimable in the model considered by \citet{casecross}.
 
 \subsection{Optimization}\label{subsec:opt}
 
 To compute the conditional mode $\hat{W}(\theta)$, we use trust region optimization \citep{trustoptim}. The objective function (\ref{eqn:modeandhessian}) is convex and high-dimensional, and hence trust region methods are well-suited to this problem. The Hessian of the objective function is $H_{\theta}(W) = Q_{\theta} + C(W)$. The non-zero block of $C(W)$ is fully dense in the Cox PH model with partial likelihood. The prior precision matrix $Q_{\theta}$ is also dense since $\Lambda^{-1}$ is. Since this density comes from $\Lambda^{-1}$, the Hessian $H_{\theta}(W)$ inherits the same sparsity pattern as $Q_{\theta}$.
 
 To apply such methods when the Hessian of the objective function is dense, we utilize quasi-Newton updates inside the trust region procedure. Such updates use a low-rank approximation to $H_{\theta}(W)$ at each iteration and hence do not require evaluation of this matrix during optimization. While this can lead to more iterations than the method used by \citet{casecross}, we are able to optimize our objective function efficiently in the presence of a dense $H_{\theta}(W)$. 
-
-
-\alex{note: I removed the paragraph on ties-- see our previous conversation. I think this can be reduced to a simple mention in the preliminaries.}
 
 \subsection{Models for latent variables}
 
@@ -258,7 +256,7 @@ We use a second-order random walk (RW2) model for each $\Gamma_{q},q = 1\ldots r
 \Gamma_{q,l+1} - 2\Gamma_{q,l} + \Gamma_{q,l-1} &\overset{iid}{\sim}\text{N}\left( 0,\sigma^{2}_{q}\right), \\
 \Gamma_{q,a} = 0,
 \end{aligned}\end{equation}
-where $a\in\mathbb{R}$ is some chosen reference value. This parametrization is identifiable under the partial likelihood and gives a clear interpretation of $\Gamma_{q,l}$ as the change in log-risk for an individual with covariate $u_{q,l}$ compared to an individual with covariate $u_{q,a}$. \alex{what is the second constraint you use? Two are needed for identifiability in RW2. Is this the part that you fix by adding the $vv^{T}$ onto the diagonal of the precision matrix?}
+where $a\in\mathbb{R}$ is some chosen reference value. This parametrization is identifiable under the partial likelihood and gives a clear interpretation of $\Gamma_{q,l}$ as the change in log-risk for an individual with covariate $u_{q,l}$ compared to an individual with covariate $u_{q,a}$. 
 
 
 \section{Examples}\label{sec:example}
@@ -267,37 +265,37 @@ We will illustrate the accuracy of our method over INLA, and the ability of our 
 
 \subsection{Simulation study}
 
-To illustrate the accuracy of our method over INLA when the smoothness assumption for baseline hazard function is violated, we performed a simulation study. We generated $N = n = 400$ uncorrelated data points from a distribution with hazard function (\ref{eqn:hazard}). The baseline hazard $h_{0}(t)$ shown in Figure \ref{fig:simulation} and the additive predictor is $\eta_{i} = \gamma\left(u_{i}\right)$ with $\gamma(u) = 1.5 [ \text{sin}(0.8u) + 1 ]$. To generate the covariate $u$ we first generate $u_{1},\ldots,u_{n}\overset{iid}{\sim}\text{Unif}(0,1)$ \alex{confirm: what did you actually do here?}, and then discretized these values into 50 disjoint, evenly-spaced intervals. Further, we randomly censored $80$ observations. 
+To illustrate the accuracy of our method over INLA when the smoothness assumption for baseline hazard function is violated, we performed a simulation study. We generated $N = n = 400$ uncorrelated data points from a distribution with hazard function (\ref{eqn:hazard}). The baseline hazard $h_{0}(t)$ shown in Figure \ref{fig:simulation} and the additive predictor is $\eta_{i} = \gamma\left(u_{i}\right)$ with $\gamma(u) = 1.5 [ \text{sin}(0.8u) + 1 ]$. To generate the covariate $u$ we first generate $u_{1},\ldots,u_{n}\overset{iid}{\sim}\text{Unif}(-6,6)$, and then discretized these values into 50 disjoint, evenly-spaced intervals. Further, we randomly censored $80$ observations. 
 
 We fit a RW2 model using our procedure and the INLA software \citep{inla}. For INLA, we used their default first-order random walk model for the baseline hazard, run under its default settings. This implicitly assumes that $h_{0}(t)$ is smooth. In contrast, our procedure does not infer $h_{0}(t)$, and does not make assumptions about its smoothness. For the single variance parameter $\sigma$ we use an Exponential($\lambda$) prior with $\lambda$ chosen such that $\mathbb{P}\left( \sigma > 2.5\right) = 0.5$, corresponding to a penalized complexity prior \citep{pcprior}.
 
 \begin{figure}[ht]
 \centering
-\subcaptionbox{baseline hazard function}{
-	\includegraphics[width=0.45\textwidth,height=3.5in]{sim_base}
+\subcaptionbox{True baseline hazard function in log scale}{
+	\includegraphics[width=0.45\textwidth,height=3.5in]{true_baseline(log)}
 }
-\subcaptionbox{Posterior for variance parameter $\sigma$}{
-	\includegraphics[width=0.45\textwidth,height=3.5in]{SmoothingSim_PosterSigma}
+\subcaptionbox{Estimated hazard function by INLA (in log scale) }{
+	\includegraphics[width=0.45\textwidth,height=3.5in]{INLA_baseline(log)}
 }
 \subcaptionbox{Smoothing result}{
 	\includegraphics[width=0.45\textwidth,height=3.5in]{SmoothingSim_FinalPlot}
 }
-
-\caption{Baseline hazard function in this simulation (top left panel) Posterior Estimation for variance parameter (---) and its prior (- - -)  (top right panels). Bottom panel shows the true risk function (- $\cdot$ -), posterior mean (---) and $95\%$ credible interval using proposed method, posterior mean using INLA (- - -).}
+\subcaptionbox{Posterior for variance parameter $\sigma$}{
+	\includegraphics[width=0.45\textwidth,height=3.5in]{SmoothingSim_PosterSigma}
+}
+\caption{True baseline hazard function in log scale of this simulation (top left panel). Estimated baseline hazard function in log-scale by INLA (top right panels). Bottom left panel shows the true risk function (- $\cdot$ -), posterior mean (---) and $95\%$ credible interval using proposed method, posterior mean using INLA (- - -). Posterior Estimation for variance parameter by our method (---) and by INLA (- $\cdot$ -), and its prior (- - -)  (bottom right panels)}
 \label{fig:simulation}
 \end{figure}
 
-Figure \ref{fig:simulation} demonstrates the superior accuracy of our method over INLA when $h_{0}(t)$ is not smooth. The oscillating baseline hazard could represent a scenario where mortality or morbidity risk varies from day to night, or across days of the week. \alex{can you add the following: 1. INLA's posterior for $\sigma$, on the same plot as ours; 2. INLA's estimated baseline hazard function, on a fourth plot? I need these to be able to further comment on the differences between INLA and us.}
+Figure \ref{fig:simulation} demonstrates the superior accuracy of our method over INLA when $h_{0}(t)$ is not smooth. The oscillating baseline hazard could represent a scenario where mortality or morbidity risk varies from day to night, or across days of the week. 
 
 \subsection{Leukaemia Data}
 
-\alex{I think you should take a stab at writing the two data examples sort of like I wrote the above simulation one, and given our discussion where we changed the abstract and clarified the purpose of these two examples. Also, the changes to the plots for the simulation should be reflected in the Leukemia example (basically add their $\sigma$ posterior, on the same graph as ours. For the Kidney example, you should create the tables in Latex using "tabular" and "table" (there is lots of documentation on this). And what's going on with the $\sigma$ posterior in that example? The approximation is convex so the left tail shouldn't inflect like that. Also, INLA's posterior should be shown here too.}
-
-In this example, we will use our proposed methodology to analyse the Leukaemia data set \citet{inlacoxph} did using INLA, and compare these results with the frequentist method GAM. The data set contains 1043 of adult leukaemia patients' information with around 16 percent of them being right-censored. 
+To illustrate the use of our proposed methodology to yield full posterior uncertainty for the smoothness of the semi-parametric effect without making assumptions on the baseline hazard function, we will use our proposed methodology to analyse the Leukaemia data set \citet{inlacoxph} did using INLA, and compare these results with the frequentist method GAM. The data set contains 1043 of adult leukaemia patients' information with around 16 percent of them being right-censored. 
 
 For our implementation, we are interested in quantifying the relationship between survival rate of leukaemia patients with the age of the patient ($\text{age}$), the count of white blood cells at diagnosis ($\text{wbc}$), the Townsend deprivation index ($\text{tpi}$) and patient's sex ($\text{sex}$). The effects of $\text{sex}$, $\text{age}$ and $\text{wbc}$ were modelled linearly, and the $\text{tpi}$ was modelled as a semi-parametric smoothing effect. The smoothing variable $\text{tpi}$ was discretized into 50 equally spaced bins. Our methodology does not require the smoothness assumption on the baseline hazard function nor a specification of it.
 
-We set the prior distributions for all the linear effects $\beta$ as $\beta \stackrel{iid}{\sim} \text{N}(0, 0.05^{-1})$, and for the second order random walk of $\Gamma_1 = \{\Gamma_{1,1}, ..., \Gamma_{1,50}\}$ as $\Gamma \sim \text{RW}_2(\sigma^2)$ where a PC prior is put on $\sigma$ such that $\text{P}(\sigma > 3) = 0.5$ \citep{pcprior}. Therefore, the final dimension of W in this example will be 1094. We fit this model using both INLA and our proposed methodology, and then their smoothing results are compared with the result of GAM. For INLA's implementation, it has to assume the smoothness of the baseline hazard and then model it semi-parametrically using random walk model. 
+We set the prior distributions for all the linear effects $\beta$ as $\beta \stackrel{iid}{\sim} \text{N}(0, 0.05^{-1})$, and for the second order random walk of $\Gamma_1 = \{\Gamma_{1,1}, ..., \Gamma_{1,50}\}$ as $\Gamma \sim \text{RW}_2(\sigma^2)$ where a PC prior is put on $\sigma$ such that $\text{P}(\sigma > 2) = 0.5$ \citep{pcprior}. Therefore, the final dimension of W in this example will be 1094. We fit this model using both INLA and our proposed methodology, and then their smoothing results are compared with the result of GAM. For INLA's implementation, it has to assume the smoothness of the baseline hazard and then model it semi-parametrically using random walk model. 
 
 \begin{figure}[ht]
 \centering
@@ -308,7 +306,7 @@ We set the prior distributions for all the linear effects $\beta$ as $\beta \sta
 	\includegraphics[width=0.45\textwidth,height=3.5in]{leuk_FinalPlot}
 }
 
-\caption{Posterior Estimation for variance parameter (---) and its prior (- - -)  (left panel). Right panel shows the posterior mean (---) and $95\%$ credible interval using proposed method, posterior mean using INLA (- - -) and the smoothing result of GAM (- $\cdot$ -).}
+\caption{Posterior Estimation for $\sigma$ by our method (---) and by INLA (- $\cdot$ -), and its prior (- - -)  (left panel). Right panel shows the posterior mean (---) and $95\%$ credible interval using proposed method, posterior mean using INLA (- - -) and the smoothing result of GAM (- $\cdot$ -).}
 \label{fig:leuk}
 \end{figure}
 
@@ -320,32 +318,51 @@ Figure \ref{fig:leuk} shows the posterior distribution of variance parameter giv
 
 \subsection{Kidney Catheter Data}
 
-In this example, we implement our proposed methodology to analyse the kidney catheter data set that \citet{kidney} analysed using Cox proportional hazard model. This data set contains 76 recurrence times to infection, at the point of insertion of the catheter, for 38 kidney patients. In this data set, each kidney patient has exactly two observations, each observation from one kidney. When the catheter is removed for other reason than infections, the observation is right censored.
+To illustrate the use of our proposed methodology to yield full posterior uncertainty for the between-subject standard deviation without making assumptions on the baseline hazard function, we implement our proposed methodology to analyse the kidney catheter data set that \citet{kidney} analysed using Cox proportional hazard model. This data set contains 76 recurrence times to infection, at the point of insertion of the catheter, for 38 kidney patients. In this data set, each kidney patient has exactly two observations, each observation from one kidney. When the catheter is removed for other reason than infections, the observation is right censored.
 
 In our analysis, we mostly followed the procedures \citet{kidney} did in their work, and aimed to quantify the relationship between recurrence time of bladder infection with patient's age, sex and  disease types. The variable sex is coded as 1 for male and 2 for female. The four diseases types are represented by three dummy variables $\text{GN}$, $\text{AN}$ and $\text{PKD}$, with the reference group being $Other$. A patient level frailty is also added to the model, such that observations within the same patient are correlated. 
 
-We specified the prior distributions for all the linear effect $\beta$ as $\beta \stackrel{iid}{\sim} \text{N}(0, 0.05^{-1})$ , and the prior distribution for the standard deviation of the between-subjects frailty as a PC prior such that $\text{P}(\sigma > 2) = 0.5$. As a comparison, we also implemented INLA and frequentist maximum partial likelihood method for this model. The result is summarized at the figures below.
+We specified the prior distributions for all the linear effect $\beta$ as $\beta \stackrel{iid}{\sim} \text{N}(0, 0.05^{-1})$ , and the prior distribution for the standard deviation of the between-subjects frailty as a PC prior such that $\text{P}(\sigma > 2) = 0.5$. As a comparison, we also implemented INLA and frequentist maximum partial likelihood method for this model. The result is summarized at the tables below.
 
-\begin{figure}[ht]
-\centering
-\subcaptionbox{Estimated means of linear effects}{
-	\includegraphics[width=0.75\textwidth,height=3.5in]{FixedEffectsMean}
-}
-\subcaptionbox{Posterior standard deviations of linear effects }{
-	\includegraphics[width=0.75\textwidth,height=3.5in]{FixedEffectsSD}
-}
-\caption{Posterior Estimation and Maximum Partial likelihood Estimation for linear effects}
-\label{fig:BladderLinearEff}
-\end{figure}
 
-From figure \ref{fig:BladderLinearEff}, it can be seen that for the inference of linear effects, the posterior means given by our proposed method are very similar to the frequentist's maximum partial likelihood estimates. While the posterior means given by INLA tends to be less similar to the results of the above two methods. Besides that, the posterior standard deviations of these linear effects given by our proposed methods are similar to the estimated standard errors given by maximum partial likelihood methods, but the posterior deviations given by INLA tend to be smaller.
+\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{3cm}|  }
+ \hline
+ \multicolumn{4}{|c|}{Estimated means of linear effects} \\
+ \hline
+ & Proposed & Coxph & INLA \\
+ \hline
+ age & 0.004632599 & 0.005180556 & 0.002291203\\
+ sex & −1.620617237  & −1.678981921 & −1.608088118\\
+ GN & 0.170976991 & 0.180739851 & 0.117956592\\
+ AN & 0.391823233 & 0.393639827 & 0.521933207\\
+ PKD & −1.167069525  & −1.140011592 & −1.029157891\\
+ \hline
+\end{tabular}
+
+
+\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{3cm}|  }
+ \hline
+ \multicolumn{4}{|c|}{Estimated standard deviations of linear effects} \\
+ \hline
+ & Proposed & Coxph & INLA \\
+ \hline
+ age & 0.01444006 & 0.01472696 & 0.01295325\\
+ sex & 0.45024348  & 0.45819377 & 0.38269245\\
+ GN & 0.52010322 & 0.53545868 & 0.46890836\\
+ AN & 0.52152608 & 0.53683292 & 0.46273471\\
+ PKD & 0.77747235  & 0.80987521 & 0.69859291\\
+ \hline
+\end{tabular}
+
+
+From tables above, it can be seen that for the inference of linear effects, the posterior means given by our proposed method are very similar to the frequentist's maximum partial likelihood estimates. While the posterior means given by INLA tends to be less similar to the results of the above two methods. Besides that, the posterior standard deviations of these linear effects given by our proposed methods are similar to the estimated standard errors given by maximum partial likelihood methods, but the posterior deviations given by INLA tend to be smaller.
 
 \begin{figure}[ht]
 \centering
 \subcaptionbox{Posterior for the between-subject standard deviation $\sigma$}{
 	\includegraphics[width=0.45\textwidth,height=3.5in]{Kidney_PosterSigma}
 }
-\caption{Posterior Estimation for the between-subject standard deviation (---) and its prior (- - -)  (left panel)}
+\caption{Posterior Estimation for the between-subject standard deviation by our method (---) and by INLA (- $\cdot$ -), and its prior (- - -)  (left panel)}
 \label{fig:BetweenSubjectSD}
 \end{figure}
 
@@ -381,19 +398,20 @@ D &= \begin{pmatrix}
 \end{aligned}\end{equation}
 Our model specifies:
 \begin{equation*}
-\Gamma|\theta \sim \text{Normal}\left( 0,\Sigma_{\Gamma}\right); \ \beta \sim \text{Normal}\left( 0,\Sigma_{\beta}\right); \ \epsilon \sim \text{Normal}\left( 0,\tau^{-1}I\right)
+\Gamma|\theta \sim \text{Normal}\left( 0,\Sigma_{\Gamma}\right); \ \xi|\theta \sim \text{Normal}\left( 0,\Sigma_{\xi}\right); \ \beta \sim \text{Normal}\left( 0,\Sigma_{\beta}\right); \ \epsilon \sim \text{Normal}\left( 0,\tau^{-1}I\right)
 \end{equation*}
-all independent of each other, and of $\theta$ unless otherwise specified. The additive predictor is $\eta = A\Gamma + X\beta + \epsilon$ and $\Delta = D\eta$ where $D$ is defined through Equation .... This gives a joint distribution for $W|\theta$:
+all independent of each other, and of $\theta$ unless otherwise specified. The additive predictor is $\eta = A\Gamma + B\xi + X\beta + \epsilon$ and $\Delta = D\eta$ where $D$ is defined through Equation .... This gives a joint distribution for $W|\theta$:
 \begin{equation*}
-W|\theta = \begin{pmatrix} \Delta \\ \Gamma \\\beta \end{pmatrix} = \begin{pmatrix} DA & DX & D \\ I & 0 & 0 \\ 0 & I & 0 \\ \end{pmatrix}\begin{pmatrix}\Gamma \\ \beta \\ \epsilon \end{pmatrix} 
+W|\theta = \begin{pmatrix} \Delta \\ \Gamma \\ \xi \\\beta \end{pmatrix} = \begin{pmatrix} DA & DB & DX & D \\ I & 0 & 0 & 0 \\ 0 & I & 0 & 0 \\ 0 & 0 & I & 0 \\ \end{pmatrix}\begin{pmatrix}\Gamma\\ \xi \\ \beta \\ \epsilon \end{pmatrix} 
 \sim \text{Normal}\left( 0,\Sigma\right)
 \end{equation*}
 where
 \begin{equation*}
 \Sigma = \begin{pmatrix}
-DA\Sigma_{\Gamma}A^{T}D^{T} + DX\Sigma_{\beta}X^{T}D^{T} + \tau^{-1}DD^{T} & DA\Sigma_{\Gamma} & DX\Sigma_{\beta} \\
-\Sigma_{\Gamma}D^{T}A^{T} & \Sigma_{\Gamma} & 0 \\
-\Sigma_{\beta}D^{T}X^{T} & 0 & \Sigma_{\beta} \\
+DA\Sigma_{\Gamma}A^{T}D^{T} + DB\Sigma_{\xi}B^{T}D^{T} + DX\Sigma_{\beta}X^{T}D^{T} + \tau^{-1}DD^{T} & DA\Sigma_{\Gamma} & DB\Sigma_{\xi} & DX\Sigma_{\beta} \\
+\Sigma_{\Gamma}D^{T}A^{T} & \Sigma_{\Gamma} & 0 & 0 \\
+\Sigma_{\xi}D^{T}B^{T} & 0 & \Sigma_{\xi} & 0 \\
+\Sigma_{\beta}D^{T}X^{T} & 0 & 0 & \Sigma_{\beta} \\
 \end{pmatrix}
 \end{equation*}
 Direct calculation using formuals for block matrix inversion yields $Q(\theta) = \Sigma^{-1}$.

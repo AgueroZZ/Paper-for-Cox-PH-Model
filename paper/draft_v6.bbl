@@ -6,6 +6,11 @@ Braun, M. (2014).
   sparse hessians.
 \newblock {\em Journal of Statistical Software} {\bf 60,} 1--16.
 
+\bibitem[\protect\citeauthoryear{Breslow}{Breslow}{1974}]{Breslow}
+Breslow, N. (1974).
+\newblock Covariance analysis of censored survival data.
+\newblock {\em Biometrics} {\bf 30,} 89--99.
+
 \bibitem[\protect\citeauthoryear{Cox}{Cox}{1972}]{coxph}
 Cox, D.~R. (1972).
 \newblock Regression models and life-tables.

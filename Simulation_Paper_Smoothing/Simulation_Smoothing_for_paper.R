@@ -161,24 +161,27 @@ thetapostplot1 <- margpost1$margpost %>%
   mutate(theta_post = exp(thetalogmargpost)) %>%
   ggplot(aes(x = theta)) +
   theme_classic() +
-  geom_line(aes(y = theta_post),colour = "red",size = 1) +
-  geom_line(aes(y = priorfunc(theta)),colour = "black",size = 0.5) +
-  labs(x = "",y = "") +
-  theme(text = element_text(size = 8))
+  geom_line(aes(y = theta_post),colour = "black",size = 0.5) +
+  geom_line(aes(y = priorfunc(theta)),colour = "black",linetype = "dashed",size = 0.5) +
+  # coord_cartesian(xlim = c(0,20)) +
+  labs(y = "Density",x = "") +
+  theme(text = element_text(size = PLOT_TEXT_SIZE))
 
 sigmapostplot1 <- margpost1$margpost %>%
   mutate(sigma_post = exp(sigmalogmargpost)) %>%
   ggplot(aes(x = sigma)) +
   theme_classic() +
-  geom_line(aes(y = sigma_post),colour = "red",size = 1) +
-  geom_line(aes(y = priorfuncsigma(sigma)),colour = "black",size = 0.5) +
-  labs(x = "",y = "") +
-  theme(text = element_text(size = 8))
+  geom_line(aes(y = sigma_post),colour = "black",size = 0.5) +
+  geom_line(aes(y = priorfuncsigma(sigma)),colour = "black",linetype = "dashed",size = 0.5) +
+  labs(x = "",y = "Density") +
+  theme(text = element_text(size = PLOT_TEXT_SIZE))
+
+
 
 
 #Ploting:
 ggsave(filename = "~/STA497/SmoothingSim_PosterTheta.pdf",plot = thetapostplot1)
-ggsave(filename = "~/STA497/SmoothingSim_PosterSigma.pdf", plot = sigmapostplot1)
+ggsave(filename = "~/SmoothingSim_PosterSigma.pdf", plot = sigmapostplot1)
 
 
 #Final Comparison:
@@ -238,6 +241,8 @@ y <- as.numeric(predict.gam(b,data_frame(exposure = x)))-as.numeric(predict.gam(
 
 
 #Plot:
+
+#Plot:
 PLOT_TEXT_SIZE = 8
 simplot <- tibble(
   x = sort(unique(model_data$A$exposure$u)),
@@ -247,22 +252,39 @@ simplot <- tibble(
 ) %>%
   ggplot(aes(x = x)) +
   theme_light() +
-  geom_ribbon(aes(ymin = mymeanlower,ymax = mymeanupper),fill = "orange",alpha = .1) +
-  geom_line(aes(y = mymean),colour = 'orange',linetype = 'solid') + 
-  labs(title = "Comparison of Performance",
-       subtitle = "Orange = Proposed;",
-       x = "tpi", y = "eta") +
-  geom_line(aes(y = truefunc(x) - truefunc(x[vv])),colour = 'black',linetype = 'solid') + 
-  theme(text = element_text(size = PLOT_TEXT_SIZE))
+  geom_ribbon(aes(ymin = mymeanlower,ymax = mymeanupper),fill = "lightgrey",alpha = .5) +
+  geom_line(aes(y = mymeanupper),colour = "black",linetype = "blank") +
+  geom_line(aes(y = mymeanlower),colour = "black",linetype = "blank") +
+  geom_line(aes(y = mymean),colour = 'black',linetype = 'solid') + 
+  geom_line(aes(y = truefunc(x) - truefunc(x[vv])),colour = 'black',linetype = 'dotdash') + 
+  xlab("") +
+  ylab("") +
+  theme_classic()
 
 
-new_compare <- simplot + geom_line(aes(y = meanhere),colour = "blue") +labs(title = "Comparison of Performance",
-                                                                            subtitle = "Orange = Proposed; Blue = INLA ; Green = GAM ; Black = True",
-                                                                            x = "Covariate", y = "eta")
-
-new_compare <- new_compare + geom_line(aes(y = y),colour = "green")
+new_compare <- simplot + geom_line(aes(y = meanhere),colour = "black",linetype = "dashed") 
 
 
 
 
+
+datainla <- data_frame(x = Inlaresult$marginals.hyperpar$`Precision for exposure_binned`[,1], y = Inlaresult$marginals.hyperpar$`Precision for exposure_binned`[,2])
+sigma <- 1/sqrt(datainla$x)
+sigma_dens <- 2*(sigma^(-3))*datainla$y
+datainla_sigma <- data_frame(sigma = sigma[-c(1:8)], sigma_dens = sigma_dens[-c(1:8)])
+
+sigmapostplot1 <- margpost1$margpost %>%
+  mutate(sigma_post = exp(sigmalogmargpost)) %>%
+  ggplot(aes(x = sigma)) +
+  theme_classic() +
+  geom_line(aes(y = sigma_post),colour = "black",linetype = "solid",size = 0.5) +
+  labs(x = "",y = "") +
+  geom_line(aes(y = priorfuncsigma(sigma)),colour = 'black',linetype = 'dashed',size = 0.5) + 
+  geom_line(data = datainla_sigma, aes(y = sigma_dens, x = sigma),colour = 'black',linetype = 'dotdash',size = 0.5)
+
+
+
+
+ggsave(filename = "~/INLA_baseline.pdf", plot = brinla::bri.basehaz.plot(Inlaresult))
+ 
 ggsave(filename = "~/STA497/SmoothingSim_FinalPlot.pdf", plot = new_compare)
