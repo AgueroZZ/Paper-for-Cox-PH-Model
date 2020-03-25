@@ -30,7 +30,7 @@ for (i in 1:cut) {
     }
   }
 }
-plot(tdom, haz, type='l', xlab='Time domain', ylab='Hazard')
+plot(tdom, haz, type='l', xlab='Time', ylab='True baseline hazard')
 
 
 N = 400
@@ -243,7 +243,6 @@ y <- as.numeric(predict.gam(b,data_frame(exposure = x)))-as.numeric(predict.gam(
 #Plot:
 
 #Plot:
-PLOT_TEXT_SIZE = 8
 simplot <- tibble(
   x = sort(unique(model_data$A$exposure$u)),
   mymean = margmeanall,
@@ -253,13 +252,13 @@ simplot <- tibble(
   ggplot(aes(x = x)) +
   theme_light() +
   geom_ribbon(aes(ymin = mymeanlower,ymax = mymeanupper),fill = "lightgrey",alpha = .5) +
-  geom_line(aes(y = mymeanupper),colour = "black",linetype = "blank") +
-  geom_line(aes(y = mymeanlower),colour = "black",linetype = "blank") +
-  geom_line(aes(y = mymean),colour = 'black',linetype = 'solid') + 
-  geom_line(aes(y = truefunc(x) - truefunc(x[vv])),colour = 'black',linetype = 'dotdash') + 
+  geom_line(aes(y = mymeanupper),colour = "black",linetype = "dotted") +
+  geom_line(aes(y = mymeanlower),colour = "black",linetype = "dotted") +
+  geom_line(aes(y = mymean),colour = 'black',linetype = 'dotdash') + 
+  geom_line(aes(y = truefunc(x) - truefunc(x[vv])),colour = 'black',linetype = 'solid') + 
   xlab("") +
-  ylab("") +
-  theme_classic()
+  ylab("Risk Function") +
+  theme_classic(base_size = 18)
 
 
 new_compare <- simplot + geom_line(aes(y = meanhere),colour = "black",linetype = "dashed") 
@@ -276,11 +275,23 @@ datainla_sigma <- data_frame(sigma = sigma[-c(1:8)], sigma_dens = sigma_dens[-c(
 sigmapostplot1 <- margpost1$margpost %>%
   mutate(sigma_post = exp(sigmalogmargpost)) %>%
   ggplot(aes(x = sigma)) +
-  theme_classic() +
+  theme_classic(base_size = 18) +
   geom_line(aes(y = sigma_post),colour = "black",linetype = "solid",size = 0.5) +
-  labs(x = "",y = "") +
+  labs(x = "",y = "Density") +
   geom_line(aes(y = priorfuncsigma(sigma)),colour = 'black',linetype = 'dashed',size = 0.5) + 
   geom_line(data = datainla_sigma, aes(y = sigma_dens, x = sigma),colour = 'black',linetype = 'dotdash',size = 0.5)
+
+
+a <- brinla::bri.basehaz.plot(Inlaresult,plot = F)
+a$basehaz <- exp(a$basehaz)
+a <- data_frame(time = a$time, baseline_hazard = a$basehaz)
+ggplot(a, aes(time, baseline_hazard)) + geom_step() + theme_classic(base_size = 18) + labs(x = "Time", y = "Estimated baseline hazard")
+
+
+
+plot(a$time,a$basehaz,type="n") 
+segments(a$time[-length(a$time)],a$basehaz[-length(a$time)],a$time[-1],a$basehaz[-length(a$time)]) 
+
 
 
 

@@ -62,7 +62,7 @@ model_data$theta_logprior <- function(theta,prior_alpha = c(.5),prior_u = c(2)) 
   lambda <- -log(prior_alpha)/prior_u
   log(lambda/2) - lambda * exp(-theta/2) - theta/2
 }
-model_data$thetagrid <- mvQuad::createNIGrid(dim = 1,type = "GLe",level = 50)
+model_data$thetagrid <- mvQuad::createNIGrid(dim = 1,type = "GLe",level = 60)
 mvQuad::rescale(model_data$thetagrid,domain = c(-1,8))
 thetalist <- split(mvQuad::getNodes(model_data$thetagrid),rep(1:nrow(mvQuad::getNodes(model_data$thetagrid))))
 
@@ -184,9 +184,9 @@ datainla_sigma <- data_frame(sigma = sigma[-c(1:8)], sigma_dens = sigma_dens[-c(
 sigmapostplot1 <- margpost1$margpost %>%
   mutate(sigma_post = exp(sigmalogmargpost)) %>%
   ggplot(aes(x = sigma)) +
-  theme_classic() +
+  theme_classic(base_size = 18) +
   geom_line(aes(y = sigma_post),colour = "black",linetype = "solid",size = 0.5) +
-  labs(x = "",y = "") +
+  labs(x = "",y = "density") +
   geom_line(aes(y = priorfuncsigma(sigma)),colour = 'black',linetype = 'dashed',size = 0.5) + 
   geom_line(data = datainla_sigma, aes(y = sigma_dens, x = sigma),colour = 'black',linetype = 'dotdash',size = 0.5)
 
