@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  26 MAR 2020 10:45
+=======
+This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.4.16)  26 MAR 2020 16:04
+>>>>>>> 4a4b46f85bb73f19d151efaedc7df429adaeae75
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -733,9 +737,13 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 288.
 
 
+<<<<<<< HEAD
 LaTeX Warning: Float too large for page by 9.65039pt on input line 291.
 
 LaTeX Font Info:    Try loading font information for T1+lmtt on input line 297.
+=======
+LaTeX Warning: Float too large for page by 9.64983pt on input line 291.
+>>>>>>> 4a4b46f85bb73f19d151efaedc7df429adaeae75
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
