@@ -49,7 +49,6 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Approximate Bayesian Inference}{4}{subsection.2.2}}
 \newlabel{eqn:etaredefine}{{7}{4}{Approximate Bayesian Inference}{equation.2.7}{}}
 \citation{casecross}
-\citation{tierney}
 \newlabel{eqn:interestedQuat3}{{8}{5}{Approximate Bayesian Inference}{equation.2.8}{}}
 \newlabel{eqn:interestedQuat1}{{9}{5}{Approximate Bayesian Inference}{equation.2.9}{}}
 \newlabel{eqn:interestedQuat2}{{10}{5}{Approximate Bayesian Inference}{equation.2.10}{}}
@@ -57,31 +56,34 @@
 \newlabel{eqn:modeandhessian}{{12}{5}{Approximate Bayesian Inference}{equation.2.12}{}}
 \newlabel{eqn:condpost}{{13}{5}{Approximate Bayesian Inference}{equation.2.13}{}}
 \newlabel{eqn:gaussianapprox}{{14}{5}{Approximate Bayesian Inference}{equation.2.14}{}}
-\newlabel{eqb:marginalgaussianapprox}{{15}{5}{Approximate Bayesian Inference}{equation.2.15}{}}
+\citation{tierney}
 \citation{inla}
 \citation{casecross}
-\citation{casecross}
+\newlabel{eqb:marginalgaussianapprox}{{15}{6}{Approximate Bayesian Inference}{equation.2.15}{}}
 \newlabel{eqn:laplace}{{16}{6}{Approximate Bayesian Inference}{equation.2.16}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{6}{section.3}}
 \newlabel{sec:method}{{3}{6}{Methodology}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Precision Matrix}{6}{subsection.3.1}}
 \newlabel{subsec:Q}{{3.1}{6}{Precision Matrix}{subsection.3.1}{}}
-\newlabel{eqn:precmat}{{18}{6}{Precision Matrix}{equation.3.18}{}}
+\citation{casecross}
 \citation{trustoptim}
+\citation{casecross}
 \citation{casecross}
 \citation{gmrfmodels}
 \citation{rw2}
 \citation{casecross}
+\newlabel{eqn:precmat}{{18}{7}{Precision Matrix}{equation.3.18}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Optimization and posterior summaries}{7}{subsection.3.2}}
 \newlabel{subsec:opt}{{3.2}{7}{Optimization and posterior summaries}{subsection.3.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Models for latent variables}{7}{subsection.3.3}}
-\newlabel{eqn:rw2}{{19}{7}{Models for latent variables}{equation.3.19}{}}
+\newlabel{subsec:latent}{{3.3}{7}{Models for latent variables}{subsection.3.3}{}}
 \citation{inla}
 \citation{pcprior}
-\citation{inlacoxph}
+\newlabel{eqn:rw2}{{19}{8}{Models for latent variables}{equation.3.19}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Examples}{8}{section.4}}
 \newlabel{sec:example}{{4}{8}{Examples}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Simulation study}{8}{subsection.4.1}}
+\citation{inlacoxph}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Leukaemia Data}{9}{subsection.4.2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Kidney Catheter Data}{9}{subsection.4.3}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces The estimates given by the proposed method and INLA are posterior means and posterior standard deviations, and the estimates given by Coxph are maximum likelihood estimates and their estimated standard errors\relax }}{10}{table.caption.3}}
@@ -106,10 +108,10 @@
 \citation{casecross}
 \@writefile{toc}{\contentsline {section}{\numberline {A}Derivation of Precision Matrix}{13}{appendix.A}}
 \newlabel{eqn:D2}{{20}{13}{Derivation of Precision Matrix}{equation.A.20}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces True baseline hazard function of this simulation (top left panel). Estimated baseline hazard function by INLA (top right panels). Bottom left panel shows the true risk function (---), posterior mean (- $\cdot $ -) and $95\%$ credible interval using proposed method ($\cdots  •$), posterior mean using INLA (- - -). Posterior Estimation for variance parameter by our method (---) and by INLA (- $\cdot $ -), and its prior (- - -) (bottom right panels)\relax }}{14}{figure.caption.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces (a): true baseline hazard function of this simulation. (b): estimated baseline hazard function from INLA. (c): true risk function (---); posterior median (- $\cdot $ -) and $95\%$ credible interval ($\cdots  $) using proposed method; posterior mean using INLA (- - -). (d): prior (- - -) and approximate posterior distribution for variance parameter by our method (---) and by INLA (- $\cdot $ -).\relax }}{14}{figure.caption.1}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:simulation}{{1}{14}{True baseline hazard function of this simulation (top left panel). Estimated baseline hazard function by INLA (top right panels). Bottom left panel shows the true risk function (---), posterior mean (- $\cdot $ -) and $95\%$ credible interval using proposed method ($\cdots •$), posterior mean using INLA (- - -). Posterior Estimation for variance parameter by our method (---) and by INLA (- $\cdot $ -), and its prior (- - -) (bottom right panels)\relax }{figure.caption.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Posterior Estimation for $\sigma $ by our method (---) and by INLA (- $\cdot $ -), and its prior (- - -) (left panel). Right panel shows the posterior mean (---) and $95\%$ credible interval using our method ($\cdots  •$), posterior mean using INLA (- - -) and the smoothing result of GAM (- $\cdot $ -).\relax }}{15}{figure.caption.2}}
-\newlabel{fig:leuk}{{2}{15}{Posterior Estimation for $\sigma $ by our method (---) and by INLA (- $\cdot $ -), and its prior (- - -) (left panel). Right panel shows the posterior mean (---) and $95\%$ credible interval using our method ($\cdots •$), posterior mean using INLA (- - -) and the smoothing result of GAM (- $\cdot $ -).\relax }{figure.caption.2}{}}
+\newlabel{fig:simulation}{{1}{14}{(a): true baseline hazard function of this simulation. (b): estimated baseline hazard function from INLA. (c): true risk function (---); posterior median (- $\cdot $ -) and $95\%$ credible interval ($\cdots $) using proposed method; posterior mean using INLA (- - -). (d): prior (- - -) and approximate posterior distribution for variance parameter by our method (---) and by INLA (- $\cdot $ -).\relax }{figure.caption.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces (a): posterior mean (---) and $95\%$ credible interval ($\cdots  $) using our method, posterior mean using INLA (- - -), and the result of fitting a GAM (- $\cdot $ -). (b): prior (- - -) and approximate posterior distribution for $\sigma $ using our method (---) and INLA (- $\cdot $ -).\relax }}{15}{figure.caption.2}}
+\newlabel{fig:leuk}{{2}{15}{(a): posterior mean (---) and $95\%$ credible interval ($\cdots $) using our method, posterior mean using INLA (- - -), and the result of fitting a GAM (- $\cdot $ -). (b): prior (- - -) and approximate posterior distribution for $\sigma $ using our method (---) and INLA (- $\cdot $ -).\relax }{figure.caption.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Posterior Estimation for the between-subject standard deviation by our method (---) and by INLA (- $\cdot $ -), and its prior (- - -)\relax }}{16}{figure.caption.4}}
 \newlabel{fig:BetweenSubjectSD}{{3}{16}{Posterior Estimation for the between-subject standard deviation by our method (---) and by INLA (- $\cdot $ -), and its prior (- - -)\relax }{figure.caption.4}{}}

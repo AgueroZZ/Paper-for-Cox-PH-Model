@@ -226,12 +226,13 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7
 INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/lm/t1lmtt.fd
 INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/lm/t1lmtt.fd
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/lm/ec-lmtt10.tfm
-INPUT ./Leuk_PosterSigma.pdf
-INPUT ./Leuk_PosterSigma.pdf
-INPUT ./Leuk_PosterSigma.pdf
 INPUT ./leuk_FinalPlot.pdf
 INPUT ./leuk_FinalPlot.pdf
 INPUT ./leuk_FinalPlot.pdf
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/lm/ec-lmtt9.tfm
+INPUT ./Leuk_PosterSigma.pdf
+INPUT ./Leuk_PosterSigma.pdf
+INPUT ./Leuk_PosterSigma.pdf
 INPUT ./Kidney_PosterSigma.pdf
 INPUT ./Kidney_PosterSigma.pdf
 INPUT ./Kidney_PosterSigma.pdf
@@ -241,8 +242,8 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/lm/ec-lmbx10.tfm
 INPUT draft_v7.aux
 INPUT ./draft_v7.out
 INPUT ./draft_v7.out
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc
@@ -264,4 +265,5 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmri12.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmsy10.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmsy7.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmtt10.pfb
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmtt9.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb

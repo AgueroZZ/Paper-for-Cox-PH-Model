@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  26 MAR 2020 10:45
-=======
-This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.4.16)  26 MAR 2020 16:04
->>>>>>> 4a4b46f85bb73f19d151efaedc7df429adaeae75
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  31 MAR 2020 14:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -705,91 +701,85 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (/usr/local/texlive/2017/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) [2]
-[3] [4] [5] [6] [7] <sim_base.pdf, id=216, 635.37375pt x 852.18375pt>
+[3] [4] [5] [6] [7] <sim_base.pdf, id=218, 635.37375pt x 852.18375pt>
 File: sim_base.pdf Graphic file (type pdf)
 
 <use sim_base.pdf>
-Package pdftex.def Info: sim_base.pdf used on input line 279.
+Package pdftex.def Info: sim_base.pdf used on input line 281.
 (pdftex.def)             Requested size: 188.58733pt x 252.9394pt.
- <INLA_baseline.pdf, id=217, 614.295pt x 794.97pt>
+ <INLA_baseline.pdf, id=219, 514.92375pt x 587.19376pt>
 File: INLA_baseline.pdf Graphic file (type pdf)
 
 <use INLA_baseline.pdf>
-Package pdftex.def Info: INLA_baseline.pdf used on input line 282.
-(pdftex.def)             Requested size: 195.4536pt x 252.93997pt.
+Package pdftex.def Info: INLA_baseline.pdf used on input line 284.
+(pdftex.def)             Requested size: 211.38724pt x 241.05563pt.
 
-<SmoothingSim_FinalPlot.pdf, id=218, 614.295pt x 794.97pt>
+<SmoothingSim_FinalPlot.pdf, id=220, 514.92375pt x 587.19376pt>
 File: SmoothingSim_FinalPlot.pdf Graphic file (type pdf)
 
 <use SmoothingSim_FinalPlot.pdf>
-Package pdftex.def Info: SmoothingSim_FinalPlot.pdf used on input line 285.
-(pdftex.def)             Requested size: 195.4536pt x 252.93997pt.
+Package pdftex.def Info: SmoothingSim_FinalPlot.pdf used on input line 287.
+(pdftex.def)             Requested size: 211.38724pt x 241.05563pt.
 
-<SmoothingSim_PosterSigma.pdf, id=219, 614.295pt x 794.97pt>
+<SmoothingSim_PosterSigma.pdf, id=221, 614.295pt x 794.97pt>
 File: SmoothingSim_PosterSigma.pdf Graphic file (type pdf)
 
 <use SmoothingSim_PosterSigma.pdf>
-Package pdftex.def Info: SmoothingSim_PosterSigma.pdf used on input line 288.
+Package pdftex.def Info: SmoothingSim_PosterSigma.pdf used on input line 290.
 (pdftex.def)             Requested size: 195.4536pt x 252.93997pt.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 288.
+(Font)              <9> on input line 290.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 288.
+(Font)              <6> on input line 290.
+ [8]
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 299.
 
-
-<<<<<<< HEAD
-LaTeX Warning: Float too large for page by 9.65039pt on input line 291.
-
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 297.
-=======
-LaTeX Warning: Float too large for page by 9.64983pt on input line 291.
->>>>>>> 4a4b46f85bb73f19d151efaedc7df429adaeae75
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [8]
-<Leuk_PosterSigma.pdf, id=230, 614.295pt x 794.97pt>
-File: Leuk_PosterSigma.pdf Graphic file (type pdf)
-
-<use Leuk_PosterSigma.pdf>
-Package pdftex.def Info: Leuk_PosterSigma.pdf used on input line 305.
-(pdftex.def)             Requested size: 195.4536pt x 252.93997pt.
- <leuk_FinalPlot.pdf, id=231, 614.295pt x 794.97pt>
+)
+<leuk_FinalPlot.pdf, id=234, 514.92375pt x 587.19376pt>
 File: leuk_FinalPlot.pdf Graphic file (type pdf)
 
 <use leuk_FinalPlot.pdf>
-Package pdftex.def Info: leuk_FinalPlot.pdf used on input line 308.
+Package pdftex.def Info: leuk_FinalPlot.pdf used on input line 307.
+(pdftex.def)             Requested size: 211.38724pt x 241.05563pt.
+ <Leuk_PosterSigma.pdf, id=235, 614.295pt x 794.97pt>
+File: Leuk_PosterSigma.pdf Graphic file (type pdf)
+
+<use Leuk_PosterSigma.pdf>
+Package pdftex.def Info: Leuk_PosterSigma.pdf used on input line 310.
 (pdftex.def)             Requested size: 195.4536pt x 252.93997pt.
  [9]
-<Kidney_PosterSigma.pdf, id=241, 614.295pt x 794.97pt>
+<Kidney_PosterSigma.pdf, id=246, 614.295pt x 794.97pt>
 File: Kidney_PosterSigma.pdf Graphic file (type pdf)
 
 <use Kidney_PosterSigma.pdf>
-Package pdftex.def Info: Kidney_PosterSigma.pdf used on input line 347.
+Package pdftex.def Info: Kidney_PosterSigma.pdf used on input line 348.
 (pdftex.def)             Requested size: 223.38626pt x 289.0881pt.
  [10] [11] (./draft_v7.bbl) [12]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 404.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 401.
  [13] [14 <./sim_base.pdf> <./INLA_baseline.pdf> <./SmoothingSim_FinalPlot.pdf>
- <./SmoothingSim_PosterSigma.pdf>] [15 <./Leuk_PosterSigma.pdf> <./leuk_FinalPl
-ot.pdf>] [16 <./Kidney_PosterSigma.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 404.
+ <./SmoothingSim_PosterSigma.pdf>] [15 <./leuk_FinalPlot.pdf> <./Leuk_PosterSig
+ma.pdf>] [16 <./Kidney_PosterSigma.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 401.
  (./draft_v7.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 404.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 404.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 401.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 401.
 Package rerunfilecheck Info: File `draft_v7.out' has not changed.
 (rerunfilecheck)             Checksum: 3DA2926151FEBE24EA3BF0C32939DDE1;880.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 404.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 401.
  ) 
 Here is how much of TeX's memory you used:
- 11565 strings out of 492995
- 176113 string characters out of 6132704
- 309188 words of memory out of 5000000
- 14702 multiletter control sequences out of 15000+600000
- 73145 words of font info for 128 fonts, out of 8000000 for 9000
+ 11571 strings out of 492995
+ 176201 string characters out of 6132704
+ 309172 words of memory out of 5000000
+ 14705 multiletter control sequences out of 15000+600000
+ 73535 words of font info for 130 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,15n,48p,2024b,526s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/lo
-cal/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/20
+{/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
+texlive/2017/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/20
 17/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2017/texmf-dist/
 fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2017/texmf-dist/fonts/enc/
 dvips/lm/lm-mathsy.enc}</usr/local/texlive/2017/texmf-dist/fonts/type1/public/a
@@ -808,12 +798,12 @@ dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2017/texmf-dist/fonts
 /type1/public/lm/lmri12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/pub
 lic/lm/lmsy10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lms
 y7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></u
-sr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb
->
-Output written on draft_v7.pdf (16 pages, 822153 bytes).
+sr/local/texlive/2017/texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/local/te
+xlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on draft_v7.pdf (16 pages, 841172 bytes).
 PDF statistics:
- 408 PDF objects out of 1000 (max. 8388607)
- 353 compressed objects within 4 object streams
+ 417 PDF objects out of 1000 (max. 8388607)
+ 361 compressed objects within 4 object streams
  68 named destinations out of 1000 (max. 500000)
  14484 words of extra memory for PDF output out of 17280 (max. 10000000)
 
