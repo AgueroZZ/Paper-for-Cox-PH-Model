@@ -184,11 +184,11 @@ datainla_sigma <- data_frame(sigma = sigma[-c(1:8)], sigma_dens = sigma_dens[-c(
 sigmapostplot1 <- margpost1$margpost %>%
   mutate(sigma_post = exp(sigmalogmargpost)) %>%
   ggplot(aes(x = sigma)) +
-  theme_classic(base_size = 18) +
   geom_line(aes(y = sigma_post),colour = "black",linetype = "solid",size = 0.5) +
-  labs(x = "",y = "density") +
+  labs(x = "",y = "") +
   geom_line(aes(y = priorfuncsigma(sigma)),colour = 'black',linetype = 'dashed',size = 0.5) + 
-  geom_line(data = datainla_sigma, aes(y = sigma_dens, x = sigma),colour = 'black',linetype = 'dotdash',size = 0.5)
+  geom_line(data = datainla_sigma, aes(y = sigma_dens, x = sigma),colour = 'black',linetype = 'dotdash',size = 0.5) +
+  theme_classic(base_size = 28) 
 
 
 # Compare with Coxph:

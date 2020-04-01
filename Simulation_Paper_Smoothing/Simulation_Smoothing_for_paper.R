@@ -33,6 +33,12 @@ for (i in 1:cut) {
 plot(tdom, haz, type='l', xlab='Time', ylab='True baseline hazard')
 
 
+true <- data_frame(time = tdom[tdom<=728.80400], hazard = haz[tdom<=728.80400])
+ggplot(data = true) + aes(x = time, y = hazard) + geom_line() +theme_classic(base_size = 28) + labs(x = "", y = "")
+
+
+
+
 N = 400
 RW2BINS = 50
 PARALLEL_EXECUTION = T
@@ -107,7 +113,7 @@ model_data$lambdainv <- create_full_dtcp_matrix(model_data$n)
 model_data$A$exposure$Ad <- model_data$diffmat %*% model_data$A$exposure$A
 
 
-model_data$thetagrid <- mvQuad::createNIGrid(dim = 1,type = "GLe",level = 20)
+model_data$thetagrid <- mvQuad::createNIGrid(dim = 1,type = "GLe",level = 50)
 mvQuad::rescale(model_data$thetagrid,domain = c(-3,3))
 thetalist <- split(mvQuad::getNodes(model_data$thetagrid),rep(1:nrow(mvQuad::getNodes(model_data$thetagrid))))
 
@@ -178,10 +184,6 @@ sigmapostplot1 <- margpost1$margpost %>%
 
 
 
-
-#Ploting:
-ggsave(filename = "~/STA497/SmoothingSim_PosterTheta.pdf",plot = thetapostplot1)
-ggsave(filename = "~/SmoothingSim_PosterSigma.pdf", plot = sigmapostplot1)
 
 
 #Final Comparison:
@@ -257,8 +259,8 @@ simplot <- tibble(
   geom_line(aes(y = mymean),colour = 'black',linetype = 'dotdash') + 
   geom_line(aes(y = truefunc(x) - truefunc(x[vv])),colour = 'black',linetype = 'solid') + 
   xlab("") +
-  ylab("Risk Function") +
-  theme_classic(base_size = 18)
+  ylab("") +
+  theme_classic(base_size = 28)
 
 
 new_compare <- simplot + geom_line(aes(y = meanhere),colour = "black",linetype = "dashed") 
@@ -275,17 +277,17 @@ datainla_sigma <- data_frame(sigma = sigma[-c(1:8)], sigma_dens = sigma_dens[-c(
 sigmapostplot1 <- margpost1$margpost %>%
   mutate(sigma_post = exp(sigmalogmargpost)) %>%
   ggplot(aes(x = sigma)) +
-  theme_classic(base_size = 18) +
+  theme_classic(base_size = 28) +
   geom_line(aes(y = sigma_post),colour = "black",linetype = "solid",size = 0.5) +
-  labs(x = "",y = "Density") +
+  labs(x = "",y = "") +
   geom_line(aes(y = priorfuncsigma(sigma)),colour = 'black',linetype = 'dashed',size = 0.5) + 
   geom_line(data = datainla_sigma, aes(y = sigma_dens, x = sigma),colour = 'black',linetype = 'dotdash',size = 0.5)
 
 
 a <- brinla::bri.basehaz.plot(Inlaresult,plot = F)
-a$basehaz <- exp(a$basehaz)
+a$basehaz <- exp(a$basehaz) * exp(Inlaresult$summary.fixed$mean)
 a <- data_frame(time = a$time, baseline_hazard = a$basehaz)
-ggplot(a, aes(time, baseline_hazard)) + geom_step() + theme_classic(base_size = 18) + labs(x = "Time", y = "Estimated baseline hazard")
+ggplot(a, aes(time, baseline_hazard)) + geom_step() + theme_classic(base_size = 28) + labs(x = "", y = "")
 
 
 
@@ -295,6 +297,10 @@ segments(a$time[-length(a$time)],a$basehaz[-length(a$time)],a$time[-1],a$basehaz
 
 
 
+
+#Ploting:
+ggsave(filename = "~/STA497/SmoothingSim_PosterTheta.pdf",plot = thetapostplot1)
+ggsave(filename = "~/SmoothingSim_PosterSigma.pdf", plot = sigmapostplot1)
 
 ggsave(filename = "~/INLA_baseline.pdf", plot = brinla::bri.basehaz.plot(Inlaresult))
  
