@@ -1,0 +1,14 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Preliminaries}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Cox\040Proportional\040Hazard\040Model}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Approximate\040Bayesian\040Inference}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{Methodology}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{Precision\040Matrix}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.2}{Optimization\040and\040posterior\040summaries}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.3}{Models\040for\040latent\040variables}{section.3}% 8
+\BOOKMARK [1][-]{section.4}{Examples}{}% 9
+\BOOKMARK [2][-]{subsection.4.1}{Simulation\040study}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.2}{Leukaemia\040Data}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.3}{Kidney\040Catheter\040Data}{section.4}% 12
+\BOOKMARK [1][-]{section.5}{Discussion}{}% 13
+\BOOKMARK [1][-]{appendix.A}{Derivation\040of\040Precision\040Matrix}{}% 14

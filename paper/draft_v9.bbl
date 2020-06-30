@@ -29,13 +29,11 @@ Martino, S., Akerkar, R., and Rue, H. (2011).
 \newblock Approximate bayesian inference for survival models.
 \newblock {\em Scandinavian Journal of Statistics} {\bf 38,} 514--528.
 
-\bibitem[\protect\citeauthoryear{Rue and Martino}{Rue and
-  Martino}{2007}]{gmrfmodels}
-Rue, H. and Martino, S. (2007).
-\newblock Approximate bayesian inference for hierarchical gaussian markov
-  random field models.
-\newblock {\em Journal of Statistical Planning and Inference} {\bf 137,} 3177
-  -- 3192.
+\bibitem[\protect\citeauthoryear{McGilchrist and Aisbett}{McGilchrist and
+  Aisbett}{1991}]{kidney}
+McGilchrist, C.~A. and Aisbett, C.~W. (1991).
+\newblock Regression with frailty in survival analysis.
+\newblock {\em Biometrics} {\bf 47,} 461--466.
 
 \bibitem[\protect\citeauthoryear{Rue, Martino, and Chopin}{Rue
   et~al.}{2009}]{inla}
