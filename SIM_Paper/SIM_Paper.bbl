@@ -1,0 +1,79 @@
+\begin{thebibliography}{10}
+\providecommand \doibase [0]{http://dx.doi.org/}%
+
+\bibitem{coxph}
+Cox DR. Regression Models and Life-Tables. {\it Journal of the Royal
+  Statistical Society. Series B (Methodological)} 1972\string; 34(2)\string:
+  187--220.
+
+\bibitem{inla}
+Rue H, Martino S, Chopin N. Approximate Bayesian Inference for Latent Gaussian
+  Models by Using Integrated Nested Laplace Approximations. {\it Journal of the
+  Royal Statistical Society. Series B (Statistical Methodology)} 2009\string;
+  71(2)\string: 319 - 392.
+
+\bibitem{inlacoxph}
+Martino S, Akerkar R, Rue H. Approximate Bayesian Inference for Survival
+  Models. {\it Scandinavian Journal of Statistics} 2011\string; 38(3)\string:
+  514-528.
+\newblock \href {\doibase 10.1111/j.1467-9469.2010.00715.x} {doi:
+  10.1111/j.1467-9469.2010.00715.x}
+
+\bibitem{casecross}
+Stringer A, Brown P, Stafford J. Approximate Bayesian Inference for Case
+  Crossover Models. {\it Biometrics} 2020.
+
+\bibitem{kidney}
+McGilchrist CA, Aisbett CW. Regression with Frailty in Survival Analysis. {\it
+  Biometrics} 1991\string; 47(2)\string: 461--466.
+
+\bibitem{frailty}
+Vaupel JW, Manton KG, Stallard E. The impact of heterogeneity in individual
+  frailty on the dynamics of mortality. {\it Demography} 1979\string;
+  16(3)\string: 439--454.
+\newblock \href {\doibase 10.2307/2061224} {doi: 10.2307/2061224}
+
+\bibitem{Breslow}
+Breslow N. Covariance Analysis of Censored Survival Data. {\it Biometrics}
+  1974\string; 30(1)\string: 89--99.
+
+\bibitem{rw2}
+Lindgren F, Rue H. On the Second-Order Random Walk Model for Irregular
+  Locations. {\it Scandinavian Journal of Statistics} 2008\string;
+  35(4)\string: 691--700.
+
+\bibitem{tierney}
+Tierney L, Kadane JB. Accurate approximations to posterior moments and marginal
+  densities. {\it Journal of the American Statistical Association} 1986\string;
+  81(393).
+
+\bibitem{trustoptim}
+Braun M. {trustOptim}: An {R} Package for Trust Region Optimization with Sparse
+  Hessians. {\it Journal of Statistical Software} 2014\string; 60(4)\string:
+  1--16.
+
+\bibitem{pcprior}
+Simpson D, Rue H, Martins TG, Riebler A, Sørbye SH. Penalising model component
+  complexity: A principled, practical approach to constructing priors. {\it
+  Statistical Science} 2017\string; 32(1).
+
+\bibitem{Spatial}
+Wall MM. A close look at the spatial structure implied by the CAR and SAR
+  models. {\it Journal of Statistical Planning and Inference} 2004\string;
+  121(2)\string: 311 - 324.
+\newblock \href {\doibase https://doi.org/10.1016/S0378-3758(03)00111-3} {doi:
+  https://doi.org/10.1016/S0378-3758(03)00111-3}
+
+\bibitem{GAM}
+Wood SN, Pya N, S{\"a}fken B. Smoothing parameter and model selection for
+  general smooth models. {\it Journal of the American Statistical Association}
+  2016\string; 111(516)\string: 1548--1563.
+
+\bibitem{gmrfmodels}
+Rue H, Martino S. Approximate Bayesian inference for hierarchical Gaussian
+  Markov random field models. {\it Journal of Statistical Planning and
+  Inference} 2007\string; 137\string: 3177 - 3192.
+\newblock \href {\doibase doi:10.1016/j.jspi.2006.07.016} {doi:
+  doi:10.1016/j.jspi.2006.07.016}
+
+\end{thebibliography}
