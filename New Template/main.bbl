@@ -1,0 +1,101 @@
+\begin{thebibliography}{14}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{}
+
+\bibitem[{Cox(1972)D. R. Cox}]{coxph}
+Cox DR.
+\newblock Regression Models and Life-Tables.
+\newblock Journal of the Royal Statistical Society Series B (Methodological)
+  1972;34(2):187--220.
+\newblock \urlprefix\url{http://www.jstor.org/stable/2985181}.
+
+\bibitem[{Rue et~al.(2009)Håvard Rue and Sara Martino and Nicolas
+  Chopin}]{inla}
+Rue H, Martino S, Chopin N.
+\newblock Approximate Bayesian Inference for Latent Gaussian Models by Using
+  Integrated Nested Laplace Approximations.
+\newblock Journal of the Royal Statistical Society Series B (Statistical
+  Methodology) 2009;71(2):319 -- 392.
+
+\bibitem[{Martino et~al.(2011)Martino, Sara and Akerkar, Rupali and Rue,
+  Havard}]{inlacoxph}
+Martino S, Akerkar R, Rue H.
+\newblock Approximate Bayesian Inference for Survival Models.
+\newblock Scandinavian Journal of Statistics 2011;38(3):514--528.
+\newblock
+  \urlprefix\url{https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1467-9469.2010.00715.x}.
+
+\bibitem[{Stringer et~al.(2020)Alex Stringer and Patrick Brown and James
+  Stafford}]{casecross}
+Stringer A, Brown P, Stafford J.
+\newblock Approximate Bayesian Inference for Case-Crossover Models.
+\newblock Biometrics 2020;To appear.
+
+\bibitem[{McGilchrist and Aisbett(1991)C. A. McGilchrist and C. W.
+  Aisbett}]{kidney}
+McGilchrist CA, Aisbett CW.
+\newblock Regression with Frailty in Survival Analysis.
+\newblock Biometrics 1991;47(2):461--466.
+\newblock \urlprefix\url{http://www.jstor.org/stable/2532138}.
+
+\bibitem[{Vaupel et~al.(1979)Vaupel, James W. and Manton, Kenneth G. and
+  Stallard, Eric}]{frailty}
+Vaupel JW, Manton KG, Stallard E.
+\newblock The impact of heterogeneity in individual frailty on the dynamics of
+  mortality.
+\newblock Demography 1979;16(3):439--454.
+\newblock \urlprefix\url{https://doi.org/10.2307/2061224}.
+
+\bibitem[{Breslow(1974)N. Breslow}]{Breslow}
+Breslow N.
+\newblock Covariance Analysis of Censored Survival Data.
+\newblock Biometrics 1974;30(1):89--99.
+\newblock \urlprefix\url{http://www.jstor.org/stable/2529620}.
+
+\bibitem[{Lindgren and Rue(2008)Finn Lindgren and Havard Rue}]{rw2}
+Lindgren F, Rue H.
+\newblock On the Second-Order Random Walk Model for Irregular Locations.
+\newblock Scandinavian Journal of Statistics 2008;35(4):691--700.
+
+\bibitem[{Tierney and Kadane(1986)Luke Tierney and Joseph B. Kadane}]{tierney}
+Tierney L, Kadane JB.
+\newblock Accurate approximations to posterior moments and marginal densities.
+\newblock Journal of the American Statistical Association 1986;81(393).
+
+\bibitem[{Braun(2014)Michael Braun}]{trustoptim}
+Braun M.
+\newblock {trustOptim}: An {R} Package for Trust Region Optimization with
+  Sparse Hessians.
+\newblock Journal of Statistical Software 2014;60(4):1--16.
+\newblock \urlprefix\url{http://www.jstatsoft.org/v60/i04/}.
+
+\bibitem[{Simpson et~al.(2017)Daniel Simpson and Havard Rue and Thiago G.
+  Martins and Andrea Riebler and Sigrunn H. Sørbye}]{pcprior}
+Simpson D, Rue H, Martins TG, Riebler A, Sørbye SH.
+\newblock Penalising model component complexity: A principled, practical
+  approach to constructing priors.
+\newblock Statistical Science 2017;32(1).
+
+\bibitem[{Wood et~al.(2016)Wood, Simon N and Pya, Natalya and S{\"a}fken,
+  Benjamin}]{GAM}
+Wood SN, Pya N, S{\"a}fken B.
+\newblock Smoothing parameter and model selection for general smooth models.
+\newblock Journal of the American Statistical Association
+  2016;111(516):1548--1563.
+
+\bibitem[{Wall(2004)Melanie M. Wall}]{Spatial}
+Wall MM.
+\newblock A close look at the spatial structure implied by the CAR and SAR
+  models.
+\newblock Journal of Statistical Planning and Inference 2004;121(2):311 -- 324.
+\newblock
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0378375803001113}.
+
+\bibitem[{Rue and Martino(2007)Håvard Rue and Sara Martino}]{gmrfmodels}
+Rue H, Martino S.
+\newblock Approximate Bayesian inference for hierarchical Gaussian Markov
+  random field models.
+\newblock Journal of Statistical Planning and Inference 2007;137:3177 -- 3192.
+
+\end{thebibliography}
