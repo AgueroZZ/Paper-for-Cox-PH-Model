@@ -1,15 +1,13 @@
-\documentclass[AMA,STIX1COL,doublespace]{WileyNJD-v2}
+\documentclass[num-refs,serif,10pt]{wiley-article}
+\usepackage[T1]{fontenc}
 \usepackage{subcaption}
+\usepackage{setspace}
 
 
-\articletype{}
-
-
-\raggedbottom
-
-\begin{document}
-
+\papertype{}
+\paperfield{}
 \title{Bayesian Inference for Cox Proportional Hazard Models with Partial Likelihoods, Semi-Parametric Covariate Effects and Correlated Observations}
+
 
 \author[1]{Ziang Zhang}
 
@@ -19,28 +17,35 @@
 
 \author[1]{James Stafford}
 
-\authormark{Ziang \textsc{et al}}
 
 
-\address[1]{\orgdiv{Department of Statistical Sciences}, \orgname{University of Toronto}, \orgaddress{\state{Ontario}, \country{Canada}}}
+% Include full affiliation details for all authors
+\affil[1]{Department of Statistical Sciences, University of Toronto, Ontario,Canada}
+\affil[2]{Centre for Global Health Research, St. Michael's Hospital, Ontario,Canada}
 
-\address[2]{\orgdiv{Centre for Global Health Research}, \orgname{St. Michael's Hospital}, \orgaddress{\state{Ontario}, \country{Canada}}}
-
-
-\corres{*Ziang Zhang \email{aguero.zhang@mail.utoronto.ca}}
-
-
-\abstract[Summary]{We introduce a novel approximate Bayesian inference methodology for the Cox Proportional Hazard model with partial likelihood, linear covariate effects, semi-parametric covariate effects and correlated survival times. The current state-of art-method for approximate Bayesian inference for survival models, namely integrated nested Laplace approximations(INLA), requires the Hessian matrix of the log-likelihood to be diagonal and are restricted to models with a parametric or smooth semi-parametric baseline hazard. In contrast, the use of partial likelihood in the Cox proportional hazards model does not require assumptions to be made about the baseline hazard, but the Hessian of the log-partial likelihood is fully dense and hence this model cannot be fit using INLA. We overcome this limitation through the use of quasi-Newton optimization methods, and fit a Cox proportional hazards model with linear covariate effect, semi-parametric covariate effects and correlated survival times using partial likelihood and approximate Bayesian inference. A simulation study demonstrates the superior accuracy of our approximations over INLA when the baseline hazard is not smooth. Analysis of a dataset of Leukaemia survival times and a dataset of Kidney infection times demonstrates the use of our method to yield full posterior estimation and uncertainty quantification for the parameters of interest without making smoothness assumptions about the baseline hazard. An R package implementing our method will be released publicly.}
-
-\keywords{Cox Proportional Hazard Model, Partial Likelihood, Bayesian Inference, Semi-parametric Smoothing}
+\corraddress{Ziang Zhang}
+\corremail{aguero.zhang@mail.utoronto.ca}
 
 
+
+% Include the name of the author that should appear in the running header
+\runningauthor{Ziang \textsc{et al}}
+\DeclareUnicodeCharacter{2212}{-}
+\begin{document}
+
+\begin{frontmatter}
 \maketitle
 
+\begin{abstract}
+{\fontfamily{ptm}\selectfont
+We introduce a novel approximate Bayesian inference methodology for the Cox Proportional Hazard model with partial likelihood, linear covariate effects, semi-parametric covariate effects and correlated survival times. The current state-of art-method for approximate Bayesian inference for survival models, namely integrated nested Laplace approximations(INLA), requires the Hessian matrix of the log-likelihood to be diagonal and are restricted to models with a parametric or smooth semi-parametric baseline hazard. In contrast, the use of partial likelihood in the Cox proportional hazards model does not require assumptions to be made about the baseline hazard, but the Hessian of the log-partial likelihood is fully dense and hence this model cannot be fit using INLA. We overcome this limitation through the use of quasi-Newton optimization methods, and fit a Cox proportional hazards model with linear covariate effect, semi-parametric covariate effects and correlated survival times using partial likelihood and approximate Bayesian inference. A simulation study demonstrates the superior accuracy of our approximations over INLA when the baseline hazard is not smooth. Analysis of a dataset of Leukaemia survival times and a dataset of Kidney infection times demonstrates the use of our method to yield full posterior estimation and uncertainty quantification for the parameters of interest without making smoothness assumptions about the baseline hazard. An R package implementing our method will be released publicly.}
 
-
+% Please include a maximum of seven keywords
+\keywords{Cox Proportional Hazard Model, Partial Likelihood, Bayesian Inference, Semi-parametric Smoothing}
+\end{abstract}
+\end{frontmatter}
+\doublespacing
 \section{Introduction}\label{sec1}
-
 For problems involving time-to-event data, the combination of Cox proportional hazard (Cox PH) models and inference via partial likelihood has been the dominant methodology following its development by Cox \cite{coxph}. The Cox PH model assumes that any two subjects' event hazards are proportional as a function of time, with the ratio depending on unknown linear or smooth covariate effects which are inferred from the observed data. Event times may be correlated within the sample, for example when the response is time to kidney failure for the left and right kidneys from the same subject. Inference that is conducted via partial likelihood does not require assumptions to be made about the form of the baseline hazard. Further, the use of Bayesian inference with the Cox PH model is desirable as this yields model-based estimation and uncertainty quantification for all parameters of interest. However, existing methods for approximate Bayesian inference based on Integrated Nested Laplace Approximations (INLA) \cite{inla} cannot be applied to the Cox PH model with partial likelihood because the Hessian matrix of the log partial-likelihood is fully dense while INLA requires this matrix to be diagonal. Application of the INLA methodology to the Cox PH model without partial likelihood has been considered \cite{inlacoxph}, but this requires restrictive smoothness assumptions to be made about the baseline hazard.
 
 Recently, Stringer et al. \cite{casecross} developed an approximate Bayesian inference methodology for case-crossover model, which applies the approximation strategy of INLA to a log-partial likelihood with a non-diagonal Hessian matrix. Their methodology includes semi-parametric covariate effects and yields full posterior uncertainty for the corresponding smoothness parameters, an improvement over existing frequentist methods. However, the partial likelihood they consider is simpler than that of the Cox PH model, and the Hessian matrix of their log-partial likelihood is block-diagonal and sparse. In contrast, the Hessian matrix of log-partial likelihood of Cox PH model is fully dense, so the method of Stringer et. al. \cite{casecross} does not apply to this model.
@@ -48,6 +53,7 @@ Recently, Stringer et al. \cite{casecross} developed an approximate Bayesian inf
 In this paper we extend the approximate Bayesian inference methodology of Stringer et al. \cite{casecross} to the Cox proportional hazard model with partial likelihood. Our methodology accommodates semi-parametric smoothing effects and correlation between observed survival times. We demonstrate improved accuracy over INLA in simulations where the assumption of a smooth baseline hazard is violated. Our point estimates compare favourably to those based on frequentist generalized additive models (GAMs) which use partial likelihood, in cases where INLA does not compare favourably. However, we retain all the advantages of a fully Bayesian approach over GAMs, which includes full posterior uncertainty estimates for all parameters including those related to the smoothness of the covariate effects.
 
 The remainder of this paper is organized as follows. In \S\ref{sec:prelim}, we describe the Cox proportional hazard model and the partial likelihood function. In \S\ref{sec:method}, we describe our proposed methodology and how the quasi-Newton method is used to alleviate the computational problems brought by the dense Hessian matrix. In \S\ref{sec:example} we illustrate our methodology in a simulation study and through the analysis of Leukaemia survival data analysed by Martino et al in 2011 \citep{inlacoxph} and the Kidney catheter data analysed by McGilchrist \citep{kidney} in 1991. We conclude in \S\ref{sec:discussion} with a discussion.
+
 
 \section{Preliminaries}\label{sec:prelim}
 
@@ -144,8 +150,7 @@ C(W) = -\frac{\partial^{2}}{\partial W\partial W^{T}}\ell(\Delta) = -\begin{pmat
 \end{equation*}
 Because the partial likelihood takes the form (\ref{eqn:whyINLAfail1}), $C(W)$ has a dense structure. In contrast, Rue et al. \cite{inla} assume that the likelihood takes the form (\ref{eqn:whyINLAfail2}) which enforces the constraint that $C(W)$ is diagonal and hence their method cannot fit the Cox PH model with partial likelihood. Stringer et al. \cite{casecross} relax this assumption to allow $C(W)$ to have a block-diagonal structure. Our work extends this to permit a fully dense $C(W)$. 
 
-\subsection{Precision Matrix}\label{subsec:Q} 
-
+\subsection{Precision Matrix}\label{subsec:Q}
 For fixed design matrices $A$, $B$ and $X$, we may write the additive predictor (\ref{eqn:etaredefine}) as:
 \begin{equation}
 \eta = A\Gamma + B\xi + X\beta + \epsilon
@@ -232,12 +237,13 @@ Figure \ref{fig:leuk} shows the results of our procedure as well as those of INL
 
 \subsection{Kidney Catheter Data}
 
-The Kidney Catheter dataset contains 76 times to infection, at the point of insertion of the catheter, for $n = 38$  kidney patients. Each patient $i=1,\ldots,n$ forms a group, and the time to infection of each patient's $n_{i} = 2$ kidneys represent a survival time. An observation for the survival time of a kidney is censored if the catheter is removed for reasons other than an infection. We use our procedure to fit a Cox PH model to these grouped data, providing full posterior undertainty over the between-subject standard deviation.
+The Kidney Catheter dataset contains 76 times to infection, at the point of insertion of the catheter, for $n = 38$  kidney patients. Each patient $i=1,\ldots,n$ forms a group, and the time to infection of each patient's $n_{i} = 2$ kidneys represent a survival time. An observation for the survival time of a kidney is censored if the catheter is removed for reasons other than an infection. We use our procedure to fit a Cox PH model to these grouped data, providing full posterior uncertainty over the between-subject standard deviation.
 
 We associate survival times with covariates \texttt{sex}, \texttt{age}, and indicator of one of four types of pre-existing disease each patient may have. Subject-specific intercepts $\xi_{i}\overset{iid}{\sim}\text{N}(0,\sigma^{2}_{\xi})$ are included to account for correlation between kidneys from the same subject. We use an $\text{Exponential}(\lambda)$ prior distribution for $\sigma_{\xi}$ with $\lambda$ chosen such that $\text{P}(\sigma_{\xi} > 2) = 0.5$.
 
 \begin{table}[ht]
 \centering
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{ |p{3cm} p{3cm}|p{3cm} p{3cm} p{3cm}|}
  \hline
  Variables/Reference & Levels & Proposed:Mean/SD & Coxph:Mean/SD &INLA:Mean/SD \\
@@ -249,6 +255,7 @@ We associate survival times with covariates \texttt{sex}, \texttt{age}, and indi
   & PKD & −1.2/0.80  & −1.1/0.81 & −1.1/0.71\\
 \hline
 \end{tabular}
+}
 \caption{Estimated means and standard deviations of linear effects by proposed method, Coxph and INLA}
 \label{table:KidneyFixed}
 \end{table}
@@ -266,7 +273,7 @@ Table \ref{table:KidneyFixed} shows the results of our procedure compared to tha
 
 \section{Discussion}\label{sec:discussion}
 
-The novel methodology we proposed in this paper provides a flexible way to do approximate Bayesian inference on Cox proportional hazard model with linear effects, semi-parametric covariate effects and correlated observations. The use of  partial likelihood does not require the smoothness assumption on the baseline hazard function, an advantage over INLA. The use of Bayesian inference provides model-based uncertainty quantification of all parameters of interest, an advantage over the frequentist GAM approach. We have demonstrated the advantages of our new approach over alternative approaches through a simulation study and two data analysess. Our proposed method is an appealing option to adopt for the analysis of time-to-event data.
+The novel methodology we proposed in this paper provides a flexible way to do approximate Bayesian inference on Cox proportional hazard model with linear effects, semi-parametric covariate effects and correlated observations. The use of  partial likelihood does not require the smoothness assumption on the baseline hazard function, an advantage over INLA. The use of Bayesian inference provides model-based uncertainty quantification of all parameters of interest, an advantage over the frequentist GAM approach. We have demonstrated the advantages of our new approach over alternative approaches through a simulation study and two data analyses. Our proposed method is an appealing option to adopt for the analysis of time-to-event data.
 
 One limitation of our proposed methodology is the manner in which it scales with the sample size $N$. Since the Hessian matrix in our methodology is fully dense, its number of non-zero entries increases as $O(N^{2})$. The scalability of our procedure is limited by the need to store this matrix in memory. We avoid the computation of this Hessian matrix during the optimization step by using a quasi-Newton method, however the true Hessian matrix is still required to be evaluated and stored at the maximum to compute the posterior approximations that we use.
 
@@ -309,10 +316,12 @@ Direct calculation using formulas for block matrix inversion yields $Q(\theta) =
 
 
 \nocite{*}% Show all bib entries - both cited and uncited; comment this line to view only cited bib entries;
-\bibliography{wileyNJD-AMA,myrefs}%
+\bibliography{myrefs}%
 
 
 \clearpage
 
 
 \end{document}
+
+
