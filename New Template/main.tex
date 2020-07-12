@@ -38,7 +38,8 @@
 
 \begin{abstract}
 {\fontfamily{ptm}\selectfont
-We introduce a novel approximate Bayesian inference methodology for the Cox Proportional Hazard model with partial likelihood, linear covariate effects, semi-parametric covariate effects and correlated survival times. Existing methods for approximate Bayesian inference for survival models (Integrated Nested Laplace Approximations, INLA), require the Hessian matrix of the log-likelihood to be diagonal and are restricted to models with a parametric or smooth semi-parametric baseline hazard. In contrast, the use of partial likelihood in the Cox proportional hazards model does not require assumptions to be made about the baseline hazard, but the Hessian of the log-partial likelihood is fully dense and hence this model cannot be fit using INLA. We overcome this limitation through the use of quasi-Newton optimization methods, and fit a Cox proportional hazards model with linear covariate effect, semi-parametric covariate effects and correlated survival times using partial likelihood and approximate Bayesian inference. A simulation study demonstrates the superior accuracy of our approximations over INLA when the baseline hazard is not smooth. Analysis of a dataset of Leukaemia survival times and a dataset of Kidney infection times demonstrates the use of our method to yield full posterior estimation and uncertainty quantification for the parameters of interest without making smoothness assumptions about the baseline hazard. An R package implementing our method will be released publicly.}
+We introduce a novel approximate Bayesian inference methodology for the Cox Proportional Hazard model with partial likelihood, linear covariate effects, semi-parametric covariate effects and correlated survival times. The existing method for approximate Bayesian inference for Cox Proportional Hazard model (Integrated Nested Laplace Approximations, INLA), requires the Hessian matrix of the log-likelihood to be diagonal and is restricted to models with a parametric or smooth semi-parametric baseline hazard. In contrast, the use of partial likelihood in the Cox proportional hazard model does not require assumptions to be made about the baseline hazard, but the Hessian of the log-partial likelihood is fully dense and hence INLA does not accommodate its use. Through the use of quasi-Newton optimization methods, we accommodate the use of log-likelihood with dense Hessian in our inference, and hence introduce a novel approximate Bayesian inference methodology for the Cox Proportional Hazard model using its partial likelihood, that allows the inclusion of linear covariate effects, semi-parametric covariate effects and correlated survival times. A simulation study demonstrates the superior accuracy of our method over INLA when the baseline hazard is not smooth. Analysis of a dataset of Leukaemia survival times and a dataset of Kidney infection times demonstrates the use of our method to yield full posterior estimation and uncertainty quantification for the parameters of interest without making smoothness assumptions about the baseline hazard. An R package implementing our method will be released publicly.
+}
 
 % Please include a maximum of seven keywords
 \keywords{Cox Proportional Hazard Model, Partial Likelihood, Bayesian Inference, Semi-parametric Smoothing}
@@ -241,25 +242,6 @@ The Kidney Catheter dataset contains 76 times to infection, at the point of inse
 
 We associate survival times with covariates \texttt{sex}, \texttt{age}, and indicator of one of four types of pre-existing disease each patient may have. Subject-specific intercepts $\xi_{i}\overset{iid}{\sim}\text{N}(0,\sigma^{2}_{\xi})$ are included to account for correlation between kidneys from the same subject. We use an $\text{Exponential}(\lambda)$ prior distribution for $\sigma_{\xi}$ with $\lambda$ chosen such that $\text{P}(\sigma_{\xi} > 2) = 0.5$.
 
-\begin{table}[ht]
-\centering
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{ |p{3cm} p{3cm}|p{3cm} p{3cm} p{3cm}|}
- \hline
- Variables/Reference & Levels & Proposed:Mean/SD & Coxph:Mean/SD &INLA:Mean/SD \\
- \hline
- Age & & 0.0048/0.015 & 0.0052/0.015 & 0.0024/0.013\\
- Sex & & -1.7/0.46  & -1.7/0.46 &  -1.6/0.38\\
- Disease Type/Other & GN & 0.17/0.53 &  0.18/0.54 & 0.11/0.47\\
-  & AN & 0.39/0.53 & 0.39/0.54 & 0.52/0.47\\
-  & PKD & −1.2/0.80  & −1.1/0.81 & −1.1/0.71\\
-\hline
-\end{tabular}
-}
-\caption{Estimated means and standard deviations of linear effects by proposed method, Coxph and INLA, for Example \ref{subsec:kidney}.}
-\label{table:KidneyFixed}
-\end{table}
-
 Table \ref{table:KidneyFixed} shows the results of our procedure compared to that obtained using frequentist maximum partial likelihood methods and INLA. Our posterior means and standard deviations for the linear covariate effects are comparable to the frequentist estimates. However, as shown in Figure \ref{fig:BetweenSubjectSD}, our method provides full posterior uncertainty for $\sigma_{\xi}$ while the frequentist approach does not. INLA gives different estimates for the linear effects and reports lower posterior standard deviations. This is also reflected in Figure \ref{fig:BetweenSubjectSD}, where our posterior for $\sigma_{\xi}$ is wider than that of INLA.
 
 \begin{figure}[ht]
@@ -294,11 +276,11 @@ D &= \begin{pmatrix}
 1 &    &       & 0 & -1 \\
 \end{pmatrix}
 \end{aligned}\end{equation}
-Our model specifies:
+As described in \S\ref{sec:method} ,our model specifies:
 \begin{equation*}
 \Gamma|\theta \sim \text{Normal}\left( 0,\Sigma_{\Gamma}\right); \ \xi|\theta \sim \text{Normal}\left( 0,\Sigma_{\xi}\right); \ \beta \sim \text{Normal}\left( 0,\Sigma_{\beta}\right); \ \epsilon \sim \text{Normal}\left( 0,\tau^{-1}I\right)
 \end{equation*}
-all independent of each other, and of $\theta$ unless otherwise specified. The additive predictor is $\eta = A\Gamma + B\xi + X\beta + \epsilon$ and $\Delta = D\eta$ where $D$ is defined through Equation (\ref{eqn:D2}). This gives a joint distribution for $W|\theta$:
+all independent of each other unless otherwise specified. The vector of additive linear predictors can be written as $\eta = A\Gamma + B\xi + X\beta + \epsilon$ and $\Delta = D\eta$ where $D$ is defined through Equation (\ref{eqn:D2}). This gives a joint Gaussian distribution for $W|\theta$ as:
 \begin{equation*}
 W|\theta = \begin{pmatrix} \Delta \\ \Gamma \\ \xi \\\beta \end{pmatrix} = \begin{pmatrix} DA & DB & DX & D \\ I & 0 & 0 & 0 \\ 0 & I & 0 & 0 \\ 0 & 0 & I & 0 \\ \end{pmatrix}\begin{pmatrix}\Gamma\\ \xi \\ \beta \\ \epsilon \end{pmatrix} 
 \sim \text{Normal}\left( 0,\Sigma\right)
@@ -320,6 +302,24 @@ The precision matrix $Q(\theta) = \Sigma^{-1}$ is obtained through direct invers
 
 
 \clearpage
+\begin{table}[ht]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{ |p{3cm} p{3cm}|p{3cm} p{3cm} p{3cm}|}
+ \hline
+ Variables/Reference & Levels & Proposed:Mean/SD & Coxph:Mean/SD &INLA:Mean/SD \\
+ \hline
+ Age & & 0.0048/0.015 & 0.0052/0.015 & 0.0024/0.013\\
+ Sex & & -1.7/0.46  & -1.7/0.46 &  -1.6/0.38\\
+ Disease Type/Other & GN & 0.17/0.53 &  0.18/0.54 & 0.11/0.47\\
+  & AN & 0.39/0.53 & 0.39/0.54 & 0.52/0.47\\
+  & PKD & −1.2/0.80  & −1.1/0.81 & −1.1/0.71\\
+\hline
+\end{tabular}
+}
+\caption{Estimated means and standard deviations of linear effects by proposed method, Coxph and INLA, for Example \ref{subsec:kidney}.}
+\label{table:KidneyFixed}
+\end{table}
 
 
 \end{document}
