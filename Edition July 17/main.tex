@@ -38,7 +38,7 @@
 
 \begin{abstract}
 {\fontfamily{ptm}\selectfont
-We introduce a novel approximate Bayesian inference methodology for the Cox Proportional Hazard model with partial likelihood, linear covariate effects, semi-parametric covariate effects and correlated survival times. The existing method for approximate Bayesian inference for Cox Proportional Hazard model (Integrated Nested Laplace Approximations, INLA), requires the Hessian matrix of the log-likelihood to be diagonal and is restricted to models with a parametric or smooth semi-parametric baseline hazard. In contrast, the use of partial likelihood in the Cox proportional hazard model does not require assumptions to be made about the baseline hazard, but the Hessian of the log-partial likelihood is fully dense and hence INLA does not accommodate its use. Through the use of quasi-Newton optimization methods, we accommodate the use of log-likelihood with dense Hessian in our inference, and hence introduce a novel approximate Bayesian inference methodology for the Cox Proportional Hazard model using its partial likelihood, that allows the inclusion of linear covariate effects, semi-parametric covariate effects and correlated survival times. A simulation study demonstrates the superior accuracy of our method over INLA when the baseline hazard is not smooth. Analysis of a dataset of Leukaemia survival times and a dataset of Kidney infection times demonstrates the use of our method to yield full posterior estimation and uncertainty quantification for the parameters of interest without making smoothness assumptions about the baseline hazard. An R package implementing our method will be released publicly.
+We introduce a novel approximate Bayesian inference methodology for the Cox Proportional Hazard model with partial likelihood, linear covariate effects, semi-parametric covariate effects and correlated survival times. The existing method for approximate Bayesian inference for Cox Proportional Hazard model (Integrated Nested Laplace Approximations, INLA), requires the Hessian matrix of the log-likelihood to be diagonal and is restricted to models with a parametric or smooth semi-parametric baseline hazard. In contrast, the use of partial likelihood in the Cox proportional hazard model does not require assumptions to be made about the baseline hazard, but the Hessian of the log-partial likelihood is fully dense and hence INLA does not accommodate its use. Through the use of quasi-Newton optimization methods, we accommodate the use of a log-likelihood with a dense Hessian in our inference. We hence introduce a novel approximate Bayesian inference methodology for the Cox Proportional Hazard model using its partial likelihood, that allows the inclusion of linear covariate effects, semi-parametric covariate effects and correlated survival times. A simulation study demonstrates the superior accuracy of our method over INLA when the baseline hazard is not smooth. Analysis of a dataset of Leukaemia survival times and a dataset of Kidney infection times demonstrates the use of our method to yield full posterior estimation and uncertainty quantification for the parameters of interest without making smoothness assumptions about the baseline hazard. An R package implementing our method will be released publicly.
 }
 
 % Please include a maximum of seven keywords
@@ -49,7 +49,7 @@ We introduce a novel approximate Bayesian inference methodology for the Cox Prop
 \section{Introduction}\label{sec1}
 For problems involving time-to-event data, the combination of Cox proportional hazard (Cox PH) models and inference via partial likelihood has been the dominant methodology following its development by Cox \cite{coxph}. The Cox PH model assumes that any two subjects' event hazards are proportional as a function of time, with the ratio depending on unknown linear or smooth covariate effects which are inferred from the observed data. Event times may be correlated within the sample, for example when the response is time to kidney failure for the left and right kidneys from the same subject. Inference that is conducted via partial likelihood does not require assumptions to be made about the form of the baseline hazard. Further, the use of Bayesian inference with the Cox PH model is desirable as this yields model-based estimation and uncertainty quantification for all parameters of interest. However, existing methods for approximate Bayesian inference based on Integrated Nested Laplace Approximations (INLA) \cite{inla} cannot be applied to the Cox PH model with partial likelihood because the Hessian matrix of the log partial-likelihood is fully dense while INLA requires this matrix to be diagonal. Application of the INLA methodology to the Cox PH model without partial likelihood has been considered \cite{inlacoxph}, but this requires restrictive smoothness assumptions to be made about the baseline hazard.
 
-Recently, Stringer et al. \cite{casecross} developed an approximate Bayesian inference methodology for case-crossover model, which applies the approximation strategy of INLA to a log-partial likelihood with a non-diagonal Hessian matrix. Their methodology includes semi-parametric covariate effects and yields full posterior uncertainty for the corresponding smoothness parameters, an improvement over existing frequentist methods. However, the partial likelihood they consider is simpler than that of the Cox PH model, and the Hessian matrix of their log-partial likelihood is block-diagonal and sparse. In contrast, the Hessian matrix of log-partial likelihood of Cox PH model is fully dense, so the method of Stringer et. al. \cite{casecross} does not apply to this model.
+Recently, Stringer et al. \cite{casecross} developed an approximate Bayesian inference methodology for case-crossover models, which applies the approximation strategy of INLA to a log-partial likelihood with a non-diagonal Hessian matrix. Their methodology includes semi-parametric covariate effects and yields full posterior uncertainty for the corresponding smoothness parameters, an improvement over existing frequentist methods. However, the partial likelihood they consider is simpler than that of the Cox PH model, and the Hessian matrix of their log-partial likelihood is block-diagonal and sparse. In contrast, the Hessian matrix of log-partial likelihood of Cox PH model is fully dense, so the method of Stringer et. al. \cite{casecross} does not apply to this model.
 
 In this paper we extend the approximate Bayesian inference methodology of Stringer et al. \cite{casecross} to the Cox proportional hazard model with partial likelihood. Our methodology accommodates semi-parametric smoothing effects and correlation between observed survival times. We demonstrate improved accuracy over INLA in simulations where the assumption of a smooth baseline hazard is violated. Our point estimates compare favourably to those based on frequentist Generalized Additive Models (GAMs) which use partial likelihood, in cases where INLA does not compare favourably. However, we retain all the advantages of a fully Bayesian approach over GAMs, which includes full posterior uncertainty estimates for all parameters including those related to the smoothness of the covariate effects.
 
@@ -64,13 +64,13 @@ Suppose we observe $n$ groups indexed by $i$, each with $n_{i}$ observations ind
 
 Define $h_{ij}(t)$ to be the hazard function for the random variable $T_{ij}$. The Cox PH model assumes $h_{ij}(t) = h_0(t)\text{exp}(\eta_{ij})$ where $h_0(t)$ is an unknown baseline hazard function that does not depend on the covariates. An additive predictor $\eta_{ij}$ links the covariates for the $ij$th observation to the survival time $T_{ij}$:
 \begin{equation}\begin{aligned}\label{eqn:eta}
-\eta_{ij} =x_{ij}^{T}\beta+\sum_{q=1}^{r} \gamma_q(u_{qij}) +\xi_{i} \\
-\xi_i \sim \mathcal{N}(0,\sigma_{\xi}) \\
-\gamma_{q}(.) \sim \mathcal{GP}(\sigma_q)
+\eta_{ij} &=x_{ij}^{T}\beta+\sum_{q=1}^{r} \gamma_q(u_{qij}) +\xi_{i} \\
+\xi_i &\overset{iid}{\sim} \mathcal{N}(0,\sigma_{\xi}) \\
+\gamma_{q}(\cdot) &\overset{ind}{\sim} \mathcal{GP}(\sigma_q)
 \end{aligned}\end{equation}
 Let $\eta = \left\{ \eta_{ij}: i = 1,\ldots,n; j = 1,\ldots,n_{i}\right\}$ be the vector of all the additive linear predictors. Here $x_{ij}$ is a $p$-dimensional vector of covariates that are modelled as having linear associations with the log-hazard, and $\beta = (\beta_{1},\ldots,\beta_{p})$ are regression coefficients. The $u_{q} = \left\{u_{qij}: i = 1,\ldots,n; j = 1,\ldots,n_{i} \right\}, q = 1,\ldots,r$ are covariate vectors whose association with the log-hazard is modelled semi-parametrically through unknown smooth functions $\gamma_1,\ldots,\gamma_r$. The vector of group intercepts $\xi = \left\{ \xi_{i}: i=1,\ldots,n\right\}$, referred to as ``frailty'' coefficients in the context of survival analysis \cite{frailty}, are included to model correlation between survival times coming from the same group $i$. There is no global intercept $\beta_{0}$ as this would be absorbed by $h_{0}(t)$.
 
-\subsection{Modelling Smooth function}\label{subsec:smooth}
+\subsection{Modelling Smooth functions}\label{subsec:smooth}
 The smooth functions $\gamma_q$ are Gaussian processes, each with a standard deviation parameter $\sigma_q$. A typical choice
 for the Gaussian process is the random walk of order 2 \cite{rw2}, which has similarities with cubic spline functions.
 The model above is a Latent Gaussian Model (LGM), as $\xi_i$ and $\gamma_q$ are normally distributed and a Normal
@@ -128,7 +128,7 @@ All of the quantities of interest (\ref{eqn:interestedQuat3}) -- (\ref{eqn:inter
 \begin{equation}\begin{aligned}\label{eqn:integration}
 \tilde{\pi}(W_{s}|y) &= \sum_{k=1}^{K}
 \tilde{\pi}_{G}(W_{s}|y,\theta^{k})
-\tilde{\pi}_{LA}(\theta^{k}|y)\delta_{k} \\
+\tilde{\pi}_{LA}(\theta^{k}|y)\delta_{k}, s = 1,\ldots,m \\
 \tilde{\pi}(W|y) &= \sum_{k=1}^{K}
 \tilde{\pi}_{G}(W|y,\theta^{k})
 \tilde{\pi}_{LA}(\theta^{k}|y)\delta_{k} \\
@@ -171,7 +171,7 @@ For fixed design matrices $A$, $B$ and $X$, we may write the additive predictor 
 \begin{equation}
 \eta = A\Gamma + B\xi + X\beta + \epsilon
 \end{equation}
-where $\epsilon \sim \text{N}\left( 0,\tau^{-1}I_{N}\right)$. The partial likelihood (\ref{eqn:partial}) depends on $\eta$ only through $\Delta = D\eta$ where $D$ is an $(N -1) \times N $-dimensional matrix of rank $N -1$. The precision matrix is given by
+where $\epsilon \sim \text{N}\left( 0,\tau^{-1}I_{N}\right)$. The partial likelihood (\ref{eqn:partial}) depends on $\eta$ only through $\Delta = D\eta$ where $D$ is an $(N -1) \times N $-dimensional matrix of rank $N -1$. Note that because of this, a global intercept $\beta_{0}$ is not estimable when using partial likelihood. The precision matrix is given by
 \begin{equation}\label{eqn:precmat}
 Q_{\theta} = \tau\begin{pmatrix}
 \Lambda^{-1} & -\Lambda^{-1}DA & -\Lambda^{-1}DB & - \Lambda^{-1}DX \\
@@ -180,7 +180,7 @@ Q_{\theta} = \tau\begin{pmatrix}
 - X^{T}D^{T}\Lambda^{-1} &  X^{T}D^{T}\Lambda^{-1}DA & X^{T}D^{T}\Lambda^{-1}DB & \frac{1}{\tau}\Sigma_{\beta}^{-1} +  X^{T}D^{T}\Lambda^{-1}DX \\
 \end{pmatrix}
 \end{equation}
-where $\Lambda = DD^{T}$. Expressions for $D$ and $\Lambda^{-1}$ are given in Appendix A. A global intercept $\beta_{0}$ is not estimable in our method.
+where $\Lambda = DD^{T}$. Expressions for $D$ and $\Lambda^{-1}$ are given in Appendix A.
 
 \subsection{Optimization method}\label{subsec:opt}
 
@@ -192,6 +192,8 @@ Note that $\widehat{W}_{\theta}$ and $H_{\theta}(\widehat{W}_{\theta})$ are used
 
 \section{Examples}\label{sec:example}
 
+In this section we present a simulation study and two data analysis examples. Code is available in the online supplementary materials.
+
 \subsection{Simulation study}\label{subsec:sim}
 
 To illustrate the accuracy of our method over INLA when the smoothness assumption for baseline hazard function is violated, we performed a simulation study. We generated $n = 400$ uncorrelated data points from a distribution with baseline hazard $h_{0}(t)$ shown in Figure \ref{fig:simulation} and additive predictor $\eta_{i} = \gamma(u_{i})$ with $\gamma(u) = 1.5 [ \text{sin}(0.8u) + 1 ]$. The covariate is obtained by generating $u_{1},\ldots,u_{n}\overset{iid}{\sim}\text{Unif}(-6,6)$, and discretizing these values into 50 disjoint, evenly-spaced bins. Further, we randomly censored $84$ observations. For the single variance parameter $\sigma$ that controls the smoothness of $\gamma$, we use an Exponential($\lambda$) prior with $\lambda$ chosen such that $\mathbb{P}\left( \sigma > 2.5\right) = 0.5$, which is a penalized complexity prior of Simpson et al.\cite{pcprior}. We fit a RW2 model using our procedure and the R-INLA software \cite{inla}. For the latter we used the default random walk model for the baseline hazard run under its default settings. This implicitly assumes that $h_{0}(t)$ is smooth. In contrast, our procedure does not infer $h_{0}(t)$, and does not make assumptions about its smoothness.
@@ -199,16 +201,16 @@ To illustrate the accuracy of our method over INLA when the smoothness assumptio
 \begin{figure}[ht]
 \centering
 \subcaptionbox{True baseline hazard function}{
-	\includegraphics[width=0.45\textwidth,height=3.5in]{true_baseline.png}
+	\includegraphics[width=0.45\textwidth,height=2.5in]{true_baseline.png}
 }
-\subcaptionbox{Estimated baseline hazard function (INLA)}{
-	\includegraphics[width=0.45\textwidth,height=3.5in]{inla_baseline.png}
+\subcaptionbox{Estimated baseline hazard function using INLA}{
+	\includegraphics[width=0.45\textwidth,height=2.5in]{inla_baseline.png}
 }
 \subcaptionbox{Posterior estimate of covariate effect}{
-	\includegraphics[width=0.45\textwidth,height=3.5in]{smoothing_simulation.png}
+	\includegraphics[width=0.45\textwidth,height=2.5in]{smoothing_simulation.png}
 }
 \subcaptionbox{Posterior distribution of $\sigma$}{
-	\includegraphics[width=0.45\textwidth,height=3.5in]{simulation_hyper.png}
+	\includegraphics[width=0.45\textwidth,height=2.5in]{simulation_hyper.png}
 }
 \caption{Results for simulation study in section \ref{subsec:sim}. (a): true baseline hazard function of this simulation. (b): estimated baseline hazard function from INLA and its $95\%$ credible interval(shaded). (c): true risk function (black); posterior mean (blue) and $95\%$ credible interval (shaded) using proposed method; posterior mean using INLA (red). (d): prior (black) and approximate posterior distribution for variance parameter by our method (blue) and by INLA (red).}
 \label{fig:simulation}
@@ -226,16 +228,16 @@ The effects of age, sex and white blood cell count were modelled linearly. The d
 \begin{figure}[ht]
 \centering
 \subcaptionbox{Posterior effect of \texttt{tpi}}{
-  \includegraphics[width=0.45\textwidth,height=3.5in]{leuk_smooth.png}
+  \includegraphics[width=0.45\textwidth,height=2.5in]{leuk_smooth.png}
 }
 \subcaptionbox{Posterior distribution of $\sigma$}{
-	\includegraphics[width=0.45\textwidth,height=3.5in]{leuk_posterior.png}
+	\includegraphics[width=0.45\textwidth,height=2.5in]{leuk_posterior.png}
 }
 \caption{Results for the Leukaemia data in section \ref{subsec:leuk}. (a): posterior mean (blue) and $95\%$ credible interval (shaded) using our method, posterior mean using INLA (red), and the result of fitting a GAM (black). (b): prior (black) and approximate posterior distribution for $\sigma$ using our method (blue) and INLA (red).}
 \label{fig:leuk}
 \end{figure}
 
-Figure \ref{fig:leuk} shows the results of our procedure as well as those of INLA and a frequentist Generalized Additive model(GAM). Our inferred covariate effect closely matches the point estimate returned by the GAM, however we provide full model-based posterior uncertainty for $\sigma$ where the GAM does not. The covariate effect inferred by INLA is more variable than ours, as reflected by both the shape of the posterior mean for $\Gamma_{1}$ and the width of the posterior for $\sigma_{1}$.
+Figure \ref{fig:leuk} shows the results of our procedure as well as those of INLA and a frequentist Generalized Additive Model (GAM). Our inferred covariate effect closely matches the point estimate returned by the GAM, however we provide full model-based posterior uncertainty for $\sigma$ where the GAM does not. The covariate effect inferred by INLA is more variable than ours, as reflected by both the shape of the posterior mean for $\Gamma_{1}$ and the width of the posterior for $\sigma_{1}$.
 
 \subsection{Kidney Catheter Data}\label{subsec:kidney}
 
@@ -248,7 +250,7 @@ Table \ref{table:KidneyFixed} shows the results of our procedure compared to tha
 \begin{figure}[ht]
 \centering
 \subcaptionbox{Posterior distribution of $\sigma$}{
-	\includegraphics[width=0.5\textwidth,height=4in]{kidney_poster.png}
+	\includegraphics[width=0.45\textwidth,height=2.5in]{kidney_poster.png}
 }
 \caption{Posterior distribution for the between-subject standard deviation by our method (blue) and by INLA (red), and its prior (black), for the kidney data in section \ref{subsec:kidney}.}
 \label{fig:BetweenSubjectSD}
@@ -256,7 +258,7 @@ Table \ref{table:KidneyFixed} shows the results of our procedure compared to tha
 
 \section{Discussion}\label{sec:discussion}
 
-The methodology we proposed in this paper provides a flexible way to carry out Bayesian inference for Cox proportional hazard model with partial likelihood, that accommodates the inference on linear covariate effects, semi-parametric covariate effects and frailties. The use of partial likelihood does not require the smoothness assumption on the baseline hazard function, an advantage over INLA. The use of Bayesian inference provides model-based uncertainty quantification of all parameters of interest, an advantage over the frequentist Generalized Additive model approach. We have demonstrated the advantages of our new approach over alternatives through a simulation study and two data analyses. Our proposed method is an appealing option to adopt for the analysis of time-to-event data.
+The methodology we proposed in this paper provides a flexible way to carry out Bayesian inference for Cox proportional hazard models with partial likelihood, that accommodates the inference on linear covariate effects, semi-parametric covariate effects and frailties. The use of partial likelihood does not require the smoothness assumption on the baseline hazard function, an advantage over INLA. The use of Bayesian inference provides model-based uncertainty quantification of all parameters of interest, an advantage over the frequentist Generalized Additive Model approach. We have demonstrated the advantages of our new approach over alternatives through a simulation study and two data analyses. Our proposed method is an appealing option to adopt for the analysis of time-to-event data.
 
 One limitation of our proposed methodology is the manner in which it scales with the sample size $N$. Since the Hessian matrix in our methodology is fully dense, its number of non-zero entries increases as $O(N^{2})$. The scalability of our procedure is limited by the need to store this matrix in memory. We avoid the computation of this Hessian matrix during the optimization step by using a quasi-Newton method, however the true Hessian matrix is still required to be evaluated and stored at the maximum to compute the posterior approximations that we use.
 
@@ -271,8 +273,8 @@ The framework of this proposed methodology can be extended to fit more complex m
 In this section we give a brief derivation of the precision matrix $Q_{\theta}$ from Equation (\ref{eqn:precmat}). The derivation is similar to that of \cite{casecross} (Web Appendix C), with a different differencing matrix. The differencing matrix $D$ is:
 \begin{equation}\begin{aligned}\label{eqn:D2}
 D &= \begin{pmatrix}
-1 & -1 & 0 & \cdots & 0 \\
-1 & 0 & -1 & \cdots & 0 \\
+1 & -1 & 0 & & 0 \\
+1 & 0 & -1 & & 0 \\
   &    &  & \ddots  &   \\
 1 &    &       & 0 & -1 \\
 \end{pmatrix}
