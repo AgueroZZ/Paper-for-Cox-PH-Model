@@ -172,8 +172,8 @@ prior.prec <- list(prec = list(prior = "pc.prec",
                                param = c(2, 0.5)))
 
 
-formula <- inla.surv(times,censoring) ~ age + sex + GN + AN + PKD + f(id,model = 'iid',hyper = prior.prec)
-Inlaresult <- inla(formula = formula, control.compute = list(dic=TRUE),control.inla = list(strategy = 'gaussian',int.strategy = 'grid'), control.fixed = list(prec = 0.05), data = data, family = "coxph")
+formula <- inla.surv(time,status) ~ age + sex + GN + AN + PKD + f(id,model = 'iid',hyper = prior.prec)
+Inlaresult <- inla(formula = formula, control.compute = list(dic=TRUE),control.inla = list(strategy = 'gaussian',int.strategy = 'grid'), control.fixed = list(prec = 0.001), data = data, family = "coxph")
 Inlaresult$summary.fixed[,1][-1]
 Inlaresult$summary.random$id[,1:2]$mean
 datainla <- data_frame(x = Inlaresult$marginals.hyperpar$`Precision for id`[,1], y = Inlaresult$marginals.hyperpar$`Precision for id`[,2])
@@ -192,7 +192,7 @@ sigmapostplot1 <- margpost1$margpost %>%
 
 
 # Compare with Coxph:
-coxphfit <- coxph(Surv(times, censoring) ~ age + sex + GN + AN + PKD + frailty(id,dist = "gauss", sparse = F), data=data,ties = "breslow")
+coxphfit <- coxph(Surv(time, status) ~ age + sex + GN + AN + PKD + frailty(id,dist = "gauss", sparse = F), data=data,ties = "breslow")
 coxphfit$coefficients
 
 
