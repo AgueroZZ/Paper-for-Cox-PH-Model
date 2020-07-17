@@ -201,16 +201,16 @@ To illustrate the accuracy of our method over INLA when the smoothness assumptio
 \begin{figure}[ht]
 \centering
 \subcaptionbox{True baseline hazard function}{
-	\includegraphics[width=0.45\textwidth,height=2.5in]{true_baseline.png}
+	\includegraphics[width=0.45\textwidth,height=3in]{simulation_truebase.pdf}
 }
-\subcaptionbox{Estimated baseline hazard function using INLA}{
-	\includegraphics[width=0.45\textwidth,height=2.5in]{inla_baseline.png}
+\subcaptionbox{Estimated baseline hazard function (INLA)}{
+	\includegraphics[width=0.45\textwidth,height=3in]{simulation_inlabase.pdf}
 }
 \subcaptionbox{Posterior estimate of covariate effect}{
-	\includegraphics[width=0.45\textwidth,height=2.5in]{smoothing_simulation.png}
+	\includegraphics[width=0.45\textwidth,height=3in]{simulation_smooth.pdf}
 }
 \subcaptionbox{Posterior distribution of $\sigma$}{
-	\includegraphics[width=0.45\textwidth,height=2.5in]{simulation_hyper.png}
+	\includegraphics[width=0.45\textwidth,height=3in]{simulation_hyper.pdf}
 }
 \caption{Results for simulation study in section \ref{subsec:sim}. (a): true baseline hazard function of this simulation. (b): estimated baseline hazard function from INLA and its $95\%$ credible interval(shaded). (c): true risk function (black); posterior mean (blue) and $95\%$ credible interval (shaded) using proposed method; posterior mean using INLA (red). (d): prior (black) and approximate posterior distribution for variance parameter by our method (blue) and by INLA (red).}
 \label{fig:simulation}
@@ -228,10 +228,10 @@ The effects of age, sex and white blood cell count were modelled linearly. The d
 \begin{figure}[ht]
 \centering
 \subcaptionbox{Posterior effect of \texttt{tpi}}{
-  \includegraphics[width=0.45\textwidth,height=2.5in]{leuk_smooth.png}
+  \includegraphics[width=0.45\textwidth,height=2.5in]{leuk_smooth.pdf}
 }
 \subcaptionbox{Posterior distribution of $\sigma$}{
-	\includegraphics[width=0.45\textwidth,height=2.5in]{leuk_posterior.png}
+	\includegraphics[width=0.45\textwidth,height=2.5in]{leuk_hyper.pdf}
 }
 \caption{Results for the Leukaemia data in section \ref{subsec:leuk}. (a): posterior mean (blue) and $95\%$ credible interval (shaded) using our method, posterior mean using INLA (red), and the result of fitting a GAM (black). (b): prior (black) and approximate posterior distribution for $\sigma$ using our method (blue) and INLA (red).}
 \label{fig:leuk}
@@ -250,7 +250,7 @@ Table \ref{table:KidneyFixed} shows the results of our procedure compared to tha
 \begin{figure}[ht]
 \centering
 \subcaptionbox{Posterior distribution of $\sigma$}{
-	\includegraphics[width=0.45\textwidth,height=2.5in]{kidney_poster.png}
+	\includegraphics[width=0.45\textwidth,height=2.5in]{kidney_hyper.pdf}
 }
 \caption{Posterior distribution for the between-subject standard deviation by our method (blue) and by INLA (red), and its prior (black), for the kidney data in section \ref{subsec:kidney}.}
 \label{fig:BetweenSubjectSD}

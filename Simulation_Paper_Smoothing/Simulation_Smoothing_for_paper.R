@@ -272,7 +272,7 @@ new_compare <- simplot + geom_line(aes(y = meanhere),colour = "black",linetype =
 datainla <- data_frame(x = Inlaresult$marginals.hyperpar$`Precision for exposure_binned`[,1], y = Inlaresult$marginals.hyperpar$`Precision for exposure_binned`[,2])
 sigma <- 1/sqrt(datainla$x)
 sigma_dens <- 2*(sigma^(-3))*datainla$y
-datainla_sigma <- data_frame(sigma = sigma[-c(1:8)], sigma_dens = sigma_dens[-c(1:8)])
+datainla_sigma <- data_frame(sigma = sigma[-c(1:2)], sigma_dens = sigma_dens[-c(1:2)])
 
 sigmapostplot1 <- margpost1$margpost %>%
   mutate(sigma_post = exp(sigmalogmargpost)) %>%
