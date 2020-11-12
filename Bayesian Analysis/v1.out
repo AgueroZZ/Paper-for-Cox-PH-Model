@@ -1,0 +1,14 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Methods}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{A\040latent\040Gaussian\040Cox\040PH\040Model}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Modelling\040Semi-parametric\040covariate\040effect}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Approximate\040Bayesian\040Inference}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Optimization\040method}{section.2}% 6
+\BOOKMARK [1][-]{section.3}{Examples}{}% 7
+\BOOKMARK [2][-]{subsection.3.1}{Simulation\040study}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.2}{Leukaemia\040Data}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.3}{Kidney\040Catheter\040Data}{section.3}% 10
+\BOOKMARK [1][-]{section.4}{Discussion}{}% 11
+\BOOKMARK [1][-]{section*.2}{Data\040Availability\040Statement}{}% 12
+\BOOKMARK [1][-]{appendix.A}{Derivation\040of\040Precision\040Matrix}{}% 13
+\BOOKMARK [1][-]{section*.4}{References}{}% 14
