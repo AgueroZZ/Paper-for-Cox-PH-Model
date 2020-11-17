@@ -669,7 +669,7 @@ Q_matrix_both_iid_linear <- function(theta,model_data,tau = exp(7)) {
 
 
 # Q matrix for model containing all of linear, rw2 and iid terms
-Q_matrix_all <- function(theta,model_data,tau = exp(7)) {
+Q_matrix_all <- function(theta,model_data,tau = exp(7), buffer = 1/exp(7)) {
   
   if (is.null(model_data$A)) stop("no rw2 components in model")
   
