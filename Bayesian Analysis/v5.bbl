@@ -1,4 +1,4 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{19}
 \newcommand{\enquote}[1]{``#1''}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
@@ -34,11 +34,24 @@ Gray, R.~J. (1992).
   942--951.
 \endbibitem
 
+\bibitem[{Jin and Andersson(2020)}]{adaptive_GH_2020}
+Jin, S. and Andersson, B. (2020).
+\newblock \enquote{{A note on the accuracy of adaptive Gauss–Hermite
+  quadrature}.}
+\newblock {\em Biometrika\/}.
+\endbibitem
+
 \bibitem[{Lindgren and Rue(2008)}]{rw2}
 Lindgren, F. and Rue, H. (2008).
 \newblock \enquote{On the second-order random walk model for irregular
   locations.}
 \newblock {\em Scandinavian Journal of Statistics\/}, 35(4): 691--700.
+\endbibitem
+
+\bibitem[{Liu and Pierce(1994)}]{adaptive_GH_1994}
+Liu, Q. and Pierce, D.~A. (1994).
+\newblock \enquote{{A note on Gauss-Hermite quadrature}.}
+\newblock {\em Biometrika\/}, 81(3): 624--629.
 \endbibitem
 
 \bibitem[{Martino et~al.(2011)Martino, Akerkar, and Rue}]{inlacoxph}
@@ -51,6 +64,14 @@ Martino, S., Akerkar, R., and Rue, H. (2011).
 McGilchrist, C.~A. and Aisbett, C.~W. (1991).
 \newblock \enquote{Regression with frailty in survival analysis.}
 \newblock {\em Biometrics\/}, 47(2): 461--466.
+\endbibitem
+
+\bibitem[{Naylor and Smith(1982)}]{nayloradaptive}
+Naylor, J. and Smith, A. F.~M. (1982).
+\newblock \enquote{Applications of a Method for the Efficient Computation of
+  Posterior Distributions.}
+\newblock {\em Journal of the Royal Statistical Society, Series C (Applied
+  Statistics)\/}, 31(3): 214--225.
 \endbibitem
 
 \bibitem[{Rue and Martino(2007)}]{gmrfmodels}
