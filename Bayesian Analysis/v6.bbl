@@ -1,4 +1,4 @@
-\begin{thebibliography}{19}
+\begin{thebibliography}{21}
 \newcommand{\enquote}[1]{``#1''}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
@@ -24,6 +24,13 @@ Cox, D.~R. (1972).
 \newblock \enquote{Regression models and life-tables.}
 \newblock {\em Journal of the Royal Statistical Society. Series B
   (Methodological)\/}, 34(2): 187--220.
+\endbibitem
+
+\bibitem[{Geyer.(2020)}]{trust}
+Geyer., C.~J. (2020).
+\newblock {\em trust: Trust Region Optimization\/}.
+\newblock R package version 0.1-8.
+\newline\urlprefix\url{https://CRAN.R-project.org/package=trust}
 \endbibitem
 
 \bibitem[{Gray(1992)}]{Gray}
@@ -96,6 +103,13 @@ Simpson, D., Rue, H., Martins, T.~G., Riebler, A., and Sørbye, S.~H. (2017).
 \newblock \enquote{Penalising model component complexity: A principled,
   practical approach to constructing priors.}
 \newblock {\em Statistical Science\/}, 32(1).
+\endbibitem
+
+\bibitem[{Stringer(2020)}]{stringeraghqpackage}
+Stringer, A. (2020).
+\newblock \enquote{Implementing Approximate Bayesian Inference using Adaptive
+  Quadrature: the aghq Package.}
+\newblock {\em In preparation\/}.
 \endbibitem
 
 \bibitem[{Stringer et~al.(2020)Stringer, Brown, and Stafford}]{casecross}
