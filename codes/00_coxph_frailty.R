@@ -9,6 +9,9 @@ library(tmbstan)
 library(brinla)
 precompile()
 
+# Path to where the TMB code is
+codepath <- '/storage/phd/projects/survival-bayes/Paper-for-Cox-PH-Model/codes'
+
 ### Simulating function:
 N = 2
 K = 100
@@ -136,8 +139,8 @@ tmbparams <- list(
 
 
 # TMB function template
-compile("00_coxph_frailty.cpp")
-dyn.load(dynlib("00_coxph_frailty"))
+compile(file.path(codepath,"00_coxph_frailty.cpp"))
+dyn.load(dynlib(file.path(codepath,"00_coxph_frailty")))
 
 
 
@@ -154,17 +157,17 @@ ff <- TMB::MakeADFun(
   silent = TRUE
 )
 # Hessian not implemented for RE models
-ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
+# ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
 
 # AGHQ
-quad <- aghq::marginal_laplace_tmb(ff,3,0)
+quad <- aghq::marginal_laplace_tmb(ff,15,0)
 
 # Plot of theta posterior
-logpostsigma <- compute_pdf_and_cdf(quad$marginals[[1]],list(totheta = function(x) -2*log(x),fromtheta = function(x) exp(-x/2)))
+logpostsigma <- compute_pdf_and_cdf(quad$marginals[[1]],list(totheta = function(x) -2*log(x),fromtheta = function(x) exp(-x/2)),interpolation = 'spline')
 with(logpostsigma,plot(transparam,pdf_transparam,type='l'))
 
 # Inference for W
-samps <- sample_marginal(quad,1000)
+samps <- sample_marginal(quad,1000,interpolation = 'spline')
 beta_est <- samps$samps[(K+1),]
 hist(beta_est,breaks = 100)
 
@@ -231,9 +234,10 @@ stanmod <- tmbstan(
   ff,
   chains = 4,
   cores = 4,
-  iter = 5000,
-  warmup = 1000,
-  init = quad$optresults$mode,
+  iter = 2e04,
+  warmup = 2000,
+  # init = quad$optresults$mode,
+  init = 0,
   seed = 123
 )
 end_time <- Sys.time()
@@ -262,13 +266,29 @@ abline(v = sd, col = "red")
 ### KS statistics:
 stansamps <- as.data.frame(stanmod)
 numsamp <- nrow(stansamps)
-quadsamp <- sample_marginal(quad,numsamp)$thetasamples[[1]]
+quadsamp <- sample_marginal(quad,numsamp,interpolation = 'spline')$thetasamples[[1]]
 normsamp <- rnorm(numsamp,quad$optresults$mode,1/sqrt(quad$optresults$hessian))
 ks.test(stansamps$theta,quadsamp)$statistic
 ks.test(stansamps$theta,normsamp)$statistic
 
+# Look at the KS
+# The distributions look pretty close:
+hist(stansamps$theta,breaks = 50,freq=FALSE)
+with(logpostsigma,lines(theta,pdf))
 
 
+# Compute the KS manually. Plot the ECDFs:
+tt <- seq(-3,3,length.out=1e04)
+quadecdf <- ecdf(quadsamp)(tt)
+stanecdf <- ecdf(stansamps$theta)(tt)
+plot(tt,quadecdf,type='l')
+lines(tt,stanecdf,lty='dashed')
+
+# KS is the max absolute difference:
+theKS <- max(abs(stanecdf - quadecdf))
+whereistheKS <- which.max(abs(stanecdf - quadecdf))
+abline(v = tt[whereistheKS])
+plot(tt,abs(stanecdf - quadecdf),type='l')
 
 ### Credible intervals for frailties
 frailty$STAN <- STAN_samples$W[,1:K] %>% apply(MARGIN = 2, mean)
