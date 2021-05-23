@@ -4,14 +4,14 @@ library(aghq)
 library(mgcv)
 library(Matrix)
 library(TMB)
-precompile()
 library(INLA)
+library(tmbstan)
 
 
 ## simulate data:
 source("~/Documents/Paper-for-Cox-PH-Model/rcode for implementation/required_function.R")
 set.seed(1234)
-data <- Simulate_data(bas = "complicated", truth = "complicated", N = 2000)
+data <- Simulate_data(bas = "complicated", truth = "complicated", N = 500)
 data <- abcoxph:::arrange_data(data)
 dat <- tibble(x = data$exposure, t = data$times, cens = data$censoring)
 dat$ranks <- rank(dat$t, ties.method = "min")
@@ -84,16 +84,17 @@ ff <- TMB::MakeADFun(
 )
 # Hessian not implemented for RE models
 ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
-system.time(ff$fn(1))
-system.time(ff$gr(1))
-system.time(ff$he(1))
+
 
 
 
 
 
 # AGHQ
+start_time <- Sys.time()
 quad <- aghq::marginal_laplace_tmb(ff,7,0)
+end_time <- Sys.time()
+runtime_AGHQ <- end_time - start_time
 
 # Plot of theta posterior
 logpostsigma <- compute_pdf_and_cdf(quad$marginals[[1]],list(totheta = function(x) -2*log(x),fromtheta = function(x) exp(-x/2)))
@@ -108,7 +109,6 @@ samps <- sample_marginal(quad,1000)
 W <- apply(samps$samps,1,mean)
 U <- W[1:ncol(P)]
 beta <- W[(ncol(P)+1):length(W)]
-
 truefunc <- function(x) 1.5*(sin(0.8*x))
 
 # Construct a plot
@@ -120,7 +120,7 @@ ploteta <- plotB %*% U
 ploteta <- ploteta - ploteta[1]
 plot(plotx,ploteta,type='l',ylim=c(-4,4))
 # Plot the samples
-samplestoplot <- samps$samps[ ,sample(1:ncol(samps$samps),200,replace = FALSE)]
+samplestoplot <- samps$samps[ ,sample(1:ncol(samps$samps),100,replace = FALSE)]
 for (i in 1:ncol(samplestoplot)) {
   WS <- samplestoplot[ ,i]
   US <- WS[1:ncol(P)]
@@ -194,6 +194,45 @@ lines(plotINLA$x,plotINLA$lo,type='l',lty='dashed')
 lines(plotINLA$x,plotINLA$true,col='red')
 
 
+
+### STAN:
+start_time <- Sys.time()
+stanmod <- tmbstan(
+  ff,
+  chains = 4,
+  cores = 4,
+  iter = 10000,
+  warmup = 1000,
+  init = quad$optresults$mode,
+  seed = 123
+)
+end_time <- Sys.time()
+runtime_MCMC <- end_time - start_time
+
+summ <- summary(stanmod)
+U_mcmc <- summ$summary[1:44,1]
+ploteta_mcmc <- plotB %*% U_mcmc
+ploteta_mcmc <- ploteta_mcmc - ploteta_mcmc[1]
+plot(plotx,ploteta_mcmc,type='l',ylim=c(-4,4))
+
+
+# Construct the plot
+ploteta_mcmc <- plotB %*% U_mcmc
+ploteta_mcmc <- ploteta_mcmc - ploteta_mcmc[1]
+plot(plotx,ploteta_mcmc,type='l',ylim=c(-4,4))
+# Plot the samples
+samps_mcmc <- extract(stanmod)
+samps_mcmc <- samps_mcmc$W
+samplestoplot <- samps_mcmc[sample(1:nrow(samps_mcmc),100,replace = FALSE),]
+for (i in 1:ncol(samplestoplot)) {
+  WS <- samplestoplot[i,]
+  US <- WS[1:ncol(P)]
+  plotetaS <- plotB %*% US
+  plotetaS <- plotetaS - plotetaS[1]
+  lines(plotx,plotetaS,col = 'lightgray')
+}
+lines(plotx,ploteta)
+lines(plotx,truefunc(plotx)-truefunc(plotx)[1],col='red')
 
 
 
