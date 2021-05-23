@@ -282,17 +282,20 @@ as well as its Hessian matrix and its Cholesky. These matrix quantities are stra
 
 \section{Examples}\label{sec:example}
 
-In this section we present a simulation study and two data analysis examples. Code is available in the online supplementary materials.
+In this section we present two simulation studies and two data analysis examples. All the codes are available in the online supplementary materials.
 
-\subsection{Simulation study}\label{subsec:sim}
+\subsection{Simulation studies}\label{subsec:sim}
+In this section, we will provide two simulation studies to demonstrate the accuarcy of our proposed method over the existing approximation-based method INLA under certain settings.
 
-To illustrate the accuracy of our proposed approach, we simulate six different datasets, under three baseline hazard functions, and two true covariate effect functions. The three baseline hazard functions are respectively a hazard function constant at 0.03, an regular hazard function that is periodic and continuous, and a complicated hazard function that has three different types of oscillating behaviours and two discontinuities. The two true covariate effect functions are a simple function $\gamma(u) = \text{log}((u + 1)^2) - 1$ for $u \in (0,6)$, and a complicated function $\gamma(u) = 1.5 \text{sin}(0.8 u)$ for $ u \in (-5,5)$.
+In the first simulation study, we consider the Bayesian inference problem for models with sparse frailties. In other words, survival times are correlated within groups while the number of observations in each group is small. We generated 100 groups, and two observations within each group. The group-level frailties $\{\xi_1,...,\xi_{100}\}$ are simulated independently from $\mathcal{N}(0,\sigma_\xi^2)$, with $\sigma_{\xi} = 0.8$. Besides the independent frailties, we also assume there is a covariate $x$ generated from $\mathcal{N}(0,9)$, with covariate effect $\beta = 0.2$.
 
-In all the six simulation settings, we  generated $N = 500$ data points from the corresponding model $h(t) = h_{0}(t) \text{exp}(\gamma(u))$, and randomly censored $10\%$ of the data points for each setting. The covariate $u$ is generated uniformly from its corresponding domain, and discretized into 50 disjoint, evenly-spaced bins. For the single variance parameter $\sigma$ that controls the smoothness of the inferred $\gamma$, we use an $\text{Exponential}(\lambda)$ prior with $\lambda$ chosen such that $\mathbb{P}\left( \sigma > 2.5\right) = 0.5$ for all settings. This is a penalized complexity prior of \cite{pcprior}. 
+The fixed effect $\beta$ was given a prior $\mathcal{N}(0,1000)$. The variance parameter $\sigma_\xi$ was given an Exponential prior with median of 1. The same priors were used for both our proposed method and INLA. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter was set to be $K = 15$. For the implementation of INLA, we used the default random walk model for the baseline hazard run under its default settings. To compare the accuracies between the two methods, we used the metrics of posterior mean square error (MSE) and coverage rates of the 95 percent posterior credible intervals, for both the fixed effect parameter and the frailties. All the metrics were aggregated through 300 repetitions in order to make sure the comparison is accurate.
 
-We fit a RW2 model using our proposed approach to infer the true smoothing function $\gamma$, with inferred $\gamma$ constrained to be zero at the median of the observed covariate values of each dataset. The resulting plots are shown in Figure 1, where the covariate effect functions are exponentiated to represent the relative risk function, and the variance parameter $\theta$ is transformed back to standard deviation $\sigma$. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter to is set to be $K = 3$. We follow \citet{inla} and the associated INLA software and make use of a polynomial interpolant when making plots of the posterior distributions for $\theta$ and transformations of it.
+Table.....
 
-According to Figures \ref{fig:simulation1} and \ref{fig:simulation2}, it can be seen that our proposed method gives accurate point estimation for the true risk functions regardless of the true baseline hazard function, even with a sample size that is comparatively small. In all of these six simulation examples, our 95 percent credible interval contains the true risk function throughout the domain, with an reasonable interval width at most of the regions in the domain. 
+In this study, the quantities of interest that need to be inferred include 100 frailties $\{\xi_1,...,\xi_{100}\}$, one fixed effect parameter $\beta$ and one variance parameter $\sigma_\xi$. However, the number of data points availiable is only 200. The problem is even severer when the inference is carried out on the type of full likelihood used by INLA, due to the more parameters it used to approximate the baseline hazard \citep{coxdiscussion}. Hence, we illustrated through this simulation study that for inferences on sparse frailties, our proposed method based on partial likelihood will yield more accurate result than INLA.
+
+
 
 \subsection{Leukaemia Data}\label{subsec:leuk}
 
@@ -309,7 +312,7 @@ Figure \ref{fig:leuk} shows the posterior result of the exponentiated covariate 
 
 The method of \cite{freqPL} allows the inclusion of subject-level random effect (frailty) in the model to account for the within subject correlations. They suggested two different ways to estimate covariance matrix of their estimators. However the penalized partial likelihood method that they proposed is a frequentist method, where the variance of random effects is treated as a fixed value estimated through either MLE or REML. As they have mentioned in the paper, ignoring the uncertainty with estimating the variance parameter in this way can severely underestimate the standard errors. For this Kidney Catheter dataset, they found that their methods tend to underestimate the true standard errors through some bootstrap experiments \citep{freqPL}. They suggest an alternative variance estimator which may account for this, but do not offer clear advice on which estimator to choose in practice.
 
-As a comparison, we also use our procedure to fit a Cox PH model to these grouped data, providing full posterior uncertainty over the between-subject standard deviation. We associate survival times with covariates sex, age, and indicator of one of four types of pre-existing disease each patient may have. Subject-specific intercepts $\xi_{i}\overset{iid}{\sim}\text{N}(0,\sigma^{2}_{\xi})$ are included to account for correlation between kidneys from the same subject. We use an $\text{Exponential}$ prior distribution for $\sigma_{\xi}$ with median 2. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter to is set to be 3. For both implementations of the proposed method and the penalized partial likelihood method, ties are handled using the method of \cite{Breslow}.
+As a comparison, we also use our procedure to fit a Cox PH model to these grouped data, providing full posterior uncertainty over the between-subject standard deviation. We associate survival times with covariates sex, age, and indicator of one of four types of pre-existing disease each patient may have. Subject-specific intercepts $\xi_{i}\overset{iid}{\sim}\mathcal{N}(0,\sigma^{2}_{\xi})$ are included to account for correlation between kidneys from the same subject. We use an $\text{Exponential}$ prior distribution for $\sigma_{\xi}$ with median 2. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter to is set to be 3. For both implementations of the proposed method and the penalized partial likelihood method, ties are handled using the method of \cite{Breslow}.
 
 Table \ref{table:KidneyFixed} shows the results of our procedure compared to that obtained using the penalized partial likelihood method of \cite{freqPL}. In the table, SD1 and SD2 are the two different methods \cite{freqepsPL} suggested to estimate the standard errors. Our posterior means for the linear covariate effects are comparable to the frequentist estimates. However, our posterior standard deviations of linear effects are larger than both of the two versions of estimated standard errors from the penalized likelihood method. This is a result of our taking into account the uncertainty with estimating the variance parameter, and we see that our estimates are closer to their more conservative one. In contrast, however, we offer an unambiguous choice of estimator to use, which is a practical advantage. Further, as shown in Figure \ref{fig:BetweenSubjectSD}, our method provides full posterior uncertainty for $\sigma_{\xi}$ while the penalized partial likelihood approach only provides a point estimate.
 
@@ -365,6 +368,14 @@ The precision matrix $Q(\theta) = \Sigma^{-1}$ is obtained through direct invers
 
 \clearpage
 
+\begin{table}
+\begin{center}
+\scalebox{0.99}{
+
+\end{center}
+\caption{Comparision metrics from 300 aggregations, for the first simulation study in section \ref{subsec:sim}.}
+\label{table:Sim1Agg}
+\end{table}
 
 
 

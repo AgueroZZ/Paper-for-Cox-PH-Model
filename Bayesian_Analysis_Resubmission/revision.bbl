@@ -1,0 +1,164 @@
+\begin{thebibliography}{22}
+\newcommand{\enquote}[1]{``#1''}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{{\tt #1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\ifx\endbibitem\undefined \let\endbibitem\relax\fi
+
+\bibitem[{Braun(2014)}]{trustoptim}
+Braun, M. (2014).
+\newblock \enquote{{trustOptim}: An {R} package for trust region optimization
+  with sparse hessians.}
+\newblock {\em Journal of Statistical Software\/}, 60(4): 1--16.
+\endbibitem
+
+\bibitem[{Breslow(1974)}]{Breslow}
+Breslow, N. (1974).
+\newblock \enquote{Covariance analysis of censored survival data.}
+\newblock {\em Biometrics\/}, 30(1): 89--99.
+\endbibitem
+
+\bibitem[{Cox(1972{\natexlab{a}})}]{coxdiscussion}
+Cox, D.~R. (1972{\natexlab{a}}).
+\newblock \enquote{Discussion on Professor Cox's Paper.}
+\newblock {\em Journal of the Royal Statistical Society: Series B
+  (Methodological)\/}, 34(2): 202--220.
+\newline\urlprefix\url{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/j.2517-6161.1972.tb00900.x}
+\endbibitem
+
+\bibitem[{Cox(1972{\natexlab{b}})}]{coxph}
+--- (1972{\natexlab{b}}).
+\newblock \enquote{Regression models and life-tables.}
+\newblock {\em Journal of the Royal Statistical Society. Series B
+  (Methodological)\/}, 34(2): 187--220.
+\endbibitem
+
+\bibitem[{Geyer.(2020)}]{trust}
+Geyer., C.~J. (2020).
+\newblock {\em trust: Trust Region Optimization\/}.
+\newblock R package version 0.1-8.
+\newline\urlprefix\url{https://CRAN.R-project.org/package=trust}
+\endbibitem
+
+\bibitem[{Gray(1992)}]{Gray}
+Gray, R.~J. (1992).
+\newblock \enquote{Flexible Methods for Analyzing Survival Data Using Splines,
+  With Applications to Breast Cancer Prognosis.}
+\newblock {\em Journal of the American Statistical Association\/}, 87(420):
+  942--951.
+\endbibitem
+
+\bibitem[{Jin and Andersson(2020)}]{adaptive_GH_2020}
+Jin, S. and Andersson, B. (2020).
+\newblock \enquote{{A note on the accuracy of adaptive Gauss–Hermite
+  quadrature}.}
+\newblock {\em Biometrika\/}.
+\endbibitem
+
+\bibitem[{Lindgren and Rue(2008)}]{rw2}
+Lindgren, F. and Rue, H. (2008).
+\newblock \enquote{On the second-order random walk model for irregular
+  locations.}
+\newblock {\em Scandinavian Journal of Statistics\/}, 35(4): 691--700.
+\endbibitem
+
+\bibitem[{Liu and Pierce(1994)}]{adaptive_GH_1994}
+Liu, Q. and Pierce, D.~A. (1994).
+\newblock \enquote{{A note on Gauss-Hermite quadrature}.}
+\newblock {\em Biometrika\/}, 81(3): 624--629.
+\endbibitem
+
+\bibitem[{Martino et~al.(2011)Martino, Akerkar, and Rue}]{inlacoxph}
+Martino, S., Akerkar, R., and Rue, H. (2011).
+\newblock \enquote{Approximate Bayesian inference for survival models.}
+\newblock {\em Scandinavian Journal of Statistics\/}, 38(3): 514--528.
+\endbibitem
+
+\bibitem[{McGilchrist and Aisbett(1991)}]{kidney}
+McGilchrist, C.~A. and Aisbett, C.~W. (1991).
+\newblock \enquote{Regression with frailty in survival analysis.}
+\newblock {\em Biometrics\/}, 47(2): 461--466.
+\endbibitem
+
+\bibitem[{Naylor and Smith(1982)}]{nayloradaptive}
+Naylor, J. and Smith, A. F.~M. (1982).
+\newblock \enquote{Applications of a Method for the Efficient Computation of
+  Posterior Distributions.}
+\newblock {\em Journal of the Royal Statistical Society, Series C (Applied
+  Statistics)\/}, 31(3): 214--225.
+\endbibitem
+
+\bibitem[{Rue and Martino(2007)}]{gmrfmodels}
+Rue, H. and Martino, S. (2007).
+\newblock \enquote{Approximate Bayesian inference for hierarchical Gaussian
+  Markov random field models.}
+\newblock {\em Journal of Statistical Planning and Inference\/}, 137: 3177 --
+  3192.
+\endbibitem
+
+\bibitem[{Rue et~al.(2009)Rue, Martino, and Chopin}]{inla}
+Rue, H., Martino, S., and Chopin, N. (2009).
+\newblock \enquote{Approximate Bayesian inference for latent Gaussian models by
+  using integrated nested Laplace approximations.}
+\newblock {\em Journal of the Royal Statistical Society. Series B (Statistical
+  Methodology)\/}, 71(2): 319 -- 392.
+\endbibitem
+
+\bibitem[{Simpson et~al.(2017)Simpson, Rue, Martins, Riebler, and
+  Sørbye}]{pcprior}
+Simpson, D., Rue, H., Martins, T.~G., Riebler, A., and Sørbye, S.~H. (2017).
+\newblock \enquote{Penalising model component complexity: A principled,
+  practical approach to constructing priors.}
+\newblock {\em Statistical Science\/}, 32(1).
+\endbibitem
+
+\bibitem[{Stringer(2020)}]{stringeraghqpackage}
+Stringer, A. (2020).
+\newblock \enquote{Implementing Approximate Bayesian Inference using Adaptive
+  Quadrature: the aghq Package.}
+\newblock {\em In preparation\/}.
+\endbibitem
+
+\bibitem[{Stringer et~al.(2020)Stringer, Brown, and Stafford}]{casecross}
+Stringer, A., Brown, P., and Stafford, J. (2020).
+\newblock \enquote{Approximate Bayesian inference for case-crossover models.}
+\newblock {\em Biometrics\/}, In press.
+\endbibitem
+
+\bibitem[{Therneau(2015)}]{survival-package}
+Therneau, T.~M. (2015).
+\newblock {\em A Package for Survival Analysis in S\/}.
+\newblock Version 2.38.
+\endbibitem
+
+\bibitem[{Therneau et~al.(2003)Therneau, Grambsch, and Pankratz}]{freqPL}
+Therneau, T.~M., Grambsch, P.~M., and Pankratz, V.~S. (2003).
+\newblock \enquote{Penalized Survival Models and Frailty.}
+\newblock {\em Journal of Computational and Graphical Statistics\/}, 12(1):
+  156--175.
+\endbibitem
+
+\bibitem[{Tierney and Kadane(1986)}]{tierney}
+Tierney, L. and Kadane, J.~B. (1986).
+\newblock \enquote{Accurate approximations to posterior moments and marginal
+  densities.}
+\newblock {\em Journal of the American Statistical Association\/}, 81(393).
+\endbibitem
+
+\bibitem[{Vaupel et~al.(1979)Vaupel, Manton, and Stallard}]{frailty}
+Vaupel, J.~W., Manton, K.~G., and Stallard, E. (1979).
+\newblock \enquote{The impact of heterogeneity in individual frailty on the
+  dynamics of mortality.}
+\newblock {\em Demography\/}, 16(3): 439--454.
+\endbibitem
+
+\bibitem[{Wood et~al.(2016)Wood, Pya, and S{\"a}fken}]{GAM}
+Wood, S.~N., Pya, N., and S{\"a}fken, B. (2016).
+\newblock \enquote{Smoothing parameter and model selection for general smooth
+  models.}
+\newblock {\em Journal of the American Statistical Association\/}, 111(516):
+  1548--1563.
+\endbibitem
+
+\end{thebibliography}
