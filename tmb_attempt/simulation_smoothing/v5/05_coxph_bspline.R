@@ -8,6 +8,7 @@ library(INLA)
 library(tmbstan)
 library(brinla)
 precompile()
+TEXT_SIZE = 25
 
 ## Simulating function:
 ### Simulation Example
@@ -77,7 +78,7 @@ Simulate_data_extreme <- function(N = 1000, truth, RW2BINS = 50, baseline){
 ## simulate data:
 set.seed(1234)
 baseline <- Simulate_baseline()
-ggplot(baseline,aes(x = time, y = hazard)) + geom_line()
+ggplot(baseline,aes(x = time, y = hazard)) + geom_line() + theme(text = element_text(size = TEXT_SIZE))
 
 
 set.seed(1234)

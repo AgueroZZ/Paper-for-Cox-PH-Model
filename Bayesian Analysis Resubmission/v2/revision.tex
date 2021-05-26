@@ -299,13 +299,13 @@ In this study, the quantities of interest that need to be inferred include 100 f
 
 \subsubsection{Simulation with non-smooth baseline}\label{subsubsec:sim2}
 
-To illustrate the accuracy of our method over INLA when the smoothness assumption for baseline hazard function is violated, we performed our second simulation study. We generated $n = 400$ uncorrelated data points from a distribution with hazard function. The baseline hazard $h_{0}(t)$ shown in Figure \ref{fig:basehaz} and the additive predictor is $\eta_{i} = \gamma\left(u_{i}\right)$ with $\gamma(u) = 1.5 [ \text{sin}(0.8u) + 1 ]$. We generated the covariates $u$ as  $u_{1},\ldots,u_{n}\overset{iid}{\sim}\text{Unif}(-6,6)$, and randomly censored $10\%$ of all the survival times.
+To illustrate the accuracy of our method over INLA when the smoothness assumption for baseline hazard function is violated, we performed our second simulation study. We generated $n = 1000$ uncorrelated data points from a distribution with hazard function. The baseline hazard $h_{0}(t)$ shown in Figure \ref{fig:truebase} and the additive predictor is $\eta_{i} = \gamma\left(u_{i}\right)$ with $\gamma(u) = 1.5 [ \text{sin}(0.8u) + 1 ]$. We generated the covariates $u$ as  $u_{1},\ldots,u_{n}\overset{iid}{\sim}\text{Unif}(-6,6)$, and randomly censored $10\%$ of all the survival times. Since the overall intercept parameter cannot be identified in partial likelihood, we put a sum-to-zero constraint such that $\sum_{i=1}^{n} \gamma{(u_i)} = 0$.
 
-To infer the unknown risk function $\gamma$, we used the Bayesian B-spline smoothing method mentioned in section \ref{subsec:smooth} for the implementation of our proposed method. For the smoothing method in INLA, we placed the values of $u$ into $50$ discrete bins, and fitted a second-order random walk model for $\gamma$ \citep{rw2}. As before, we implemented INLA under its default setting, with a first-order random walk model for the baseline hazard. This implicitly assumes that $h_{0}(t)$ is smooth. In contrast, our procedure does not infer $h_{0}(t)$, and does not make assumptions about its smoothness. In both of the smoothing methods, the single variance parameter $\sigma$ that controls the smoothness of $\gamma$, was modelled with an Exponential($\lambda$) prior with $\lambda$ chosen such that $\mathbb{P}\left( \sigma > 2.5\right) = 0.5$, which is a \emph{penalized complexity} prior of \cite{pcprior}.
+To infer the unknown risk function $\gamma$, we used the Bayesian B-spline smoothing method mentioned in section \ref{subsec:smooth} for the implementation of our proposed method. For the smoothing method in INLA, we placed the values of $u$ into $50$ discrete bins, and fitted a second-order random walk model for $\gamma$ \citep{rw2}. As before, we implemented INLA under its default setting, with a first-order random walk model for the baseline hazard. This implicitly assumes that $h_{0}(t)$ is smooth. In contrast, our procedure does not infer $h_{0}(t)$, and does not make assumptions about its smoothness. In both of the smoothing methods, the single variance parameter $\sigma$ that controls the smoothness of $\gamma$, was modelled with an Exponential($\lambda$) prior with $\lambda$ chosen such that $\mathbb{P}\left( \sigma > 2\right) = 0.5$, which is a \emph{penalized complexity} prior of \cite{pcprior}.
 
 As in the first simulation study, we compared the accuracy of our proposed method with INLA, using the metrics of MSE computed using posterior mean and coverage rate computed using the $95\%$ posterior credible interval. The metrics were still aggregated by averaging over 300 independent repetitions.
 
-The comparison metrics are shown in table \ref{table:Sim2Agg}. Based on the table, it can be noticed that again our proposed method yielded more accurate results than INLA, both in terms of smaller MSE and coverage rates closer to the nominal level (i.e. 95 percent). This is not unexpected as the full-likelihood used in INLA's inference implicitly requires that the baseline hazard is smooth enough to be approximated well by its first-order random walk, which will not hold under such setting where the baseline hazard is varying rapidly as time changes. On the other hand, the inference of our proposed method relies on the partial likelihood, which makes no assumption on the smoothness of the baseline hazard, and hence unaffected by the non-smooth true baseline hazard in this study.
+The comparison metrics are shown in table \ref{table:Sim2Agg}. Based on the table, it can be noticed that again our proposed method yielded more accurate results than INLA, both in terms of smaller MSE and coverage rates closer to the nominal level (i.e. 95 percent). In particular, INLA's 95 percent posterior credible interval only yielded coverage rate of 64.3 percent. This is not unexpected as the full-likelihood used in INLA's inference implicitly requires that the baseline hazard is smooth enough to be approximated well by its first-order random walk, which will not hold under such setting where the baseline hazard is varying rapidly as time changes. On the other hand, the inference of our proposed method relies on the partial likelihood, which makes no assumption on the smoothness of the baseline hazard, and hence unaffected by the non-smooth true baseline hazard in this study.
 
 \subsection{Leukaemia Data}\label{subsec:leuk}
 
@@ -395,6 +395,37 @@ The precision matrix $Q(\theta) = \Sigma^{-1}$ is obtained through direct invers
 \caption{Comparision metrics from 300 aggregations, for the first simulation study in section \ref{subsubsec:sim1}.}
 \label{table:Sim1Agg}
 \end{table}
+
+
+\begin{table}
+\begin{center}
+\scalebox{0.99}{
+\begin{tabular}{||c c c||} 
+ \hline
+ Methods & $\gamma(u_i)$ MSE & $\gamma(u_i)$ Coverage Rate \\  
+ \hline\hline
+ Proposed & 0.0134 & 0.977 \\ 
+ \hline
+ INLA & 0.0475  & 0.643 \\
+  \hline \hline
+\end{tabular}
+}
+\end{center}
+\caption{Comparision metrics from 300 aggregations, for the second simulation study in section \ref{subsubsec:sim2}.}
+\label{table:Sim2Agg}
+\end{table}
+
+
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.45\textwidth,height=2.5in]{true_base.png}
+\caption{True Baseline Hazard in the example in \ref{subsubsec:sim2}.}
+\label{fig:truebase}
+\end{figure}
+
+
 
 
 
