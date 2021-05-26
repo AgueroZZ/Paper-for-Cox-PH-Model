@@ -1,4 +1,4 @@
-\begin{thebibliography}{22}
+\begin{thebibliography}{23}
 \newcommand{\enquote}[1]{``#1''}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
@@ -87,6 +87,13 @@ Naylor, J. and Smith, A. F.~M. (1982).
   Posterior Distributions.}
 \newblock {\em Journal of the Royal Statistical Society, Series C (Applied
   Statistics)\/}, 31(3): 214--225.
+\endbibitem
+
+\bibitem[{Ogden(2013)}]{Ogden2013ASR}
+Ogden, H. (2013).
+\newblock \enquote{A sequential reduction method for inference in generalized
+  linear mixed models.}
+\newblock {\em arXiv: Computation\/}.
 \endbibitem
 
 \bibitem[{Rue and Martino(2007)}]{gmrfmodels}

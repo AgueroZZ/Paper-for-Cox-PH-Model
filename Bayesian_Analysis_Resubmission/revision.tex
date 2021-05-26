@@ -285,17 +285,27 @@ as well as its Hessian matrix and its Cholesky. These matrix quantities are stra
 In this section we present two simulation studies and two data analysis examples. All the codes are available in the online supplementary materials.
 
 \subsection{Simulation studies}\label{subsec:sim}
-In this section, we will provide two simulation studies to demonstrate the accuarcy of our proposed method over the existing approximation-based method INLA under certain settings.
+In this section, we will provide two simulation studies to demonstrate the accuracy of our proposed method over the existing approximation-based method INLA under certain settings.
 
-In the first simulation study, we consider the Bayesian inference problem for models with sparse frailties. In other words, survival times are correlated within groups while the number of observations in each group is small. We generated 100 groups, and two observations within each group. The group-level frailties $\{\xi_1,...,\xi_{100}\}$ are simulated independently from $\mathcal{N}(0,\sigma_\xi^2)$, with $\sigma_{\xi} = 0.8$. Besides the independent frailties, we also assume there is a covariate $x$ generated from $\mathcal{N}(0,9)$, with covariate effect $\beta = 0.2$.
+\subsubsection{Simulation with sparse frailties}\label{subsubsec:sim1}
 
-The fixed effect $\beta$ was given a prior $\mathcal{N}(0,1000)$. The variance parameter $\sigma_\xi$ was given an Exponential prior with median of 1. The same priors were used for both our proposed method and INLA. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter was set to be $K = 15$. For the implementation of INLA, we used the default random walk model for the baseline hazard run under its default settings. To compare the accuracies between the two methods, we used the metrics of posterior mean square error (MSE) and coverage rates of the 95 percent posterior credible intervals, for both the fixed effect parameter and the frailties. All the metrics were aggregated through 300 repetitions in order to make sure the comparison is accurate.
+In the first simulation study, we considered the Bayesian inference problem for models with sparse frailties. In other words, survival times were correlated within groups while the number of observations in each group is small. We generated 100 groups, and two observations within each group. The group-level frailties $\{\xi_1,...,\xi_{100}\}$ were simulated independently from $\mathcal{N}(0,\sigma_\xi^2)$, with $\sigma_{\xi} = 0.8$. Besides the independent frailties, we also assumed there is a covariate $x$ generated from $\mathcal{N}(0,9)$, with covariate effect $\beta = 0.2$. Among all the survival times generated in this study, $10\%$ of observations were randomly selected to be right-censored.
 
-Table.....
+The fixed effect $\beta$ was given a prior $\mathcal{N}(0,1000)$. The variance parameter $\sigma_\xi$ was given an Exponential prior with median of 1. The same priors were used for implementations of both our proposed method and of INLA. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter was set to be $K = 15$. For the implementation of INLA, we used the default random walk model for the baseline hazard run under its default settings. To compare the accuracies between the two methods, we used the metrics of posterior mean square error (MSE) and coverage rates of the 95 percent posterior credible intervals, for both the fixed effect parameter and the frailties. All the metrics were aggregated by averaging through 300 repetitions in order to make the comparison accurate. 
 
-In this study, the quantities of interest that need to be inferred include 100 frailties $\{\xi_1,...,\xi_{100}\}$, one fixed effect parameter $\beta$ and one variance parameter $\sigma_\xi$. However, the number of data points availiable is only 200. The problem is even severer when the inference is carried out on the type of full likelihood used by INLA, due to the more parameters it used to approximate the baseline hazard \citep{coxdiscussion}. Hence, we illustrated through this simulation study that for inferences on sparse frailties, our proposed method based on partial likelihood will yield more accurate result than INLA.
+The comparison metrics are shown in table \ref{table:Sim1Agg}. Based on the table, it can be noticed that our proposed method yielded more accurate results than INLA, both in terms of smaller MSE and coverage rates closer to the nominal level (i.e. 95 percent). Both methods didn't achieve very accurate inferential results for the frailties, because both methods involved using Laplace approximation for $\pi(\sigma_\xi|y)$, which is known to be inaccurate when the frailties are sparse \citep{Ogden2013ASR}. However, the result from our proposed method was still significantly better than INLA.
 
+In this study, the quantities of interest that need to be inferred include 100 frailties $\{\xi_1,...,\xi_{100}\}$, one fixed effect parameter $\beta$ and one variance parameter $\sigma_\xi$. However, the number of data points available is only 200. The problem is even severer when the inference is carried out on the type of full likelihood used by INLA, due to the more parameters it used to approximate the baseline hazard \citep{coxdiscussion}. Hence, as we have illustrated through this simulation study that for inferences on sparse frailties, our proposed method based on partial likelihood will yield more accurate result than INLA under such setting.
 
+\subsubsection{Simulation with non-smooth baseline}\label{subsubsec:sim2}
+
+To illustrate the accuracy of our method over INLA when the smoothness assumption for baseline hazard function is violated, we performed our second simulation study. We generated $n = 400$ uncorrelated data points from a distribution with hazard function. The baseline hazard $h_{0}(t)$ shown in Figure \ref{fig:basehaz} and the additive predictor is $\eta_{i} = \gamma\left(u_{i}\right)$ with $\gamma(u) = 1.5 [ \text{sin}(0.8u) + 1 ]$. We generated the covariates $u$ as  $u_{1},\ldots,u_{n}\overset{iid}{\sim}\text{Unif}(-6,6)$, and randomly censored $10\%$ of all the survival times.
+
+To infer the unknown risk function $\gamma$, we used the Bayesian B-spline smoothing method mentioned in section \ref{subsec:smooth} for the implementation of our proposed method. For the smoothing method in INLA, we placed the values of $u$ into $50$ discrete bins, and fitted a second-order random walk model for $\gamma$ \citep{rw2}. As before, we implemented INLA under its default setting, with a first-order random walk model for the baseline hazard. This implicitly assumes that $h_{0}(t)$ is smooth. In contrast, our procedure does not infer $h_{0}(t)$, and does not make assumptions about its smoothness. In both of the smoothing methods, the single variance parameter $\sigma$ that controls the smoothness of $\gamma$, was modelled with an Exponential($\lambda$) prior with $\lambda$ chosen such that $\mathbb{P}\left( \sigma > 2.5\right) = 0.5$, which is a \emph{penalized complexity} prior of \cite{pcprior}.
+
+As in the first simulation study, we compared the accuracy of our proposed method with INLA, using the metrics of MSE computed using posterior mean and coverage rate computed using the $95\%$ posterior credible interval. The metrics were still aggregated by averaging over 300 independent repetitions.
+
+The comparison metrics are shown in table \ref{table:Sim2Agg}. Based on the table, it can be noticed that again our proposed method yielded more accurate results than INLA, both in terms of smaller MSE and coverage rates closer to the nominal level (i.e. 95 percent). This is not unexpected as the full-likelihood used in INLA's inference implicitly requires that the baseline hazard is smooth enough to be approximated well by its first-order random walk, which will not hold under such setting where the baseline hazard is varying rapidly as time changes. On the other hand, the inference of our proposed method relies on the partial likelihood, which makes no assumption on the smoothness of the baseline hazard, and hence unaffected by the non-smooth true baseline hazard in this study.
 
 \subsection{Leukaemia Data}\label{subsec:leuk}
 
@@ -370,10 +380,19 @@ The precision matrix $Q(\theta) = \Sigma^{-1}$ is obtained through direct invers
 
 \begin{table}
 \begin{center}
-\scalebox{0.99}{
-
+\scalebox{0.95}{
+\begin{tabular}{||c c c c c||} 
+ \hline
+ Methods & $\beta$ MSE & $\beta$ Coverage Rate & $\xi$ MSE & $\xi$ Coverage Rate \\  
+ \hline\hline
+ Proposed & 0.0012 & 0.95 & 0.37 & 0.92 \\ 
+ \hline
+ INLA & 0.0017 & 0.90 & 0.41 & 0.86 \\
+  \hline \hline
+\end{tabular}
+}
 \end{center}
-\caption{Comparision metrics from 300 aggregations, for the first simulation study in section \ref{subsec:sim}.}
+\caption{Comparision metrics from 300 aggregations, for the first simulation study in section \ref{subsubsec:sim1}.}
 \label{table:Sim1Agg}
 \end{table}
 
