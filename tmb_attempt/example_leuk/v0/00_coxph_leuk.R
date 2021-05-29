@@ -83,6 +83,7 @@ tmbparams <- list(
 compile("00_coxph_leuk.cpp")
 dyn.load(dynlib("00_coxph_leuk"))
 
+start_time <- Sys.time()
 ff <- TMB::MakeADFun(
   data = tmbdat,
   parameters = tmbparams,
@@ -101,7 +102,10 @@ logpostsigma <- compute_pdf_and_cdf(quad$marginals[[1]],list(totheta = function(
 with(logpostsigma,plot(transparam,pdf_transparam,type='l'))
 
 # Inference for W
-samps <- sample_marginal(quad,3000,interpolation = "spline")
+samps <- sample_marginal(quad,40000,interpolation = "spline")
+end_time <- Sys.time()
+runtime_aghq <- end_time - start_time
+
 
 # Plot of curve
 # Posterior mean
@@ -216,8 +220,8 @@ stanmod <- tmbstan(
   ff,
   chains = 4,
   cores = 4,
-  iter = 40000,
-  warmup = 30000,
+  iter = 20000,
+  warmup = 10000,
   init = quad$optresults$mode,
   seed = 123
 )
@@ -263,4 +267,68 @@ with(etaplotframe2,lines(x,upper,type='l',lty='dashed'))
 
 
 
+##### overall comparison:
+overall <- tibble(tpi = c(etaplotframe$x, plotINLA$x, plotx), y = c(etaplotframe$etamean,plotINLA$f,mgcv_bs_pred$fit), 
+                  type = c(rep("aghq",times = length(etaplotframe$x)), rep("INLA", times = length(plotINLA$x)), rep("mgcv",times = length(plotx)))  )
+
+overall <- rbind(overall,tibble(tpi = etaplotframe2$x, y = etaplotframe2$etamean, type = rep("MCMC",times = length(etaplotframe2$x))))
+
+overall %>% mutate(y = exp(y)) %>% ggplot(aes(tpi,y,color = type)) + geom_line()
+
+lower_frame <- etaplotframe %>% select(x,lower) %>% mutate(type = "lower")
+names(lower_frame) <- c("tpi","y", "type")
+upper_frame <- etaplotframe %>% select(x,upper) %>% mutate(type = "upper")
+names(upper_frame) <- c("tpi","y", "type")
+overall <- rbind(overall,lower_frame,upper_frame)
+
+
+overall %>% filter(type == "INLA" | type == "aghq") %>% mutate(y = exp(y)) %>% ggplot(aes(tpi,y,color = type)) + geom_line() + 
+  theme(text = element_text(size = TEXT_SIZE)) 
+  
+
+
+
+
+
+
+
+
+### KS statistics:
+stansamps <- as.data.frame(stanmod)
+numsamp <- nrow(stansamps)
+quadsamp <- sample_marginal(quad,numsamp,interpolation = 'spline')$thetasamples[[1]]
+normsamp <- rnorm(numsamp,quad$optresults$mode,1/sqrt(quad$optresults$hessian))
+stansamps$sigma <- exp(-stansamps$theta/2)
+ks.test(stansamps$theta,quadsamp)$statistic
+ks.test(stansamps$theta,normsamp)$statistic
+ks.test(stansamps$sigma,exp(-quadsamp/2))$statistic
+ks.test(stansamps$sigma,exp(-normsamp/2))$statistic
+
+# Look at the KS
+# The distributions look pretty close:
+hist(stansamps$theta,breaks = 50,freq=FALSE)
+with(logpostsigma,lines(theta,pdf))
+hist(stansamps$sigma,breaks = 50,freq=FALSE, xlim = c(0,2), ylim = c(0,5))
+with(logpostsigma,lines(transparam,pdf_transparam))
+
+ggplot(stansamps, aes(x = sigma)) + 
+  geom_histogram(fill = "skyblue", color = "skyblue", stat = "density") + 
+  geom_line(data = logpostsigma, aes(x = transparam, y = pdf_transparam)) + xlim(0,1.5) +
+  theme(text = element_text(size = TEXT_SIZE))
+
+# Compute the KS manually. Plot the ECDFs:
+tt <- seq(-3,6,length.out=1e04)
+quadecdf <- ecdf(quadsamp)(tt)
+stanecdf <- ecdf(stansamps$theta)(tt)
+plot(tt,quadecdf,type='l')
+lines(tt,stanecdf,lty='dashed')
+plotdata <- tibble(x = rep(tt,2), cdf = c(quadecdf,stanecdf), methods = rep(c("Proposed","MCMC"), each = length(tt)))
+plotdata %>% ggplot(aes(x,cdf,color = methods)) + geom_line() + 
+  theme(text = element_text(size = TEXT_SIZE))
+
+# KS is the max absolute difference:
+theKS <- max(abs(stanecdf - quadecdf))
+whereistheKS <- which.max(abs(stanecdf - quadecdf))
+abline(v = tt[whereistheKS])
+plot(tt,abs(stanecdf - quadecdf),type='l')
 
