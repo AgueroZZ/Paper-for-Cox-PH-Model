@@ -326,9 +326,9 @@ To demonstrate the accuracy of our proposed approximation and the computational 
 
 We first analyzed this dataset on full-likelihood using INLA, with $\mathcal{N}(0, 0.001^{-1})$ priors on the linear covariate effects for age, sex and pre-existing disease types. Subject-specific intercepts $\xi_{i}\overset{iid}{\sim}\mathcal{N}(0,\sigma^{2}_{\xi})$ were included to account for correlation between kidneys from the same subject. We used an $\text{Exponential}$ prior distribution for $\sigma_{\xi}$ with median 2. As a comparison, we also used our procedure to fit a Cox PH model to these grouped data on partial likelihood, with the same set of priors as above. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter to is set to be 18. For both implementations of the proposed method and the penalized partial likelihood method, ties are handled using the method of \cite{Breslow}.
 
-Table \ref{table:KidneyFixed} shows the results of our procedure compared to that obtained using the full likelihood method of \cite{inlacoxph}. Based on the table, our procedure gave different posterior means and report larger posterior standard deviations compared to INLA, especially for the effects of different disease types. This is also reflected in \ref{fig:kidneyHyper}, where our posterior distribution for $\sigma_{\xi}$ is wider than that of INLA. As we have shown in \ref{subsubsec:sim1}, when sparse frailties exist, Bayesian inference on partial likelihood tends to be more stable than on full-likelihood.
+Table \ref{table:KidneyFixed1} shows the results of our procedure compared to that obtained using the full likelihood method of \cite{inlacoxph}. Based on the table, our procedure gave different posterior means and report larger posterior standard deviations compared to INLA, especially for the effects of different disease types. This is also reflected in \ref{fig:kidneyHyper}, where our posterior distribution for $\sigma_{\xi}$ is wider than that of INLA. As we have shown in \ref{subsubsec:sim1}, when sparse frailties exist, Bayesian inference on partial likelihood tends to be more stable than on full-likelihood.
 
-Again, to assess the accuracy of our approximation to the posterior distribution, we implemented the same partial likelihood model using MCMC method. Table \ref{table:KidneyFixedMCMC} shows the comparison between the results from proposed approach with the results from MCMC. Figure \ref{fig:kidneyHyperMCMC} compares the MCMC samples from posterior of $\sigma_{\xi}$ with the approximate posterior obtained using our approach. The posterior cumulative distributions for $\sigma_{\xi}$ are compared in \ref{fig:kidney}, with maximal absolute difference being 0.09. The runtimes are respectively 0.53 seconds for our approach and 1.98 minutes for MCMC.
+Again, to assess the accuracy of our approximation to the posterior distribution, we implemented the same partial likelihood model using MCMC method. Table \ref{table:KidneyFixed2} shows the comparison between the results from proposed approach with the results from MCMC. Figure \ref{fig:kidneyHyperMCMC} compares the MCMC samples from posterior of $\sigma_{\xi}$ with the approximate posterior obtained using our approach. The posterior cumulative distributions for $\sigma_{\xi}$ are compared in \ref{fig:kidney}, with maximal absolute difference being 0.09. The runtimes are respectively 0.53 seconds for our approach and 1.98 minutes for MCMC.
 
 \section{Discussion}\label{sec:discussion}
 
@@ -445,13 +445,15 @@ The precision matrix $Q(\theta) = \Sigma^{-1}$ is obtained through direct invers
 \end{figure}
 
 
+
 \begin{table}
 \begin{center}
 \scalebox{0.99}{
 \begin{tabular}
 {|p{3cm}|
 p{1cm}|p{1cm}p{1cm}|p{1cm}p{1cm}|}
-\cline{1-7}
+\hline
+\cline{1-6}
       \multicolumn{1}{l}{} &
       \multicolumn{1}{l}{} &
       \multicolumn{2}{c}{Proposed} &
@@ -468,8 +470,10 @@ p{1cm}|p{1cm}p{1cm}|p{1cm}p{1cm}|}
 }
 \end{center}
 \caption{Estimated means and standard deviations of linear effects by proposed method and INLA's full likelihood method for the kidney data in section \ref{subsec:kidney}. }
-\label{table:KidneyFixed}
+\label{table:KidneyFixed1}
 \end{table}
+
+
 
 
 
@@ -479,7 +483,8 @@ p{1cm}|p{1cm}p{1cm}|p{1cm}p{1cm}|}
 \begin{tabular}
 {|p{3cm}|
 p{1cm}|p{1cm}p{1cm}|p{1cm}p{1cm}|}
-\cline{1-7}
+\hline
+\cline{1-6}
       \multicolumn{1}{l}{} &
       \multicolumn{1}{l}{} &
       \multicolumn{2}{c}{Proposed} &
@@ -496,7 +501,7 @@ p{1cm}|p{1cm}p{1cm}|p{1cm}p{1cm}|}
 }
 \end{center}
 \caption{Estimated means and standard deviations of linear effects by proposed method and MCMC method for the kidney data in section \ref{subsec:kidney}. }
-\label{table:KidneyFixed}
+\label{table:KidneyFixed2}
 \end{table}
 
 
