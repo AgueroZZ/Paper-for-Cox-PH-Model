@@ -104,11 +104,23 @@ Inlaresult$summary.fixed
 Inlaresult$summary.random$id
 
 ### hyper-parameter:
-brinla::bri.hyperpar.plot(Inlaresult, together = F)
+inla_hyper <- brinla::bri.hyperpar.plot(Inlaresult, together = F)
+inla_hyper <- inla_hyper %>% filter(parameter == "SD for id") %>% select(1:2) %>% mutate(method = "INLA")
+aghq_hyper <- logpostsigma %>% select(c("transparam","pdf_transparam")) %>% mutate(method = "Proposed")
+names(aghq_hyper)[1:2] <- c("x","y")
+hyper <- rbind(inla_hyper,aghq_hyper)
+hyper %>% ggplot(aes(x,y,color = method)) + geom_line() + xlim(c(0,3)) + xlab("SD") + ylab("density")
 
 
-
-
+theta_logprior <- function(theta, prior_alpha = tmbdat$alpha, 
+                                      prior_u = tmbdat$u) {
+  lambda <- -log(prior_alpha)/prior_u
+  log(lambda/2) - lambda * exp(-theta/2) - theta/2
+}
+priorfuncsigma <- function(x) (2/x) * exp(theta_logprior(-2 * log(x)))
+prior <- tibble(x = hyper$x, y = priorfuncsigma(hyper$x), method = "Prior")
+hyper <- rbind(prior,hyper)
+hyper %>% ggplot(aes(x,y,color = method)) + geom_line() + xlim(c(0,2)) + xlab("SD") + ylab("density")
 
 
 #### Fit and Compare with STAN:
@@ -153,7 +165,7 @@ hist(stansamps$sigma,breaks = 50,freq=FALSE, xlim = c(0,3), ylim = c(0,1.5))
 with(logpostsigma,lines(transparam,pdf_transparam))
 
 # Compute the KS manually. Plot the ECDFs:
-tt <- seq(-3,3,length.out=1e04)
+tt <- seq(-3,6,length.out=1e04)
 quadecdf <- ecdf(quadsamp)(tt)
 stanecdf <- ecdf(stansamps$theta)(tt)
 plot(tt,quadecdf,type='l')
@@ -164,6 +176,17 @@ theKS <- max(abs(stanecdf - quadecdf))
 whereistheKS <- which.max(abs(stanecdf - quadecdf))
 abline(v = tt[whereistheKS])
 plot(tt,abs(stanecdf - quadecdf),type='l')
+
+
+ggplot(stansamps, aes(x = sigma)) + 
+  geom_histogram(fill = "skyblue", color = "skyblue", stat = "density") + 
+  geom_line(data = logpostsigma, aes(x = transparam, y = pdf_transparam)) + xlim(0,3) +
+  theme(text = element_text(size = TEXT_SIZE))
+
+plotdata <- tibble(x = rep(tt,2), cdf = c(quadecdf,stanecdf), methods = rep(c("Proposed","MCMC"), each = length(tt)))
+plotdata %>% ggplot(aes(x,cdf,color = methods)) + geom_line() + 
+  theme(text = element_text(size = TEXT_SIZE))
+
 
 
 ### pairs plot:
