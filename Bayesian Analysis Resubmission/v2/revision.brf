@@ -42,11 +42,10 @@
 \backcite {inlacoxph}{{11}{4.2}{subsection.4.2}}
 \backcite {inlacoxph}{{11}{4.2}{subsection.4.2}}
 \backcite {inlacoxph}{{11}{4.2}{subsection.4.2}}
-\backcite {freqPL}{{11}{4.3}{subsection.4.3}}
-\backcite {freqPL}{{12}{4.3}{subsection.4.3}}
+\backcite {NUTS}{{11}{4.2}{subsection.4.2}}
 \backcite {freqPL}{{12}{4.3}{subsection.4.3}}
 \backcite {Breslow}{{12}{4.3}{subsection.4.3}}
-\backcite {freqPL}{{12}{4.3}{subsection.4.3}}
+\backcite {inlacoxph}{{12}{4.3}{subsection.4.3}}
 \backcite {inla}{{13}{5}{section.5}}
 \backcite {casecross}{{13}{5}{section.5}}
 \backcite {inla}{{13}{5}{section*.4}}
