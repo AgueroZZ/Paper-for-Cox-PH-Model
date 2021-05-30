@@ -48,8 +48,8 @@ tmbparams <- list(
 
 
 # TMB function template
-# compile("00_coxph_kidney.cpp")
-# dyn.load(dynlib("00_coxph_kidney"))
+compile("00_coxph_kidney.cpp")
+dyn.load(dynlib("00_coxph_kidney"))
 
 
 

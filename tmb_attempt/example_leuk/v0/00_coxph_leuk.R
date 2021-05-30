@@ -269,21 +269,24 @@ with(etaplotframe2,lines(x,upper,type='l',lty='dashed'))
 
 ##### overall comparison:
 overall <- tibble(tpi = c(etaplotframe$x, plotINLA$x, plotx), y = c(etaplotframe$etamean,plotINLA$f,mgcv_bs_pred$fit), 
-                  type = c(rep("aghq",times = length(etaplotframe$x)), rep("INLA", times = length(plotINLA$x)), rep("mgcv",times = length(plotx)))  )
-
+                  type = c(rep("aghq",times = length(etaplotframe$x)), rep("INLA", times = length(plotINLA$x)), rep("mgcv",times = length(plotx))))
 overall <- rbind(overall,tibble(tpi = etaplotframe2$x, y = etaplotframe2$etamean, type = rep("MCMC",times = length(etaplotframe2$x))))
-
 overall %>% mutate(y = exp(y)) %>% ggplot(aes(tpi,y,color = type)) + geom_line()
-
 lower_frame <- etaplotframe %>% select(x,lower) %>% mutate(type = "lower")
 names(lower_frame) <- c("tpi","y", "type")
 upper_frame <- etaplotframe %>% select(x,upper) %>% mutate(type = "upper")
 names(upper_frame) <- c("tpi","y", "type")
 overall <- rbind(overall,lower_frame,upper_frame)
 
-
 overall %>% filter(type == "INLA" | type == "aghq") %>% mutate(y = exp(y)) %>% ggplot(aes(tpi,y,color = type)) + geom_line() + 
-  theme(text = element_text(size = TEXT_SIZE)) 
+  theme(text = element_text(size = TEXT_SIZE)) + geom_ribbon(data = etaplotframe, aes(x = x, ymin = lower, ymax = upper))
+
+etaplotframe %>% ggplot(aes(x = x)) + geom_ribbon(aes(ymin = lower, ymax = upper), fill = "orange", alpha = 0.4) + 
+  geom_line(aes(x = x, y = etamean, color = "Proposed")) + geom_line(data = plotINLA, aes(x = x, y = f, color = "INLA")) +
+  theme(text = element_text(size = TEXT_SIZE)) + ylab("tpi effect") + xlab("tpi") + scale_fill_manual(values = c("red","blue"))
+  
+  
+
   
 
 
