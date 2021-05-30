@@ -69,6 +69,7 @@ ff <- TMB::MakeADFun(
 ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
 
 # AGHQ
+start_time <- Sys.time()
 quad <- aghq::marginal_laplace_tmb(ff,18,0)
 
 # Plot of theta posterior
@@ -80,7 +81,8 @@ with(logpostsigma,plot(transparam,pdf_transparam,type='l'))
 K <- ncol(B)
 samps <- sample_marginal(quad,1000,interpolation = 'spline')
 beta_est <- samps$samps[(K+1):nrow(samps$samps),]
-
+end_time <- Sys.time()
+runtime_aghq <- end_time - start_time
 ### summary of estimates:
 post_means <- apply(samps$samps, 1, mean)
 post_sds <- apply(samps$samps, 1, sd)
@@ -176,11 +178,9 @@ fixed_effect <- tibble(AGHQ_mean = t(post_sum_aghq)[c(39:43),c(1)],
                        INLA_mean = Inlaresult$summary.fixed[-1,1], 
                        INLA_sd = Inlaresult$summary.fixed[-1,2])
 
+fixed_effect_AGHQ_INLA <- fixed_effect[,c(1:2,5:6)]
 
-
-
-
-
+fixed_effect_AGHQ_MCMC <- fixed_effect[,c(1:4)]
 
 
 
