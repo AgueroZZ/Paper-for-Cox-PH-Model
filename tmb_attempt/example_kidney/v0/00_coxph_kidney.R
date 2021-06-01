@@ -1,4 +1,4 @@
-### Coxph regression for the kidney example ###
+### CoxPH regression for the kidney example ###
 library(tidyverse)
 library(aghq)
 library(mgcv)
