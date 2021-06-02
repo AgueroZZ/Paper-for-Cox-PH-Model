@@ -116,7 +116,7 @@ Recently, \cite{ELGM} proposed a fast and scalable methodology for posterior app
 
 In this paper, we utilized the posterior approximation methodology of \cite{ELGM} on Cox PH models with partial likelihood, that allows the inclusion fixed covariate effects, semi-parametric smoothing effect and frailties for correlations between survival times. Through two simulation studies, we illustrated that under certain circumstances, this proposed method based on partial likelihood would yield more reliable result than existing method based on full likelihood. To demonstrate the accuracy of the posterior approximation and the computational advantages over existing partial likelihood method based on MCMC, we applied the proposed ELGM type method to re-analyze two datasets of survival times.
 
-The remainder of this paper is organized as follows. In \S\ref{sec:model} we describe the semi-parametric Cox PH model and the existing approach to approximate Bayesian inference. In \S\ref{sec:method}, we describe how to implement approximate Bayesian inference on Cox PH model with partial likelihood using the ELGM type approximation method of \cite{ELGM} and why its inferential results should be preferred in certain settings. In \S\ref{sec:example} we illustrate advantages of the proposed methodology in two simulation studies and through the analysis of Leukemia survival data analyzed by \cite{inlacoxph} and the Kidney catheter data analyzed by \cite{kidney}. We conclude in \S\ref{sec:discussion} with a discussion.
+The remainder of this paper is organized as follows. In \S\ref{sec:model} we describe the semi-parametric Cox PH model with different types of semi-parametric smoothing that will be used in this paper. In \S\ref{sec:method}, we describe existing methods for approximate Bayesian inference on Cox PH model, and why inference method based on ELGM type posterior approximation of \cite{ELGM} should be preferred. In \S\ref{sec:example} we illustrate advantages of the proposed methodology in two simulation studies and through the analysis of Leukemia survival data analyzed by \cite{inlacoxph} and the Kidney catheter data analyzed by \cite{kidney}. We conclude in \S\ref{sec:discussion} with a discussion.
 
 \section{Model}\label{sec:model}
 
@@ -135,9 +135,15 @@ Let $\eta = \left\{ \eta_{ij}: i = 1,\ldots,n; j = 1,\ldots,n_{i}\right\}$ be th
 \subsection{Modelling Semi-parametric covariate effect}\label{subsec:smooth}
 The semi-parametric covariate effects $\{\gamma_q\}_{q=1}^{r}$ are modeled as $r$ independent zero-mean Gaussian processes, each defined by its covariance functions $C_{\sigma_{q}}$ which in turn parametrized by $\sigma_q > 0$. A typical choice of covariance function is the covariance function of 2-fold Integrated Wiener process\citep{wiener}, which has a connection to cubic smoothing splines\citep{wahbaprior}.
 
-To infer the infinite-dimensional parameters $\{\gamma_q\}_{q=1}^{r}$, \cite{rw2} proposed the use of second order random walk model (RW2) to approximate the Integrated Wiener process prior, which includes discretizing the covariate $u_q$ into $m_q$ pre-specified bins and approximate each $\gamma_q$ by a piecewise constant function at each bin. The $m_q$ dimensional vector of function values are defined as $\Gamma_q = (\Gamma_{q1}, ..., \Gamma_{qm_q})$, with prior distribution being $\Gamma_q|\sigma_q \sim \mathcal{N}(0,\Sigma_q^{-1}(\sigma_q))$ for each $q = 1,...,m_q$. Each precision $\Sigma_q^{-1}(\sigma_q)$ is sparse and available in closed form. Define $\Gamma = \{\Gamma_q\}_{q=1}^{r}$, then $\Gamma|\sigma_1,...,\sigma_q \sim \mathcal{N}(0,\Sigma_\Gamma^{-1}$, with $\Sigma_\Gamma^{-1} = \text{diag}[\Sigma_1^{-1}(\sigma_1), ..., \Sigma_q^{-1}(\sigma_q)]$. Finally, define the variance parameter vector $\theta = (\theta_{0},\ldots,\theta_{r})$ where $\theta_{q} = -2\log\sigma_{q},q = 1,\ldots,r$, and $\theta_{0} = -2\log\sigma_{\xi}$. The variance parameters are given prior distribution $\theta \sim \pi(\theta)$. 
+To infer the infinite-dimensional parameters $\{\gamma_q\}_{q=1}^{r}$, \cite{rw2} proposed the use of second order random walk model (RW2) to approximate the Integrated Wiener process prior, which includes discretizing the covariate $u_q$ into $m_q$ pre-specified bins and approximate each $\gamma_q$ by a piecewise constant function at each bin. The $m_q$ dimensional vector of function values are defined as $\Gamma_q = (\Gamma_{q1}, ..., \Gamma_{qm_q})$, with prior distribution being $\Gamma_q|\sigma_q \sim \mathcal{N}(0,\Sigma_q^{-1}(\sigma_q))$ for each $q = 1,...,m_q$. Each precision $\Sigma_q^{-1}(\sigma_q)$ is sparse and available in closed form. Define $\Gamma = \{\Gamma_q\}_{q=1}^{r}$, then $\Gamma|\sigma_1,...,\sigma_q \sim \mathcal{N}(0,\Sigma_\Gamma^{-1}$, with $\Sigma_\Gamma^{-1} = \text{diag}[\Sigma_1^{-1}(\sigma_1), ..., \Sigma_q^{-1}(\sigma_q)]$.
 
-However, this second order random walk approximation proposed by \cite{rw2} is not compatible with the novel posterior approximation method proposed by \cite{ELGM}, because the posterior approximation method requires all priors to be proper priors, while the precision matrix $\Sigma_q^{-1}(\sigma_q)$ used in RW2 model has singular rank and hence result in priors being improper. Therefore, we consider an alternative method to approximate 2-folded Integrated Wiener process, through the use of Bayesian penalized cubic B-splines regressions.
+However, this second order random walk approximation proposed by \cite{rw2} is not compatible with the novel posterior approximation method proposed by \cite{ELGM}, because the posterior approximation method requires all priors to be proper, while the precision matrix $\Sigma_q^{-1}(\sigma_q)$ used in RW2 model has singular rank and is an improper prior. Therefore, we consider an alternative method to approximate 2-folded Integrated Wiener process, through the use of Bayesian penalized cubic B-splines regressions.
+
+We approximate the unknown function $\gamma_q(.) \approx \sum_{i=1}^{m_q} \Gamma_{qi} b_{qi}(.)$, where $\{b_{qi}(.)\}_{i=1}^{m_q}$ is a set of cubic B-spline basis functions, placed at $m_q$ knots with equal spacing by default. The set of regression weights $\Gamma_q := (\Gamma_{q1},...,\Gamma_{qm_q})$ is assigned a prior such that $\Gamma_q \sim \mathcal{N}(0,P_q(\sigma_q))$, where the precision matrix $P_q(\sigma_q)$ penalizes the variations in $\gamma_q$, and is controlled by the variance parameter $\sigma_q$. Finally, define the variance parameter vector $\theta = (\theta_{0},\ldots,\theta_{r})$ where $\theta_{q} = -2\log\sigma_{q}$, $q = 1,\ldots,r$, and $\theta_{0} = -2\log\sigma_{\xi}$. The variance parameters are given prior distribution $\theta \sim \pi(\theta)$. 
+
+
+
+\section{Methods}\label{sec:method}
 
 
 \subsection{Approximate Bayesian Inference}
@@ -165,13 +171,13 @@ which still does not include (\ref{eqn:partial}). \cite{inlacoxph} are able to w
 
 Further define $\Delta_{lk,ij} = \eta_{lk} - \eta_{ij}$ in terms of the additive predictors (\ref{eqn:eta}). Note that $\Delta_{lk,ij} = \Delta_{11,ij} - \Delta_{11,lk}$ for every $(i,j,l,k)$. To simplify notation, define $\Delta_{ij} = \Delta_{11,ij}$, and note that $\Delta_{11} = 0$. The entire partial likelihood (\ref{eqn:partial}) depends on $\eta$ only through  $\Delta = \left\{\Delta_{ij}: i = 1,\ldots,n; j = 1,\ldots,n_{i} \right\}$. For the remainder of the paper we reflect this in our notation, writing $\pi(y|\Delta) \equiv \pi(y|\eta)$ and defining the log-likelihood $\ell(\Delta; y) = \log\pi(y|\Delta)$.
 
-Define $W = \left(\Delta, \Gamma,\beta, \xi \right)$ which we refer to as the \textit{latent parameters} and let $\text{dim}(W) = m$. The RW2 prior for $\gamma$ is improper, and the precision matrix $\Sigma_{\Gamma}$ is singular. Approximate Bayesian inference of the type we consider requires the precision matrix of $W$ to be non-singular \citep{inla,inlacoxph,casecross}. We follow these sources and introduce a small noise term $\epsilon_{ij} \stackrel{iid}{\sim} \text{N}(0,\tau^{-1})$ (for some large, fixed $\tau$) into the model to make the required matrices non-singular. However, in contrast to \citet{casecross}, we redefine:
-\begin{equation}
-\Delta_{ij} = \eta_{11} - \eta_{ij} + \epsilon_{ij},
-\end{equation}
-adding the noise onto the \emph{differenced} additive predictor. It will be shown in \S\ref{sec:method} that this improves computation by improving the sparsity of large matrices involved in the required calculations. The addition of these $\epsilon_{ij}$ gives the joint distribution of $\left(\Delta, \Gamma,\beta, \xi \right)$ a non-singular precision matrix, and enables the use of improper prior in the model specification. We set $\tau = \exp(7)$ which is well within the broad range of $\exp(2),\ldots,\exp(14)$ which \cite{casecross} found to yield very similar inferences and running times. 
+In typical Laplace approximation for posterior distributions, the \textit{latent parameters} $W$ will be defined as $W = \left(\Delta, \Gamma,\beta, \xi \right)$, where the (differenced) linear predictors $\Delta$ are included as part of the latent parameter vector. Approximate Bayesian inference of this type requires the precision matrix of $W$ to be non-singular \citep{inla,inlacoxph,casecross}, and hence a small noise term $\epsilon_{ij} \stackrel{iid}{\sim} \text{N}(0,\tau^{-1})$ (for some large, fixed $\tau$) is added into the model to make the required matrices non-singular. Redefine the differenced linear predictors as $\Delta_{ij} = \eta_{11} - \eta_{ij} + \epsilon_{ij}$, then the resulting precision matrix of $W$ will be non-singular even if improper prior such as the RW2 prior is used.
 
-Our model specifies $W|\theta\sim\text{N}\left[ 0,Q^{-1}_{\theta}\right]$. An expression for $Q_{\theta}$ is given in \S\ref{sec:method} and a derivation is given in Appendix A. Our main inferential interest is to obtain the marginal posterior distributions of the latent parameters:
+Such methods have the advantage that, when the likelihood can be factored out in the form of \ref{eqn:whyINLAfail2}, the resulting log likelihood Hessian matrix will be diagonal and hence efficient to be computed and stored \citep{inla}. Alternatively, if the likelihood is in the form of \ref{eqn:casecrosslik}, the Hessian matrix will be sparse even though it is no longer diagonal \citep{casecross}. However, if one consider doing such approximate Bayesian inference on Cox PH model with partial likelihood, the resulting Hessian matrix will be completely dense and with number of elements growing quadratically with sample size $N$. Therefore, the methods of \cite{inla,inlacoxph,casecross} are not feasible for the inference on Cox PH model with partial likelihood. 
+
+The recent posterior approximation method of \cite{ELGM} on the other hand, considers the latent parameter vector $W$ to only contain the parameters of interest, i.e, $W = \left(\Gamma,\beta, \xi \right)$. In this way, the dimension of latent parameter vector will stay the same as sample size changes, and hence the dimension of the dense Hessian matrix will be small regardless of the sample size. This enables the approximate Bayesian inference to be carried out on partial likelihood, but requires all the elements in $W$ to have proper priors. The detailed approximate Bayesian inference method will be described at below.
+
+Define $W|\theta\sim\text{N}\left[ 0,Q^{-1}_{\theta}\right]$, where $Q_{\theta}$ is the covariance matrix for $W$. Our main inferential interest is to obtain the marginal posterior distributions of the latent parameters:
 \begin{equation}\begin{aligned}\label{eqn:interestedQuat3}
 \pi(W_{s}|y) = \int \pi(W_{s}|y,\theta) \pi(\theta|y) d\theta, s = 1,\ldots,m  \\
 \end{aligned}\end{equation}
@@ -223,57 +229,14 @@ With these approximations available, inference for $W$ makes use of the approxim
 Computing the approximations (\ref{eqn:integration}) requires choosing a quadrature rule consisting of nodes $\left\{\theta^{k}\right\}_{k=1}^{K}$ and weights $\left\{\delta_{k}\right\}_{k=1}^{K}$ for some chosen $K\in\mathbb{N}$. \cite{casecross} lay a user-chosen grid over a range of $\theta$ that is thought to be plausible, and then compute the Gaussian (\ref{eqn:gaussianapprox}) and Laplace (\ref{eqn:laplace}) approximations at each point on this grid. This requires the user to choose the location and spread of the grid points, as well as a number $K$
 of points that is large enough such that the structure of the resulting posterior approximations is captured. The function $\pi(W|Y,\theta)$ must be optimized, and the Hessian matrix stored, for each of these $K$ points. In addition to this strategy requiring the user to have specialist knowledge to implement, it is potentially computationally wasteful. In our case, this problem is made more severe by the presence of a dense Hessian. \cite{inlacoxph} use the INLA software which uses a custom adaptive quadrature rule which avoids the need for the user to choose points, however may still result in a large number of points being used.
 
-We now describe how we mitigate the computational challenges in fitting the approximations (\ref{eqn:integration}) to the Cox PH model with partial likelihood.
-
-\section{Methods}\label{sec:method}
-
-\subsection{Sparse Precision Matrix and Dense Hessian}
-
-For fixed design matrices $A$, $B$ and $X$, it is convenient to write $\eta$ and $\Delta$ as:
-\begin{equation}\begin{aligned}
-\eta &= A\Gamma + B\xi + X\beta \\
-\Delta &= D\eta + \epsilon
-\end{aligned}\end{equation}
-where $\epsilon \sim \text{N}\left( 0,\tau^{-1}I_{N}\right)$ and $D$ is an $(N -1) \times N $-dimensional matrix of rank $N -1$. The partial likelihood (\ref{eqn:partial}) depends on $\eta$ only through $\Delta$, which explains why a global intercept $\beta_{0}$ is not estimable when using partial likelihood. 
-
-The precision matrix is given by
-\begin{equation}\label{eqn:precmat}
-Q_{\theta} = \tau\begin{pmatrix}
-I & -DA & -DB & - DX \\
-- A^{T}D^{T} & \frac{1}{\tau}\Sigma_{\Gamma}^{-1} +  A^{T}D^{T}DA &  A^{T}D^{T}DB &  A^{T}D^{T}DX \\
-- B^{T}D^{T} &  B^{T}D^{T}DA & \frac{1}{\tau}\Sigma_{\xi}^{-1} +  B^{T}D^{T}DB & B^{T}D^{T}DX \\
-- X^{T}D^{T} &  X^{T}D^{T}DA & X^{T}D^{T}DB & \frac{1}{\tau}\Sigma_{\beta}^{-1} +  X^{T}D^{T}DX \\
-\end{pmatrix}
-\end{equation}
-Expressions for $D$ and the derivation of this precision matrix are given in Appendix A. Contrasting (\ref{eqn:precmat}) with the precision matrix given by \citet{casecross}, we observe that ours is more sparse, owing to the addition of the noise term to $\Delta$ where they instead add it to $\eta$.
-
-The Hessian matrix $H_{\theta}(W)$ has the form $H_{\theta}(W) = Q_{\theta} + C(W)$ where
-\begin{equation*}
-C(W) = -\frac{\partial^{2}}{\partial W\partial W^{T}}\ell(\Delta) = -\begin{pmatrix}
-\frac{\partial^{2}\ell(\Delta;y)}{\partial\Delta\partial\Delta^{T}} & 0 & 0 \\
-0 & 0 & 0 \\
-0 & 0 & 0 \\
-\end{pmatrix}
-\end{equation*}
-where the upper left block $\frac{\partial^{2}\ell(\Delta;y)}{\partial\Delta\partial\Delta^{T}}$ is a dense matrix.
-
-Because the partial likelihood in the Cox PH model takes the form (\ref{eqn:whyINLAfail1}), $C(W)$ has a dense structure. In contrast, \cite{inla} assume that the likelihood takes the form (\ref{eqn:whyINLAfail2}) which enforces the constraint that $C(W)$ is diagonal and hence their method cannot fit the Cox PH model with partial likelihood. \cite{casecross} relax this assumption to allow $C(W)$ to have a block-diagonal structure, introducing increased computational burden when fitting the approximations. This burden becomes too limiting when $C(W)$ is dense, and an alternate method of fitting the approximations is required.
-
-\subsection{Optimization method}\label{subsec:opt}
-
-The objective function (\ref{eqn:modeandhessian}) is convex and high-dimensional, and hence \emph{trust region methods} \citep{trustoptim} are well-suited to the task of optimizing it. However, evaluating the Hessian at each iteration is computationally expensive. To compute the conditional mode $\hat{W}(\theta)$ when the Hessian is large, we use Symmetric Rank-1 (SR1) quasi-Newton updates within trust region optimization. The SR1 updates replace this matrix with a low-rank approximation at each iteration and hence do not require evaluation or storage of it during optimization. While this can increase the number of iterations, the computation loads brought by the dense Hessian matrix are greatly reduced and we are able to perform the optimization (\ref{eqn:modeandhessian}) when $H_{\theta}(W)$ is dense. Note that in cases where the Hessian is small and storing it in memory is convenient, we use ordinary dense-matrix trust region optimization \citep{trust} which may improve the speed of the procedure.
-
-The quantities $\widehat{W}_{\theta}$ and $H_{\theta}(\widehat{W}_{\theta})$ are used to compute the approximations (\ref{eqn:integration}) and the associated marginal moments and quantiles, and hence the dense $H_{\theta}(\widehat{W}_{\theta})$ does need to be stored in memory. However, the total number of Hessian matrices that needs to be evaluated and stored equals to the number of quadrature points being used for the approximations (\ref{eqn:integration}). Our use of adaptive quadrature gives accurate results using fewer points than the strategies employed by \cite{casecross} and \cite{inlacoxph}. We elaborate on this now.
-
-\subsection{Adaptive Quadrature}
-
-To mitigate the computational challenges associated with applying a manual quadrature rule for (\ref{eqn:integration}), we implement Adaptive Gauss-Hermite Quadrature (AGHQ). This technique has been motivated as a useful tool for Bayesian inference \citep{nayloradaptive} and work has been done to show that it is very accurate when using only a very small number of quadrature points \citep{adaptive_GH_1994,adaptive_GH_2020}, for example attaining $O(n^{-1})$ asymptotic accuracy with $K = 3$ and $O(n^{-2})$ with $K = 5$. The use of only $K = 3$ or $K = 5$ quadrature points means only this many dense Hessians need to be stored in memory, a marked improvement over \cite{casecross} that is necessary to extend their method to work with the partial likelihood of the Cox PH model.
+To mitigate the computational challenges associated with applying a manual quadrature rule for (\ref{eqn:integration}), we implement Adaptive Gauss-Hermite Quadrature (AGHQ). This technique has been motivated as a useful tool for Bayesian inference \citep{nayloradaptive} and work has been done to show that it is very accurate when using only a very small number of quadrature points \citep{adaptive_GH_1994,adaptive_GH_2020}, for example attaining $O(N^{-1})$ asymptotic accuracy with $K = 3$ and $O(N^{-2})$ with $K = 5$. The use of a small number of quadrature points means only this number of dense Hessians need to be stored in memory, a marked improvement over \cite{casecross} that is necessary to extend their method to work with the partial likelihood of the Cox PH model.
 
 Computing the AGHQ rule requires computation of the mode of the Laplace approximation:
 \begin{equation}\begin{aligned}
 \widehat{\theta} &= \text{argmax}\log\widetilde{\pi}_{LA}(\theta|y),
 \end{aligned}\end{equation}
-as well as its Hessian matrix and its Cholesky. These matrix quantities are straightforward to obtain as $\theta$ is low-dimensional. For the optimization, we follow \citet{inla} and use numerical derivatives and a BFGS algorithm which limits the number of derivatives which must be computed. Computations make use of the \texttt{aghq} package \citep{stringeraghqpackage}. While this optimization requires repeated optimizations of $\pi(W|\theta,y)$, these are each fast owing to our use of SR1 and/or dense trust region optimization (\S\ref{subsec:opt}). The Hessian does not need to be stored in memory during the AGHQ optimization.
+as well as its Hessian matrix and its Cholesky. These matrix quantities are straightforward to obtain as $\theta$ is low-dimensional. For the optimization, we follow \citet{inla} and use numerical derivatives and a BFGS algorithm which limits the number of derivatives which must be computed. Computations make use of the \texttt{aghq} package \citep{stringeraghqpackage}, and the required first two derivatives of $\log\pi(W|\theta,y)$ are computed using the automatic differentiation method of the TMB package \citep{tmb}.
+
 
 \section{Examples}\label{sec:example}
 

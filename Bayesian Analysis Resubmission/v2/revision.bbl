@@ -1,4 +1,4 @@
-\begin{thebibliography}{27}
+\begin{thebibliography}{28}
 \newcommand{\enquote}[1]{``#1''}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
@@ -52,6 +52,14 @@ Jin, S. and Andersson, B. (2020).
 \newblock \enquote{{A note on the accuracy of adaptive Gauss–Hermite
   quadrature}.}
 \newblock {\em Biometrika\/}.
+\endbibitem
+
+\bibitem[{Kristensen et~al.(2016)Kristensen, Nielsen, Berg, Skaug, and
+  Bell}]{tmb}
+Kristensen, K., Nielsen, A., Berg, C.~W., Skaug, H., and Bell, B.~M. (2016).
+\newblock \enquote{{TMB}: Automatic Differentiation and {L}aplace
+  Approximation.}
+\newblock {\em Journal of Statistical Software\/}, 70(5): 1--21.
 \endbibitem
 
 \bibitem[{Lindgren and Rue(2008)}]{rw2}

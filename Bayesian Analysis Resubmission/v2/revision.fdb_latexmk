@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex revision"] 1622521691 "revision.aux" "revision.bbl" "revision" 1622521692
+["bibtex revision"] 1622581435 "revision.aux" "revision.bbl" "revision" 1622581436
   "./ba.bst" 1622130377 30137 37e47e7af783246ab15ee950a8649b05 ""
-  "myrefs.bib" 1622495910 12174 ef98596cfaacaca3d88667da7150413c ""
-  "revision.aux" 1622521692 15903 c8dc366eed075920eda46fbd95a4ea71 ""
+  "myrefs.bib" 1622581421 12521 118f32c9787e2d76f427d62237892dad ""
+  "revision.aux" 1622581436 15401 dd2873b1564d91fafee7caec30e2e569 ""
   (generated)
-  "revision.blg"
   "revision.bbl"
-["pdflatex"] 1622521691 "revision.tex" "revision.pdf" "revision" 1622521692
+  "revision.blg"
+["pdflatex"] 1622581435 "revision.tex" "revision.pdf" "revision" 1622581436
   "/usr/local/texlive/2018/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1480098698 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2018/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1480098698 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -42,6 +42,7 @@
   "/usr/local/texlive/2018/texmf-dist/fonts/tfm/public/rsfs/rsfs10.tfm" 1480098717 688 37338d6ab346c2f1466b29e195316aa4 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/tfm/public/rsfs/rsfs5.tfm" 1480098717 684 3a51bd4fd9600428d5264cf25f04bb9a ""
   "/usr/local/texlive/2018/texmf-dist/fonts/tfm/public/rsfs/rsfs7.tfm" 1480098717 692 1b6510779f0f05e9cbf03e0f6c8361e6 ""
+  "/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1480098733 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb" 1480098733 32298 c6d25bb16d1eac01ebdc6d7084126a1e ""
   "/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1480098733 30251 6afa5cb1d0204815a708a080681d4674 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1480098733 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
@@ -49,7 +50,6 @@
   "/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1480098733 36281 c355509802a035cadc5f15869451dcee ""
   "/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb" 1480098733 35469 70d41d2b9ea31d5d813066df7c99281c ""
   "/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1480098733 35752 024fb6c41858982481f6968b5fc26508 ""
-  "/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb" 1480098733 31809 8670ca339bf94e56da1fc21c80635e2a ""
   "/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1480098733 32762 224316ccc9ad3ca0423a14971cfa7fc1 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1480098733 32726 0a1aea6fcd6468ee2cf64d891f5c43c8 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb" 1480098733 33993 9b89b85fd2d9df0482bd47194d1d3bf3 ""
@@ -137,15 +137,15 @@
   "leukSmooth.png" 1622306803 35676 88c69ad3a396af72c1570c5f08abbdab ""
   "leuk_KS.png" 1622306803 31326 399fa3c6ef6663eb482264499d6ec5b7 ""
   "mathrsfs.sty" 1622130377 300 12fa6f636b617656f2810ee82cb05015 ""
-  "revision.aux" 1622521692 15903 c8dc366eed075920eda46fbd95a4ea71 ""
-  "revision.bbl" 1622521691 7148 c4336cc05f02b9091bb617793f0628f6 "bibtex revision"
-  "revision.brf" 1622521692 2458 880923e4435bbb110af5afbab3ae2c7a ""
-  "revision.out" 1622521692 1243 51f2fe349816242360f4a74592d1708c ""
-  "revision.tex" 1622521668 49275 2742d574621272c70ef2df12d7b731a6 ""
+  "revision.aux" 1622581436 15401 dd2873b1564d91fafee7caec30e2e569 ""
+  "revision.bbl" 1622581435 7472 d6f1035c96e2999c1204082f3da649eb "bibtex revision"
+  "revision.brf" 1622581436 2420 678fb472d66cfb311ba0db79be20a3de ""
+  "revision.out" 1622581436 1006 cbc841f4f24a9519216fa23293337b35 ""
+  "revision.tex" 1622581432 46923 be4f6e1a2108bee7fb409a4838843680 ""
   "true_base.png" 1622130377 24773 3f4a4bcb0b51674b0cf6365e09310094 ""
   (generated)
   "revision.pdf"
-  "revision.out"
   "revision.log"
-  "revision.aux"
   "revision.brf"
+  "revision.out"
+  "revision.aux"
