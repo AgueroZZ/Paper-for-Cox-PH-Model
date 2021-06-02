@@ -1,4 +1,4 @@
-PWD /Users/ziangzhang/Documents/GitHub/Paper-for-Cox-PH-Model/Bayesian Analysis Resubmission/v2
+PWD /Users/ziangzhang/Documents/GitHub/Paper-for-Cox-PH-Model/Bayesian Analysis Resubmission/v1
 INPUT /usr/local/texlive/2018/texmf.cnf
 INPUT /usr/local/texlive/2018/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2018/texmf-var/web2c/pdftex/pdflatex.fmt
@@ -187,8 +187,8 @@ INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmbxsl10.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmss12.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmssbx10.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmsl10.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmsl10.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/cm/cmssbx10.tfm
 INPUT revision.bbl
@@ -198,6 +198,9 @@ INPUT revision.brf
 INPUT ./revision.brf
 INPUT ./revision.brf
 OUTPUT revision.brf
+INPUT base_sim1.png
+INPUT ./base_sim1.png
+INPUT ./base_sim1.png
 INPUT true_base.png
 INPUT ./true_base.png
 INPUT ./true_base.png
@@ -225,7 +228,6 @@ INPUT ./revision.out
 INPUT ./revision.out
 INPUT ./revision.brf
 INPUT ./revision.brf
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
