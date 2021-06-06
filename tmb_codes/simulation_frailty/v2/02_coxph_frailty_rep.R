@@ -23,7 +23,7 @@ K = 100
 beta = 0.2
 sd = 0.8
 n = K*N
-M <- 100
+M <- 300
 
 
 
@@ -236,6 +236,15 @@ time_end - time_begin
 agg_means4 <- apply(result4, 2, mean)
 
 
+### N = 6
+time_begin <- Sys.time()
+result6 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq')) %dopar% do_once(seed = i, beta = beta, N = 6, K = K, sd = sd, bas = "constant")
+time_end <- Sys.time()
+time_end - time_begin
+agg_means6 <- apply(result6, 2, mean)
+
+
+
 ## N = 8
 time_begin <- Sys.time()
 result8 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq')) %dopar% do_once(seed = i, beta = beta, N = 8, K = K, sd = sd, bas = "constant")
@@ -243,15 +252,8 @@ time_end <- Sys.time()
 time_end - time_begin
 agg_means8 <- apply(result8, 2, mean)
 
-### N = 16
-time_begin <- Sys.time()
-time_begin <- Sys.time()
-result16 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq')) %dopar% do_once(seed = i, beta = beta, N = 16, K = K, sd = sd, bas = "constant")
-time_end <- Sys.time()
-time_end - time_begin
-agg_means16 <- apply(result16, 2, mean)
 
 ### Combine:
-aggresult <- rbind(agg_means2,agg_means4, agg_means8, agg_means16)
+aggresult <- rbind(agg_means2,agg_means4,agg_means6, agg_means8)
 colnames(aggresult) <- c("beta_cov_aghq","beta_cov_inla","beta_mse_aghq","beta_mse_inla","frailty_cov_aghq","frailty_cov_inla", "frailty_mse_aghq", "frailty_mse_inla")
 save(aggresult, file = "aggresult.Rda")
