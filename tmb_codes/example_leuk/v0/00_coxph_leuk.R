@@ -7,7 +7,6 @@ library(TMB)
 library(INLA)
 library(tmbstan)
 library(brinla)
-library(INLA)
 
 precompile()
 TEXT_SIZE = 25
@@ -29,7 +28,7 @@ p <- 4 # 4 = cubic
 # Order of derivative penalty
 m <- 2
 # Number of INTERIOR knots
-d <- 42
+d <- 46
 # Number of knots
 T <- d + p
 # The knots
@@ -80,7 +79,7 @@ tmbparams <- list(
 )
 
 # TMB function template
-compile("00_coxph_leuk.cpp")
+# compile("00_coxph_leuk.cpp")
 dyn.load(dynlib("00_coxph_leuk"))
 
 start_time <- Sys.time()
