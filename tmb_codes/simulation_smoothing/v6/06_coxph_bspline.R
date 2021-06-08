@@ -18,6 +18,7 @@ library(mvQuad, lib = lib_loc)
 precompile()
 TEXT_SIZE = 25
 
+ncores = 10
 registerDoMC(ncores)
 
 
@@ -93,7 +94,7 @@ ggplot(baseline,aes(x = time, y = hazard)) + geom_line() + theme(text = element_
 ggsave(filename = "base1.png")
 
 prior.prec <- list(prec = list(prior = "pc.prec",
-                               param = c(tmbdat$u, tmbdat$a)))
+                               param = c(2, 0.5)))
 
 
 compile("06_coxph_bspline.cpp")
