@@ -85,6 +85,18 @@ Simulate_data_extreme <- function(N = 1000, truth, RW2BINS = 50, baseline){
     mutate(exposure_binned = abcoxph:::bin_covariate(exposure,bins = RW2BINS,type = "equal"))
   data
 }
+construct_design <- function(x,splineknots,p,m) {
+  BB <- mgcv::smooth.construct(s(x,bs='bs',m=c(p-1,0),k=length(splineknots)-p),data = data.frame(x = x),knots = list(x = splineknots))
+  B <- BB$X
+  B <- as(B,"dgTMatrix")
+  B
+}
+construct_penalty <- function(x,splineknots,p,m, noise = 0.0001) {
+  BD <- mgcv::smooth.construct(s(x,bs='bs',m=c(p-1,m),k=length(splineknots)-p),data = data.frame(x = x),knots = list(x = splineknots))
+  BB <- mgcv::smooth.construct(s(x,bs='bs',m=c(p-1,0),k=length(splineknots)-p),data = data.frame(x = x),knots = list(x = splineknots))
+  # BD$S[[1]] + BB$S[[1]] # O'sullivan spline "of the third kind"
+  BD$S[[1]] + diag(noise, ncol = ncol(BD$S[[1]]), nrow = nrow(BD$S[[1]])) #### add a very small noise to make the penalty matrix full rank
+}
 M <- 300
 
 ## simulate data:
