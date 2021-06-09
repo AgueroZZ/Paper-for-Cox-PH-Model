@@ -1,0 +1,6 @@
+INLA_OS="linux"
+INLA_PATH="/home/ziang/R/x86_64-pc-linux-gnu-library/4.0/INLA/bin"
+INLA_RHOME="/usr/lib/R"
+INLA_RVERSION="4.0"
+INLA_VERSION="21.02.23"
+PARDISOLICMESSAGE="1"

@@ -66,6 +66,7 @@ tmbdat <- list(
   D = D,
   # Log determinant of penalty matrix (without the sigma part)
   logPdet = as.numeric(determinant(P,logarithm = TRUE)$modulus),
+  # logPdet = sum(log(eigen(P,only.values = T)$values[1:(length(eigen(P,only.values = T)$values)-m)])),
   # Response
   ranks = as.integer(data$ranks),
   cens = as.integer(data$cens),
@@ -334,4 +335,24 @@ theKS <- max(abs(stanecdf - quadecdf))
 whereistheKS <- which.max(abs(stanecdf - quadecdf))
 abline(v = tt[whereistheKS])
 plot(tt,abs(stanecdf - quadecdf),type='l')
+
+
+
+
+
+
+
+
+
+
+
+
+##### Compare INLA with full-likelihood MCMC
+
+# inla_mcmc <- inla(formula = formula,data = data, family = "coxph", keep = TRUE, inla.arg = "-m mcmc -N 5000 -T 10 -S 1", verbose = T)
+
+
+
+
+
 
