@@ -24,7 +24,7 @@ set.seed(123)
 
 
 ### Simulating function:
-K = 30
+K = 100
 beta = 0.2
 sd = 0.8
 M <- 300
