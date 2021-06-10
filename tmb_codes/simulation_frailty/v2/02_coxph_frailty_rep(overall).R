@@ -18,9 +18,9 @@ library(mvQuad, lib = lib_loc)
 
 precompile()
 TEXT_SIZE = 25
-ncores = 10
+ncores = 8
 registerDoMC(ncores)
-set.seed(123)
+set.seed(1234)
 
 
 ### Simulating function:
