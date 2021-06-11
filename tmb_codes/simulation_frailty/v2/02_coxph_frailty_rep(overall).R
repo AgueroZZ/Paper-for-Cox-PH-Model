@@ -176,7 +176,7 @@ dyn.load(dynlib("02_coxph_frailty"))
 
 ######### Speeding up the simulation function:
 do_once <- function(seed,beta, N, K, sd, bas = "constant"){
-  set.seed(seed + rpois(1,10))
+  set.seed(seed)
   n <- K*N
   data <- Simulate_grouped_data(N = N, bas = bas, K = K, beta = beta, sdtheta = sd)
   data <- abcoxph:::arrange_data(data)

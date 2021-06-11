@@ -312,6 +312,6 @@ ggsave(filename = "base3.png")
 result3 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, truth = "complicated", N = 1000 , baseline3)
 agg_result3 <- result3 %>% group_by(method) %>% summarise(rmse = mean(rmse), coverage = mean(coverage), mse = mean(mse))
 agg_result3
-save(result3, file = "result_300_aggregations_stepwise.rda")
-save(agg_result3, file = "aggresult_300_aggregations_stepwise.rda")
+save(result3, file = "result_300_aggregations_simple.rda")
+save(agg_result3, file = "aggresult_300_aggregations_simple.rda")
 
