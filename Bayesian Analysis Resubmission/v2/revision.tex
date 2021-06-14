@@ -309,8 +309,8 @@ One limitation of our proposed methodology is that for analyses of sparse frailt
 The framework of this proposed methodology can be extended to fit more complex models, by modifying the covariance structure of the covariate with semi-parametric effect. Temporally- and spatially-correlated survival data may be analyzed through a similar procedure. Because we accommodate the dense Hessian matrix of the log-likelihood, our approach could be extended to approximate Bayesian inference for other models with a dense Hessian matrix. We leave such extensions to future work.
 
 \section*{Data Availability Statement}
-The simulated data of example 3.1 are available in the supplementary material with this paper. Data for example 3.2 were obtained from R package "INLA" \citep{inla} and are freely available.
-Data for example 3.3 were obtained from R package "survival" \citep{survival-package} and are freely available. 
+The simulated data of example 4.1.1 and 4.1.2 are available in the supplementary material with this paper. Data for example 4.2 were obtained from R package "INLA" \citep{inla} and are freely available.
+Data for example 4.3 were obtained from R package "survival" \citep{survival-package} and are freely available. 
 
 
 \nocite{*}% Show all bib entries - both cited and uncited; comment this line to view only cited bib entries;
@@ -372,7 +372,7 @@ m = 10 & 0.946 & 0.938 & 0.106 & 0.113 \\
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.55\textwidth,height=2.5in]{base_sim1.png}
+\includegraphics[width=0.55\textwidth,height=2.5in]{base_sim1.pdf}
 \caption{True Baseline Hazard in the first example in \ref{subsubsec:sim1}.}
 \label{fig:truebase1}
 \end{figure}
@@ -427,7 +427,7 @@ Complicated Baseline & 0.968 & 0.659 & 0.0117 & 0.0448 \\
 \end{tabular}
 }
 \end{center}
-\caption{Comparison metrics in terms of MSE and posterior coverage rate from 300 independent replications, for the 100 frailty effects in the first simulation study in section \ref{subsubsec:sim1}.}
+\caption{Comparison metrics in terms of MSE and posterior coverage rate from 300 independent replications, for the three baselines in the second simulation study in section \ref{subsubsec:sim2}.}
 \label{table:Sim2Agg}
 \end{table}
 
