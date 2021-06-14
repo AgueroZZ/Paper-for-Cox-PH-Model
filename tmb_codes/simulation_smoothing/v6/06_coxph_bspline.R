@@ -102,8 +102,8 @@ M <- 300
 ## simulate data:
 set.seed(1234)
 baseline <- Simulate_baseline()
-ggplot(baseline,aes(x = time, y = hazard)) + geom_line() + theme(text = element_text(size = TEXT_SIZE))
-ggsave(filename = "base1.png")
+ggplot(baseline,aes(x = time, y = hazard)) + geom_line() + theme_classic(base_size = TEXT_SIZE)
+ggsave(filename = "com_base.png")
 
 prior.prec <- list(prec = list(prior = "pc.prec",
                                param = c(2, 0.5)))
@@ -265,8 +265,8 @@ Simulate_baseline2 <- function(timelim = 300, breaks = 0.001, cut = 30){
   baseline <- data.frame(time = tdom, hazard = haz, timelim = timelim)
 }
 baseline2 <- Simulate_baseline2()
-ggplot(baseline2,aes(x = time, y = hazard)) + geom_line() + theme(text = element_text(size = TEXT_SIZE))
-ggsave(filename = "base2.png")
+ggplot(baseline2,aes(x = time, y = hazard)) + geom_line() + theme_classic(base_size = TEXT_SIZE)
+ggsave(filename = "stepwise_base.png")
 result2 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, truth = "complicated", N = 1000 , baseline2)
 agg_result2 <- result2 %>% group_by(method) %>% summarise(rmse = mean(rmse), coverage = mean(coverage), mse = mean(mse))
 agg_result2
@@ -307,8 +307,8 @@ Simulate_baseline3 <- function(timelim = 300, breaks = 0.001, cut = 5){
   baseline <- data.frame(time = tdom, hazard = haz, timelim = timelim)
 }
 baseline3 <- Simulate_baseline3()
-ggplot(baseline3,aes(x = time, y = hazard)) + geom_line() + theme(text = element_text(size = TEXT_SIZE))
-ggsave(filename = "base3.png")
+ggplot(baseline3,aes(x = time, y = hazard)) + geom_line() + theme_classic(base_size = TEXT_SIZE)
+ggsave(filename = "simple_base.png")
 result3 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, truth = "complicated", N = 1000 , baseline3)
 agg_result3 <- result3 %>% group_by(method) %>% summarise(rmse = mean(rmse), coverage = mean(coverage), mse = mean(mse))
 agg_result3
