@@ -15,6 +15,7 @@ library(foreach)
 library(abcoxph, lib = lib_loc)
 library(mvQuad, lib = lib_loc)
 library(survival)
+library(brinla, lib = lib_loc)
 
 precompile()
 TEXT_SIZE = 25
