@@ -1,4 +1,4 @@
-\begin{thebibliography}{28}
+\begin{thebibliography}{30}
 \newcommand{\enquote}[1]{``#1''}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
@@ -62,6 +62,13 @@ Kristensen, K., Nielsen, A., Berg, C.~W., Skaug, H., and Bell, B.~M. (2016).
 \newblock {\em Journal of Statistical Software\/}, 70(5): 1--21.
 \endbibitem
 
+\bibitem[{Lang and Brezger(2004)}]{BayesianPspline}
+Lang, S. and Brezger, A. (2004).
+\newblock \enquote{Bayesian P-Splines.}
+\newblock {\em Journal of Computational and Graphical Statistics\/}, 13(1):
+  183--212.
+\endbibitem
+
 \bibitem[{Lindgren and Rue(2008)}]{rw2}
 Lindgren, F. and Rue, H. (2008).
 \newblock \enquote{On the second-order random walk model for irregular
@@ -85,6 +92,14 @@ Martino, S., Akerkar, R., and Rue, H. (2011).
 McGilchrist, C.~A. and Aisbett, C.~W. (1991).
 \newblock \enquote{Regression with frailty in survival analysis.}
 \newblock {\em Biometrics\/}, 47(2): 461--466.
+\endbibitem
+
+\bibitem[{Miller et~al.(2020)Miller, Glennie, and Seaton}]{SPDEandPspline}
+Miller, D.~L., Glennie, R., and Seaton, A.~E. (2020).
+\newblock \enquote{Understanding the stochastic partial differential equation
+  approach to smoothing.}
+\newblock {\em Journal of Agricultural, Biological and Environmental
+  Statistics\/}, 25(1): 1--16.
 \endbibitem
 
 \bibitem[{Monnahan and Kristensen(2018)}]{NUTS}

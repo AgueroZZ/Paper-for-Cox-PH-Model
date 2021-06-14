@@ -147,7 +147,7 @@ Let $\eta = \left\{ \eta_{ij}: i = 1,\ldots,n; j = 1,\ldots,n_{i}\right\}$ be th
 The semi-parametric covariate effects $\{\gamma_q\}_{q=1}^{r}$ are modeled as $r$ independent zero-mean Gaussian processes, each defined by its covariance functions $C_{\sigma_{q}}$ which in turn parametrized by $\sigma_q > 0$. A typical choice of covariance function is the covariance function of 2-fold Integrated Wiener process\citep{wiener}, which has a connection to cubic smoothing splines\citep{wahbaprior}.
 To infer the infinite-dimensional parameters $\{\gamma_q\}_{q=1}^{r}$, \cite{rw2} proposed the use of second order random walk model (RW2) to approximate the Integrated Wiener process prior, which includes discretizing the covariate $u_q$ into $m_q$ pre-specified bins and approximate each $\gamma_q$ by a piecewise constant function at each bin. The $m_q$ dimensional vector of function values are defined as $\Gamma_q = (\Gamma_{q1}, ..., \Gamma_{qm_q})$, with prior distribution being $\Gamma_q|\sigma_q \sim \mathcal{N}(0,\Sigma_q^{-1}(\sigma_q))$ for each $q = 1,...,m_q$. Each precision $\Sigma_q^{-1}(\sigma_q)$ is sparse and available in closed form. Define $\Gamma = \{\Gamma_q\}_{q=1}^{r}$, then $\Gamma|\sigma_1,...,\sigma_q \sim \mathcal{N}(0,\Sigma_\Gamma^{-1})$, with $\Sigma_\Gamma^{-1} = \text{diag}[\Sigma_1^{-1}(\sigma_1), ..., \Sigma_q^{-1}(\sigma_q)]$.
 
-This RW2 model proposed in \cite{rw2} can be understood as a special case of Bayesian penalizing regression splines, with basis being linear B splines, and penalty matrix being $\Sigma_q^{-1}(\sigma_q)$ \citep{SPDEandPspline}. In our proposed method, we consider the use of cubic B splines instead of linear B splines as the basis function, in order to achieve higher order smoothness in the inferred function. Since the precision matrix $\Sigma_q^{-1}(\sigma_q)$ will have random deficiency of order 2, both RW2 method and the cubic B splines method will correspond to an improper prior for the unknown function $\gamma_q()$, and hence will be incompatible with the type of Laplace approximation in \cite{tierney}. 
+This RW2 model proposed in \cite{rw2} can be understood as a special case of Bayesian penalizing regression splines, with basis being linear B splines, and penalty matrix being $\Sigma_q^{-1}(\sigma_q)$ \citep{SPDEandPspline}. In our proposed method, we consider the use of cubic B splines instead of linear B splines as the basis function, in order to achieve higher order smoothness in the inferred function. Since the precision matrix $\Sigma_q^{-1}(\sigma_q)$ will have random deficiency of order 2, both RW2 method and the cubic B splines method will correspond to an improper prior for the unknown function $\gamma_q()$, and hence will be incompatible with the type of Laplace approximation in \cite{tierney}, which we utilized in the proposed approach. 
 
 To mitigate this problem of singular precision matrix, a small Gaussian noise will normally be introduced into the additive linear predictor which makes the precision matrix of the latent parameter vector full rank \citep{casecross,inla}. In our proposed method, we fix this problem by adding a small constant term (i.e. 0.0001) into the diagonal terms of $\Sigma_q^{-1}(\sigma_q)$, which will also result in a full rank proper precision matrix. Our approach is essentially similar to the method of \cite{casecross,inla}, with main difference being that our approach only adds noise into the precision matrix corresponding to $\Gamma$, but the method of \cite{casecross,inla} adds noise to the precision matrix of the full latent parameter vector. Furthermore, the modification only shifts the diagonal terms of $\Sigma_q^{-1}(\sigma_q)$ by a very small constant, hence will not change any conditional independence structure in the original prior.
 
@@ -263,19 +263,19 @@ In the first simulation study, we considered the Bayesian inference problem for 
 
 The fixed effect $\beta$ was given a prior $\mathcal{N}(0,1000^{-1})$. The variance parameter $\sigma_\xi$ was given an Exponential prior with median of 1. The same priors were used for implementations of both our proposed method and of INLA. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter was set to be $K = 15$. For the implementation of INLA, we used its first order random walk model for the baseline hazard run under its default settings. To compare the accuracies between the two methods, we used the metrics of posterior mean square error (MSE) and coverage rates of the $95\%$ posterior credible intervals, for both the fixed effect parameter and the frailties. All the metrics were computed by averaging through 300 independent repetitions in order to make the comparison accurate. 
 
-The comparison metrics are shown in table \ref{table:Sim1Agg}. Based on the table, it can be noticed that as the frailties get sparse (smaller $m$), our proposed method tends to give more accurate results than INLA, both in terms of smaller MSE and coverage rates closer to the nominal level (i.e. $95\%$). When $m = 2$, both methods didn't achieve very accurate inferential results for the frailties in terms of MSE, because both methods involved using Laplace approximation for $\pi(\sigma_\xi|y)$, which is known to be inaccurate when the frailties are sparse \citep{Ogden2013ASR}. However, the result from our proposed method is still significantly more accurate than INLA.
+The comparison metrics are shown in table \ref{table:Sim1AggFixed} and \ref{table:Sim1AggRandom}. Based on the table, it can be noticed that our proposed method in general gives more accurate inferential results than INLA, both in terms of smaller MSE and coverage rates closer to the nominal level (i.e. $95\%$), and these differences get larger as the frailties get sparser (smaller $m$). When $m = 2$, both methods didn't achieve very accurate inferential results for the frailties in terms of MSE, because both methods involved using Laplace approximation for $\pi(\sigma_\xi|y)$, which is known to be inaccurate when the frailties are sparse \citep{Ogden2013ASR}. However, the result from our proposed method is still significantly more accurate than INLA.
 
 In this study, the quantities of interest that need to be inferred include 100 frailties $\{\xi_1,...,\xi_{100}\}$, one fixed effect parameter $\beta$ and one variance parameter $\sigma_\xi$. However, the number of data points available is only $100m$. The problem is even severer when the inference is carried out on the type of full likelihood used by INLA, due to the more parameters it introduced in order to approximate the baseline hazard \citep{coxdiscussion}. Hence, as we have illustrated through this simulation study that for inferences on sparse frailties, our proposed method based on partial likelihood will yield more accurate result than INLA under such setting.
 
 \subsubsection{Simulation with non-smooth baseline}\label{subsubsec:sim2}
 
-To illustrate the accuracy of our method over INLA when the smoothness assumption for baseline hazard function is violated, we performed our second simulation study. We generated $n = 1000$ uncorrelated data points from a distribution with known hazard function. For the baseline hazard functions, we consider three different settings corresponding to three different levels of wiggliness. More specifically, we consider the cases when baseline hazard function is simple step function, complicated step function and an oscillating function that switches between linear and constant. The three baseline hazards $h_{0}(t)$ are shown in Figure \ref{fig:truebase2}. The additive predictor is $\eta_{i} = \gamma\left(u_{i}\right)$ with $\gamma(u) = 1.5 [ \text{sin}(0.8u) + 1 ]$ in all the three simulation settings. We generated the covariates $u$ as  $u_{1},\ldots,u_{n}\overset{iid}{\sim}\text{Unif}(-6,6)$, and randomly censored $10\%$ of all the survival times. Since the overall intercept parameter cannot be identified in partial likelihood, we put a sum-to-zero constraint such that $\sum_{i=1}^{n} \gamma{(u_i)} = 0$.
+To illustrate the accuracy of our method over INLA when the smoothness assumption for baseline hazard function is violated, we performed our second simulation study. We generated $n = 1000$ uncorrelated data points from a distribution with known hazard function. For the baseline hazard functions, we consider three different settings corresponding to three different levels of wiggliness. More specifically, we consider the cases when baseline hazard function is simple step function, oscillating step function and an extremely complicated function that switches between linear and constant. The three baseline hazards $h_{0}(t)$ are shown in Figure \ref{fig:truebase2}. The additive predictor is $\eta_{i} = \gamma\left(u_{i}\right)$ with $\gamma(u) = 1.5 [ \text{sin}(0.8u) + 1 ]$ in all the three simulation settings. We generated the covariates $u$ as  $u_{1},\ldots,u_{n}\overset{iid}{\sim}\text{Unif}(-6,6)$, and randomly censored $10\%$ of all the survival times. Since the overall intercept parameter cannot be identified in partial likelihood, we put a sum-to-zero constraint such that $\sum_{i=1}^{n} \gamma{(u_i)} = 0$.
 
 To infer the unknown risk function $\gamma$, we used the Bayesian B-spline smoothing method mentioned in section \ref{subsec:smooth} in our proposed method, with fifty equally spaced knots. For the smoothing method in INLA, we placed the values of $u$ into $50$ discrete bins, and fitted a second-order random walk model for $\gamma$ \citep{rw2}. As before, we implemented INLA under its default setting, with a first-order random walk model for the baseline hazard. This implicitly assumes that $h_{0}(t)$ is smooth. In contrast, our procedure does not infer $h_{0}(t)$, and does not make assumptions about its smoothness. In both of the smoothing methods, the single variance parameter $\sigma$ that controls the smoothness of $\gamma$, was modelled with an Exponential($\lambda$) prior with $\lambda$ chosen such that $\mathbb{P}\left( \sigma > 2\right) = 0.5$, which is a \emph{penalized complexity} prior of \cite{pcprior}.
 
 As in the second simulation study, we compared the accuracy of our proposed method with INLA, using the metrics of MSE computed using posterior mean and coverage rate computed using the $95\%$ posterior credible interval. The metrics were still computed by averaging over 300 independent repetitions.
 
-The comparison metrics under the three settings of baseline hazard are shown in table \ref{table:Sim2Agg}. Based on the table, it can be noticed that as the baseline hazard function gets more complicated, our proposed method tends to yield more accurate results than INLA, both in terms of smaller MSE and coverage rates closer to the nominal level (i.e. $95\%$). In particular, under the most extreme setting for the baseline hazard, INLA's $95\%$ posterior credible interval only yielded coverage rate of $65.8\%$. This is not unexpected as the full-likelihood used in INLA's inference implicitly requires that the baseline hazard is smooth enough to be approximated well by its first-order random walk, which will not hold under such setting where the baseline hazard is varying rapidly as time changes. On the other hand, the inference of our proposed method relies on the partial likelihood, which makes no assumption on the smoothness of the baseline hazard, and hence unaffected by the non-smooth baseline hazard in this study.
+The comparison metrics under the three settings of baseline hazard are shown in figure \ref{fig:SimAggBox} and table \ref{table:Sim2Agg}. Based on the table, it can be noticed that as the baseline hazard function gets more complicated, our proposed method tends to yield more accurate results than INLA, both in terms of smaller MSE and coverage rates closer to the nominal level (i.e. $95\%$). In particular, under the most extreme setting for the baseline hazard, INLA's $95\%$ posterior credible interval only yielded coverage rate of $65.8\%$. This is not unexpected as the full-likelihood used in INLA's inference implicitly requires that the baseline hazard is smooth enough to be approximated well by its first-order random walk, which will not hold under such setting where the baseline hazard is varying rapidly as time changes. On the other hand, the inference of our proposed method relies on the partial likelihood, which makes no assumption on the smoothness of the baseline hazard, and hence unaffected by the non-smooth baseline hazard in this study.
 
 \subsection{Leukemia Data}\label{subsec:leuk}
 
@@ -321,7 +321,7 @@ Data for example 3.3 were obtained from R package "survival" \citep{survival-pac
 
 \begin{table}
 \begin{center}
-\scalebox{0.95}{
+\scalebox{0.8}{
 \begin{tabular}{||c c c c c||}
  \hline
  Number of Measurements & $\beta$ Coverage Rate (Proposed) & $\beta$ Coverage Rate (INLA) & $\beta$ MSE (Proposed)& $\beta$ MSE (INLA)\\
@@ -346,7 +346,7 @@ m = 10 & 0.943 & 0.833 & 0.000159 & 0.000316 \\
 
 \begin{table}
 \begin{center}
-\scalebox{0.95}{
+\scalebox{0.8}{
 \begin{tabular}{||c c c c c||}
  \hline
  Number of Measurements & $\xi$ Coverage Rate (Proposed) & $\xi$ Coverage Rate (INLA) & $\xi$ MSE (Proposed)& $\xi$ MSE (INLA)\\
@@ -380,10 +380,61 @@ m = 10 & 0.946 & 0.938 & 0.106 & 0.113 \\
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.55\textwidth,height=2.5in]{true_base.png}
-\caption{True Baseline Hazard in the second example in \ref{subsubsec:sim2}.}
+\subfigure[Simple stepwise baseline]{
+  \includegraphics[width=0.45\textwidth,height=2.5in]{simple_base.png}
+}
+\subfigure[Oscillating stepwise baseline]{
+  \includegraphics[width=0.45\textwidth,height=2.5in]{stepwise_base.png}
+}
+\subfigure[Complicated baseline]{
+	\includegraphics[width=0.55\textwidth,height=2.5in]{com_base.png}
+}
+\caption{True Baseline Hazards in the second example in \ref{subsubsec:sim2}.}
 \label{fig:truebase2}
 \end{figure}
+
+
+\begin{figure}[ht]
+\centering
+\subfigure[Simple stepwise baseline]{
+  \includegraphics[width=0.45\textwidth,height=2.5in]{simple_box.png}
+}
+\subfigure[Oscillating stepwise baseline]{
+  \includegraphics[width=0.45\textwidth,height=2.5in]{stepwise_box.png}
+}
+\subfigure[Complicated baseline]{
+	\includegraphics[width=0.55\textwidth,height=2.5in]{com_box.png}
+}
+\caption{Results for the second simulation in section \ref{subsubsec:sim2}. (a): Box-plot of MSE from 300 replications with simple baseline, using INLA and the proposed method. (b): Box-plot of MSE from 300 replications with oscillating baseline, using INLA and the proposed method. (c): Box-plot of MSE from 300 replications with complicated baseline, using INLA and the proposed method.}
+\label{fig:SimAggBox}
+\end{figure}
+
+
+
+\begin{table}
+\begin{center}
+\scalebox{0.8}{
+\begin{tabular}{||c c c c c||}
+ \hline
+ Baseline Hazards & $\xi$ Coverage Rate (Proposed) & $\xi$ Coverage Rate (INLA) & $\xi$ MSE (Proposed)& $\xi$ MSE (INLA)\\
+ \hline\hline
+ Simple Baseline & 0.969 & 0.974 & 0.0116 & 0.0122 \\
+ \hline
+Oscillating Baseline  & 0.968 & 0.949 & 0.0117 & 0.0148 \\
+ \hline
+Complicated Baseline & 0.968 & 0.659 & 0.0117 & 0.0448 \\
+  \hline \hline
+\end{tabular}
+}
+\end{center}
+\caption{Comparison metrics in terms of MSE and posterior coverage rate from 300 independent replications, for the 100 frailty effects in the first simulation study in section \ref{subsubsec:sim1}.}
+\label{table:Sim2Agg}
+\end{table}
+
+
+
+
+
 
 \begin{figure}[ht]
 \centering

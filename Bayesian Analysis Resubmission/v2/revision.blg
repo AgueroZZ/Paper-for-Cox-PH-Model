@@ -1,48 +1,46 @@
-This is BibTeX, Version 0.99d (TeX Live 2021)
-Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: revision.aux
 The style file: ba.bst
 Database file #1: myrefs.bib
-Warning--I didn't find a database entry for "SPDEandPspline"
-You've used 28 entries,
+You've used 30 entries,
             2760 wiz_defined-function locations,
-            765 strings with 8992 characters,
-and the built_in function-call counts, 15348 in all, are:
-= -- 1266
-> -- 554
-< -- 19
-+ -- 209
-- -- 174
-* -- 1151
-:= -- 2434
-add.period$ -- 109
-call.type$ -- 28
-change.case$ -- 172
-chr.to.int$ -- 27
-cite$ -- 28
-duplicate$ -- 1121
-empty$ -- 1165
-format.name$ -- 252
-if$ -- 2961
+            776 strings with 9293 characters,
+and the built_in function-call counts, 16558 in all, are:
+= -- 1365
+> -- 602
+< -- 20
++ -- 226
+- -- 189
+* -- 1250
+:= -- 2619
+add.period$ -- 117
+call.type$ -- 30
+change.case$ -- 185
+chr.to.int$ -- 29
+cite$ -- 30
+duplicate$ -- 1209
+empty$ -- 1255
+format.name$ -- 275
+if$ -- 3196
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 236
-newline$ -- 176
-num.names$ -- 112
-pop$ -- 414
+missing$ -- 255
+newline$ -- 188
+num.names$ -- 120
+pop$ -- 446
 preamble$ -- 1
-purify$ -- 170
+purify$ -- 183
 quote$ -- 0
-skip$ -- 417
+skip$ -- 447
 stack$ -- 0
-substring$ -- 754
-swap$ -- 636
+substring$ -- 813
+swap$ -- 691
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 252
+type$ -- 270
 warning$ -- 0
-while$ -- 115
+while$ -- 124
 width$ -- 0
-write$ -- 392
-(There was 1 warning)
+write$ -- 420
