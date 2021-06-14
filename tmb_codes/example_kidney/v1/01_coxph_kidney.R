@@ -78,7 +78,7 @@ ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
 
 # AGHQ
 start_time <- Sys.time()
-quad <- aghq::marginal_laplace_tmb(ff,18,0)
+quad <- aghq::marginal_laplace_tmb(ff,7,0)
 
 # Plot of theta posterior
 prec_marg <- quad$marginals[[1]]
@@ -128,7 +128,7 @@ theta_logprior <- function(theta, prior_alpha = tmbdat$alpha,
 priorfuncsigma <- function(x) (2/x) * exp(theta_logprior(-2 * log(x)))
 prior <- tibble(x = hyper$x, y = priorfuncsigma(hyper$x), method = "Prior")
 hyper <- rbind(prior,hyper)
-hyper %>% ggplot(aes(x,y)) +  geom_line(aes(linetype = methods)) + xlim(c(0,2)) + xlab("SD") + ylab("density") + theme_classic(base_size = TEXT_SIZE)
+hyper %>% ggplot(aes(x,y)) +  geom_line(aes(linetype = method)) + xlim(c(0,2)) + xlab("SD") + ylab("density") + theme_classic(base_size = TEXT_SIZE)
 
 
 #### Fit and Compare with STAN:
@@ -192,7 +192,7 @@ ggplot(stansamps, aes(x = sigma)) +
   theme_classic(base_size = TEXT_SIZE)
 
 plotdata <- tibble(x = rep(tt,2), cdf = c(quadecdf,stanecdf), methods = rep(c("Proposed","MCMC"), each = length(tt)))
-plotdata %>% ggplot(aes(x,cdf)) + geom_line(aes(linetype = methods)) + 
+plotdata %>% ggplot(aes(x,cdf)) + geom_line(aes(linetype = method)) + 
   theme_classic(base_size = TEXT_SIZE)
 
 
