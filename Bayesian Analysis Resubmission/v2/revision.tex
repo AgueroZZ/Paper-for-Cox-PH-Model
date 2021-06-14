@@ -298,7 +298,7 @@ We first analyzed this dataset on full-likelihood using INLA, with $\mathcal{N}(
 
 Table \ref{table:KidneyFixed1} shows the results of our procedure compared to that obtained using the full likelihood method of \cite{inlacoxph}. Based on the table, our procedure gave different posterior means and reported larger posterior standard deviations compared to INLA, especially for the effects of different disease types. This is also reflected in \ref{fig:kidneyHyper}(a), where our posterior distribution for $\sigma_{\xi}$ is wider than that of INLA. As we have shown in \ref{subsubsec:sim1}, when sparse frailties exist, Bayesian inference on partial likelihood tends to be more stable than on full-likelihood.
 
-Again, to assess the accuracy of our approximation to the posterior distribution, we implemented the same partial likelihood model using MCMC method. Table \ref{table:KidneyFixed2} shows the comparison between the results from proposed approach with the results from MCMC. Figure \ref{fig:kidneyHyper}(b) compares the MCMC samples from posterior of $\sigma_{\xi}$ with the approximate posterior obtained using our approach. The posterior cumulative distributions for $\sigma_{\xi}$ are compared in \ref{fig:kidneyHyper}(c), with maximal absolute difference being 0.09. The runtimes are respectively 0.53 seconds for our approach and 1.98 minutes for MCMC.
+Again, to assess the accuracy of our approximation to the posterior distribution, we implemented the same partial likelihood model using MCMC method. Table \ref{table:KidneyFixed2} shows the comparison between the results from proposed approach with the results from MCMC. Figure \ref{fig:kidneyHyper}(b) compares the MCMC samples from posterior of $\sigma_{\xi}$ with the approximate posterior obtained using our approach. The posterior cumulative distributions for $\sigma_{\xi}$ are compared in \ref{fig:kidneyHyper}(c), with maximal absolute difference being 0.09. The runtimes are respectively 0.53 seconds for our approach and 1.98 minutes for MCMC with 35000 iterations.
 
 \section{Discussion}\label{sec:discussion}
 
@@ -444,10 +444,10 @@ Complicated Baseline & 0.968 & 0.659 & 0.0117 & 0.0448 \\
 \subfigure[Posterior distribution of $\sigma$]{
   \includegraphics[width=0.45\textwidth,height=2.5in]{leukHyper.png}
 }
-\subfigure[Posterior cumulative distributions of $\sigma$]{
-	\includegraphics[width=0.55\textwidth,height=2.5in]{leuk_KS.png}
+\subfigure[Posterior distributions of $\sigma$]{
+  \includegraphics[width=0.55\textwidth,height=2.5in]{leukHyper2.png}
 }
-\caption{Results for the Leukaemia data in section \ref{subsec:leuk}. (a): (Exponentiated) posterior mean for the semi-parametric tpi effect using our proposed method(red) and INLA(blue) (b): Posterior distribution for $\sigma$ obtained using MCMC(blue histogram), and using the proposed method(black line). (c): Posterior cumulative distribution for $\sigma$ obtained using MCMC(red) and using the proposed method(blue)}
+\caption{Results for the Leukemia data in section \ref{subsec:leuk}. (a): (Exponentiated) posterior mean for the semi-parametric tpi effect using our proposed method(dashed) and INLA(solid). (b): Prior(dotted) and posterior distributions for $\sigma$ using our proposed method(dashed) and INLA(solid). (c): Posterior distribution for $\sigma$ obtained using MCMC(gray histogram), and using the proposed method(black line).}
 \label{fig:leuk}
 \end{figure}
 
@@ -522,10 +522,7 @@ p{1cm}|p{1cm}p{1cm}|p{1cm}p{1cm}|}
 \subfigure[Posterior distributions of $\sigma$]{
   \includegraphics[width=0.45\textwidth,height=2.5in]{kidneyHyper2.png}
 }
-\subfigure[Posterior cumulative distributions of $\sigma$]{
-	\includegraphics[width=0.55\textwidth,height=2.5in]{kidneyKS.png}
-}
-\caption{Results for the kidney data in section \ref{subsec:kidney}. (a): Prior(green) and posterior distributions for $\sigma$ using our proposed method(blue) and INLA(red) (b): Posterior distribution for $\sigma$ obtained using MCMC(blue histogram), and using the proposed method(black line). (c): Posterior cumulative distribution for $\sigma$ obtained using MCMC(red) and using the proposed method(blue)}
+\caption{Results for the kidney data in section \ref{subsec:kidney}. (a): Prior(dotted) and posterior distributions for $\sigma$ using our proposed method(dashed) and INLA(solid) (b): Posterior distribution for $\sigma$ obtained using MCMC(gray histogram), and using the proposed method(black line).}
 \label{fig:kidneyHyper}
 \end{figure}
 

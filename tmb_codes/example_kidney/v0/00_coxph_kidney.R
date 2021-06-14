@@ -109,7 +109,7 @@ inla_hyper <- inla_hyper %>% filter(parameter == "SD for id") %>% select(1:2) %>
 aghq_hyper <- logpostsigma %>% select(c("transparam","pdf_transparam")) %>% mutate(method = "Proposed")
 names(aghq_hyper)[1:2] <- c("x","y")
 hyper <- rbind(inla_hyper,aghq_hyper)
-hyper %>% ggplot(aes(x,y,color = method)) + geom_line() + xlim(c(0,3)) + xlab("SD") + ylab("density")
+hyper %>% ggplot(aes(x,y)) + geom_line(aes(linetype = method)) + xlim(c(0,3)) + xlab("SD") + ylab("density") + theme_classic(base_size = TEXT_SIZE)
 
 
 theta_logprior <- function(theta, prior_alpha = tmbdat$alpha, 
@@ -120,7 +120,7 @@ theta_logprior <- function(theta, prior_alpha = tmbdat$alpha,
 priorfuncsigma <- function(x) (2/x) * exp(theta_logprior(-2 * log(x)))
 prior <- tibble(x = hyper$x, y = priorfuncsigma(hyper$x), method = "Prior")
 hyper <- rbind(prior,hyper)
-hyper %>% ggplot(aes(x,y,color = method)) + geom_line() + xlim(c(0,2)) + xlab("SD") + ylab("density")
+hyper %>% ggplot(aes(x,y)) + geom_line(aes(linetype = method)) + xlim(c(0,2)) + xlab("SD") + ylab("density") + theme_classic(base_size = TEXT_SIZE)
 
 
 #### Fit and Compare with STAN:
@@ -179,9 +179,9 @@ plot(tt,abs(stanecdf - quadecdf),type='l')
 
 
 ggplot(stansamps, aes(x = sigma)) + 
-  geom_histogram(fill = "skyblue", color = "skyblue", stat = "density") + 
+  geom_histogram(fill = "gray", color = "gray", stat = "density") + 
   geom_line(data = logpostsigma, aes(x = transparam, y = pdf_transparam)) + xlim(0,3) +
-  theme(text = element_text(size = TEXT_SIZE))
+  theme_classic(base_size = TEXT_SIZE)
 
 plotdata <- tibble(x = rep(tt,2), cdf = c(quadecdf,stanecdf), methods = rep(c("Proposed","MCMC"), each = length(tt)))
 plotdata %>% ggplot(aes(x,cdf,color = methods)) + geom_line() + 

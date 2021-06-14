@@ -78,7 +78,7 @@ ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
 
 # AGHQ
 start_time <- Sys.time()
-quad <- aghq::marginal_laplace_tmb(ff,7,0)
+quad <- aghq::marginal_laplace_tmb(ff,18,0)
 
 # Plot of theta posterior
 prec_marg <- quad$marginals[[1]]
@@ -138,8 +138,8 @@ stanmod <- tmbstan(
   ff,
   chains = 4,
   cores = 4,
-  iter = 3000,
-  warmup = 3000,
+  iter = 35000,
+  warmup = 25000,
   init = quad$optresults$mode,
   # init = 0,
   seed = 12345

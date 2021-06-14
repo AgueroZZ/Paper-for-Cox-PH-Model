@@ -208,7 +208,7 @@ ggplot(INLA_base, aes(time,basehaz)) + geom_line()
 overall <- tibble(tpi = c(etaplotframe$x, plotINLA$x, plotx), y = c(etaplotframe$etamean,plotINLA$f,mgcv_bs_pred$fit), 
                   type = c(rep("Proposed",times = length(etaplotframe$x)), rep("INLA", times = length(plotINLA$x)), rep("mgcv",times = length(plotx)))  )
 
-overall %>% mutate(y = exp(y)) %>% ggplot(aes(tpi,y,color = type)) + geom_line()
+overall %>% filter(type != "mgcv") %>% mutate(y = exp(y)) %>% ggplot(aes(tpi,y)) + geom_line(aes(linetype = type)) + theme_classic(base_size = TEXT_SIZE)
 
 
 
