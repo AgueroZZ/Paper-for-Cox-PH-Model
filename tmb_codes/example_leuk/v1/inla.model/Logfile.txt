@@ -1,0 +1,11 @@
+
+
+*************************************************************************** 
+CONTAINS Runtime Modules of Parallel Sparse Linear Solver PARDISO Vers. 7.0
+CUSTOMIZED FOR THE R-INLA PACKAGE WHICH SOLVES A LARGE CLASS OF STATISTICAL
+MODELS USING THE INLA APPROACH.                                            
+Copyright Universita della Svizzera italiana 2000-2020 All Rights Reserved.
+
+No PARDISO license file found.  Please see `http://www.pardiso-project.org/r-inla
+where to place the license file pardiso.lic 
+*************************************************************************** 
