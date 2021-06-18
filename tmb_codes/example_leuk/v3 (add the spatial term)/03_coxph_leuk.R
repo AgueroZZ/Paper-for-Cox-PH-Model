@@ -12,7 +12,6 @@ library(sp)
 library(raster)
 library(mapmisc)
 
-precompile()
 TEXT_SIZE = 25
 ### sigma for Spatial effect
 sigma_u <- 1
@@ -27,7 +26,7 @@ beta_prec <- .001
 
 ### Setup_data:
 set.seed(1234)
-data <- Leuk %>% select(c("time","cens","age","sex","wbc","tpi","xcoord","ycoord"))
+data <- as.tibble(Leuk) %>% dplyr::select(c("time","cens","age","sex","wbc","tpi","xcoord","ycoord"))
 names(data)[1] <- "times"
 data <- abcoxph:::arrange_data(data)
 data$ranks <- rank(data$times, ties.method = "min")
@@ -87,17 +86,16 @@ Amat <- Diagonal(n = nrow(data),x = 1)
 censor <- data$cens[-1] # 1 == not censored, confusing but more useful.
 
 # Zmat is the differenced design matrix
-Zmat <- D %*% BX
+Zmat <- D %*% cbind(BX,Amat) 
 
 make_delta <- function(W) {
   as.numeric(Zmat %*% cbind(W))
 }
 
 # Dimensions
-p <- ncol(Xmat)
+p <- ncol(X)
 d <- ncol(Amat)
 Wd <- ncol(Zmat)
-stopifnot(p+d == Wd)
 
 
 # Likelihood and derivatives
@@ -219,3 +217,280 @@ log_prior_W <- function(W,theta,Q = NULL) {
   if (is.null(Q)) Q <- Q_matrix(theta)
   -(1/2) * as.numeric(crossprod(W,crossprod(Q,W))) +(1/2)*as.numeric(determinant(Q,logarithm = TRUE)$modulus)
 }
+
+
+#### Unnormalized posterior 
+
+log_posterior_W <- function(W,theta,Q = NULL) {
+  if (is.null(Q)) Q <- Q_matrix(theta)
+  log_prior_W(W,theta,Q) + log_likelihood(W) + logprior_theta(theta)
+}
+
+grad_log_posterior_W <- function(W,theta,Q = NULL) {
+  if (is.null(Q)) Q <- Q_matrix(theta)
+  as.numeric(-Q %*% cbind(W) + t(Zmat) %*% grad_log_likelihood(W))
+}
+
+H_matrix <- function(W,theta) {
+  C <- hessian_log_likelihood(W)
+  Q <- Q_matrix(theta)
+  Q + crossprod(Zmat,crossprod(C,Zmat))
+}
+
+
+
+
+## Fit model ----
+ff <- list(
+  fn = log_posterior_W,
+  gr = grad_log_posterior_W,
+  he = function(W,theta) -1 * H_matrix(W,theta)
+)
+tm <- Sys.time()
+cat("Fitting model, time = ",format(tm),"\n")
+
+coxphmod <- marginal_laplace(
+  ff,
+  k = 3,
+  # theta starting values from Brown (2015), geostatsp/diseasemapping software paper
+  startingvalue = list(W = rep(0,Wd),theta = c(-1,log(50*1000),0)),
+  control = list(method = 'BFGS',inner_method = 'trust', negate = F)
+)
+
+cat("Finished model, took ",format(difftime(Sys.time(),tm,units = 'secs')),"\n")
+
+
+
+
+################ Posterior summary:
+set.seed(123)
+posterior_samples <- sample_marginal(coxphmod,1e03)
+
+
+# Plot of hyper-parameters:
+sigmaprior <- function(sigma,u,alpha) dexp(sigma,-log(alpha)/u) # Same for tau as well
+rhoprior <- function(rho,u,alpha) (1/rho^2) * dexp(1/rho,-log(alpha) * u)
+sigmapdf <- compute_pdf_and_cdf(coxphmod$marginals[[1]],list(totheta = log,fromtheta = exp),seq(-10,-.2,by=.01))
+rhopdf <- compute_pdf_and_cdf(coxphmod$marginals[[2]],list(totheta = log,fromtheta = exp),seq(0,12.5,by=.01))
+Sigmapdf <- compute_pdf_and_cdf(coxphmod$marginals[[3]],list(totheta = function(x) -2*log(x),fromtheta = function(x) exp(-x/2)), interpolation = "spline")
+
+
+### Hyper 1:
+sigmaplot <- sigmapdf %>%
+  ggplot(aes(x = transparam,y = pdf_transparam)) +
+  theme_classic() +
+  geom_line() +
+  stat_function(fun = sigmaprior,args = list(u = sigma_u,alpha = sigma_alpha),linetype = 'dashed') +
+  # labs(x = expression(sigma),y = "Density") +
+  labs(x = "",y = "") +
+  theme(text = element_text(size = TEXT_SIZE))
+### Hyper 2:
+rhoplot <- rhopdf %>%
+  ggplot(aes(x = transparam,y = 1e05*pdf_transparam)) +
+  theme_classic() +
+  geom_line() +
+  geom_line(data = tibble(x = seq(0.1,2e05,length.out = 1e05),y = 1e05*rhoprior(x,rho_u,rho_alpha)),aes(x = x,y = y),linetype = "dashed") +
+  scale_x_continuous(breaks = seq(0,1e06,by = 2.5e04),labels = function(x) x/1000) +
+  theme(text = element_text(size = TEXT_SIZE)) +
+  coord_cartesian(xlim = c(0,1.5e05)) +
+  labs(x = "",y = "")
+### Hyper 3:
+Sigmaplot <- Sigmapdf %>%
+  ggplot(aes(x = transparam,y = pdf_transparam)) +
+  theme_classic() +
+  geom_line() +
+  stat_function(fun = sigmaprior,args = list(u = Tau_RW_u,alpha = Tau_RW_alpha),linetype = 'dashed') +
+  # labs(x = expression(sigma),y = "Density") +
+  labs(x = "",y = "") +
+  theme(text = element_text(size = TEXT_SIZE))
+
+
+
+#### RW2 Smoothing:
+RWid <- 1:ncol(B) # Note: first index is intercept, not actually estimable here
+RWsamps <- posterior_samples$samps[RWid, ]
+RWpostMean <- apply(RWsamps,1,mean)
+# Construct a plot
+plotx <- seq(a,b,by=0.01)
+plotdat <- data.frame(x = plotx)
+plotB <- mgcv::smooth.construct(s(x,bs='bs',m=c(4-1,0),k=length(splineknots)-4),data = plotdat,knots = list(x = splineknots))$X
+# Construct the plot
+ploteta <- plotB %*% RWpostMean
+samplestoplot <- RWsamps[ ,sample(1:ncol(RWsamps),200,replace = FALSE)]
+plot(plotx,ploteta,type='l',ylim=c(-0.5,0.5))
+for (i in 1:ncol(samplestoplot)) {
+  WS <- samplestoplot[ ,i]
+  US <- WS[1:ncol(P)]
+  plotetaS <- plotB %*% US
+  plotetaS <- plotetaS - mean(plotetaS)
+  lines(plotx,plotetaS,col = 'lightgray')
+}
+lines(plotx,ploteta)
+# get pointwise SD of eta
+etaplot <- list()
+for (i in 1:ncol(RWsamps)) {
+  W <- RWsamps[ ,i]
+  U <- W[1:ncol(P)]
+  eta <- as.numeric(plotB %*% U)
+  etaplot[[i]] <- data.frame(
+    x = plotx,
+    eta = eta - mean(eta)
+  )
+}
+etaplotframe <- purrr::reduce(etaplot,rbind) %>%
+  group_by(x) %>%
+  summarize(etamean = mean(eta),etasd = sd(eta)) %>%
+  mutate(lower = etamean - 2*etasd,upper = etamean + 2*etasd)
+with(etaplotframe,plot(x,etamean,type='l',ylim = c(-0.5,0.5)))
+with(etaplotframe,lines(x,lower,type='l',lty='dashed'))
+with(etaplotframe,lines(x,upper,type='l',lty='dashed'))
+
+
+
+##### Fixed effects and Hyper parameters table:
+betaidx <- (ncol(B)+1):(ncol(BX)) # Note: first index is intercept, not actually estimable here
+betasamps <- posterior_samples$samps[betaidx, ]
+
+betamean <- apply(betasamps,1,mean)
+betasd <- apply(betasamps,1,sd)
+beta2.5 <- apply(betasamps,1,quantile,probs = .025)
+beta97.5 <- apply(betasamps,1,quantile,probs = .975)
+
+# Sigmas
+sigma_and_rho_means <- compute_moment(coxphmod$normalized_posterior,exp)
+sigma_and_rho_sd <- sqrt(compute_moment(coxphmod$normalized_posterior,function(x) ((exp(x) - sigma_and_rho_means)^2)))
+sigma_quants <- exp(compute_quantiles(coxphmod$marginals[[1]]))
+rho_quants <- exp(compute_quantiles(coxphmod$marginals[[2]]))
+Sigma_quants <- exp(-0.5*compute_quantiles(coxphmod$marginals[[3]]))
+makelogPrectoSig <- function(x) {exp(-0.5*x)}
+sigma_and_rho_means[3] <- compute_moment(coxphmod$normalized_posterior, makelogPrectoSig)[3]
+sigma_and_rho_sd[3] <- sqrt(compute_moment(coxphmod$normalized_posterior,function(x) ((exp(-0.5*x) - sigma_and_rho_means)^2)))[3]
+
+coeftable <- tibble(
+  mean = c(betamean,sigma_and_rho_means),
+  sd = c(betasd,sigma_and_rho_sd),
+  q2.5 = c(beta2.5,sigma_quants[1],rho_quants[1],Sigma_quants[1]),
+  q97.5 = c(beta97.5,sigma_quants[2],rho_quants[2],Sigma_quants[2])
+)
+
+
+
+########## Spatial effect:
+# Simulate the spatial fields
+simulate_spatial_fields <- function(U,
+                                    theta,
+                                    pointsdata,
+                                    resolution = list(nrow = 100,ncol = 100)) {
+  # U: matrix of samples, each column is a sample
+  # theta: tibble of theta values
+  # Draw from U*|U
+  fieldlist <- vector(mode = 'list',length = nrow(theta))
+  for (i in 1:length(fieldlist)) {
+    fielddat <- pointsdata
+    fielddat@data <- data.frame(w = as.numeric(U[ ,i]))
+    
+    # Back-transform the Matern params
+    sig <- exp(theta$theta1[i])
+    rho <- exp(theta$theta2[i])
+    # Simulate from the two fields
+    capture.output({
+      fieldlist[[i]] <- geostatsp::RFsimulate(
+        model = c("variance" = sig^2,"range" = rho,"shape" = 2),
+        data = fielddat,
+        x = raster(fielddat,nrows = resolution$nrow,ncols = resolution$ncol),
+        n = 1
+      )
+    })
+  }
+  brick(fieldlist)
+}
+
+tm <- Sys.time()
+cat("Doing brick, time = ",format(tm),"\n")
+# Do it for only 100, because it takes a lot of time
+set.seed(123)
+simstodo <- sample(ncol(posterior_samples$samps),100,replace = FALSE)
+fieldsbrick <- simulate_spatial_fields(
+  U = posterior_samples$samps[(ncol(BX) + 1):Wd,simstodo],
+  theta = posterior_samples$theta[simstodo, 1:2],
+  pointsdata = pointsdata,
+  resolution = list(nrow = 400,ncol = 200)
+)
+cat("Finished brick, took ",format(difftime(Sys.time(),tm,units = 'secs')),"\n")
+save(fieldsbrick,file = "spatial.Rdata")
+
+
+
+###### Spatial plot:
+ukBorderLL = raster::getData("GADM", country='GBR', level=3) # Regions
+ukBorder = spTransform(ukBorderLL, projection(pointsdata))
+# ukBorder = ukBorder[ukBorder$NAME_1 %in% c("England","Wales"), ]
+# ukBorder = raster::crop(ukBorder, extent(pointsdata))
+# TODO: Plot only polygons that have a point in them, this isn't quite what's being done
+pointsinpoly <- pointsdata %over% ukBorder
+pointsinpolyID <- unique(pointsinpoly$GID_2)
+ukBorder <- ukBorder[ukBorder$GID_2 %in% pointsinpolyID, ]
+# Get the outer border
+ukBorderouter <- rgeos::gUnaryUnion(ukBorder)
+
+
+simfieldsmean <- mean(exp(fieldsbrick))
+simfieldsexceedence <- mean(fieldsbrick > log(1.2))
+
+# MEAN
+plotraster <- simfieldsmean
+
+predcols <- mapmisc::colourScale(
+  plotraster,
+  breaks = quantile(values(plotraster),probs = (0:9)/9),
+  style = "fixed",
+  col = "Spectral",
+  rev = TRUE,
+  # transform='log',
+  dec = -log10(0.05)
+)
+
+colvals <- 100
+bigvalues <- quantile(values(plotraster),probs = (0:(colvals-1))/(colvals-1))
+plotraster <- mask(plotraster, ukBorder)
+
+
+
+mapmisc::map.new(pointsdata)
+plot(plotraster,
+     col = predcols$col,
+     breaks = predcols$breaks,
+     legend=FALSE, add=TRUE)
+plot(plotraster, col=predcols$col, breaks=predcols$breaks, legend=FALSE, add=TRUE)
+plot(ukBorder, add=TRUE,border=mapmisc::col2html("black", 0.5), lwd=0.5)
+plot(ukBorderouter,add = TRUE)
+points(pointsdata,pch = ".")
+mapmisc::legendBreaks('topright', predcols, cex=1.5, bty='n',inset=0)
+
+
+# EXCEEDENCE PROBABILITIES
+plotraster <- simfieldsexceedence
+
+predcols <- mapmisc::colourScale(
+  plotraster,
+  breaks = c(0,0.05,0.1,0.15,0.2,0.3,0.5,0.65),
+  style = "fixed",
+  col = "Spectral",
+  rev = TRUE
+)
+
+plotraster <- mask(plotraster, ukBorder)
+
+mapmisc::map.new(pointsdata)
+plot(plotraster,
+     col = predcols$col,
+     breaks = predcols$breaks,
+     legend=FALSE, add=TRUE)
+plot(ukBorder, add=TRUE,border=mapmisc::col2html("black", 0.5), lwd=0.5)
+plot(ukBorderouter,add = TRUE)
+points(pointsdata,pch = ".")
+mapmisc::legendBreaks('topright', predcols, cex=1.5, bty='n')
+
+
+
+

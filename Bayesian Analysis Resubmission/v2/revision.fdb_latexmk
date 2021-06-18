@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex revision"] 1623863718 "revision.aux" "revision.bbl" "revision" 1623863721
+["bibtex revision"] 1623938705 "revision.aux" "revision.bbl" "revision" 1623938707
   "./ba.bst" 1623348399 30137 37e47e7af783246ab15ee950a8649b05 ""
-  "myrefs.bib" 1623629610 13151 2f18bac444e38a00aefe0cdd6a58b07a ""
-  "revision.aux" 1623863720 18462 9c719c0ed50f1b10174d9c259cd8e42d ""
+  "myrefs.bib" 1623938656 13834 339309d6326b69423127b16d12ef8165 ""
+  "revision.aux" 1623938707 18777 5f68c30fb5b92b1b9cc7152214bcbe01 ""
   (generated)
   "revision.blg"
   "revision.bbl"
-["pdflatex"] 1623863718 "revision.tex" "revision.pdf" "revision" 1623863721
+["pdflatex"] 1623938705 "revision.tex" "revision.pdf" "revision" 1623938707
   "/usr/local/texlive/2018/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1480098698 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2018/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1480098698 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -138,18 +138,18 @@
   "leukHyper2.png" 1622306803 28784 02669ef04dcf1dde7f5a0e8877e89161 ""
   "leukSmooth.png" 1623694807 62157 794203cee1477c0ad747905d0b8e300d ""
   "mathrsfs.sty" 1623348399 300 12fa6f636b617656f2810ee82cb05015 ""
-  "revision.aux" 1623863720 18462 9c719c0ed50f1b10174d9c259cd8e42d ""
-  "revision.bbl" 1623863718 8044 d2a3e600308730a93e61b41a10b623b2 "bibtex revision"
-  "revision.brf" 1623863720 2674 0e316695e329d5bf92b57d54d6e53c11 ""
-  "revision.out" 1623863720 937 54ac06a11ced18e84cd6375d6d0b4c09 ""
-  "revision.tex" 1623863709 49472 56ada2c816a79da679fc588871eee9d5 ""
+  "revision.aux" 1623938707 18777 5f68c30fb5b92b1b9cc7152214bcbe01 ""
+  "revision.bbl" 1623938705 8532 444b95bee0f288a531c7c81985d3bf26 "bibtex revision"
+  "revision.brf" 1623938707 2772 1e32aade5eecb8350659cb8dfa04df87 ""
+  "revision.out" 1623938707 937 54ac06a11ced18e84cd6375d6d0b4c09 ""
+  "revision.tex" 1623938656 50249 dd9d3c8831663afb67e73b18d73816fa ""
   "simple_base.png" 1623634296 120768 b27fe1cd75d79f5c095da0af378eeed6 ""
   "simple_box.png" 1623627480 27700 7736a1b957723c86d2476a6c6fe7214b ""
   "stepwise_base.png" 1623634245 123566 3e444b7970b9ad9cfe75d21b0d173752 ""
   "stepwise_box.png" 1623627494 28805 2e86f8afbaaf6db49835876a8c12a503 ""
   (generated)
-  "revision.brf"
-  "revision.out"
   "revision.log"
+  "revision.out"
   "revision.aux"
   "revision.pdf"
+  "revision.brf"

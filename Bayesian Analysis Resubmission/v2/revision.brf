@@ -1,5 +1,7 @@
 \backcite {coxph}{{1}{1}{section.1}}
 \backcite {inla}{{2}{1}{section.1}}
+\backcite {BayesianNonpara}{{2}{1}{section.1}}
+\backcite {BayesianPartialMCMC}{{2}{1}{section.1}}
 \backcite {inlacoxph}{{2}{1}{section.1}}
 \backcite {casecross}{{2}{1}{section.1}}
 \backcite {casecross}{{2}{1}{section.1}}
@@ -9,7 +11,7 @@
 \backcite {ELGM}{{3}{1}{section.1}}
 \backcite {inlacoxph}{{3}{1}{section.1}}
 \backcite {kidney}{{3}{1}{section.1}}
-\backcite {frailty}{{3}{2.1}{equation.2.1}}
+\backcite {frailty}{{4}{2.1}{equation.2.1}}
 \backcite {wiener}{{4}{2.2}{subsection.2.2}}
 \backcite {wahbaprior}{{4}{2.2}{subsection.2.2}}
 \backcite {rw2}{{4}{2.2}{subsection.2.2}}
@@ -35,7 +37,7 @@
 \backcite {ELGM}{{6}{3.1}{equation.3.5}}
 \backcite {casecross}{{6}{3.1}{equation.3.8}}
 \backcite {tierney}{{7}{3.1}{equation.3.13}}
-\backcite {casecross}{{7}{3.1}{equation.3.14}}
+\backcite {casecross}{{8}{3.1}{equation.3.14}}
 \backcite {inlacoxph}{{8}{3.1}{equation.3.14}}
 \backcite {nayloradaptive}{{8}{3.1}{equation.3.14}}
 \backcite {adaptive_GH_1994}{{8}{3.1}{equation.3.14}}
@@ -48,13 +50,13 @@
 \backcite {coxdiscussion}{{9}{4.1}{section*.1}}
 \backcite {rw2}{{10}{4.1}{section*.2}}
 \backcite {pcprior}{{10}{4.1}{section*.2}}
-\backcite {inlacoxph}{{10}{4.2}{subsection.4.2}}
+\backcite {inlacoxph}{{11}{4.2}{subsection.4.2}}
 \backcite {inlacoxph}{{11}{4.2}{subsection.4.2}}
 \backcite {inlacoxph}{{11}{4.2}{subsection.4.2}}
 \backcite {NUTS}{{11}{4.2}{subsection.4.2}}
-\backcite {freqPL}{{11}{4.3}{subsection.4.3}}
+\backcite {freqPL}{{12}{4.3}{subsection.4.3}}
 \backcite {Breslow}{{12}{4.3}{subsection.4.3}}
 \backcite {inlacoxph}{{12}{4.3}{subsection.4.3}}
-\backcite {Ogden2013ASR}{{12}{5}{section.5}}
+\backcite {Ogden2013ASR}{{13}{5}{section.5}}
 \backcite {inla}{{13}{5}{section*.4}}
 \backcite {survival-package}{{13}{5}{section*.4}}

@@ -1,4 +1,4 @@
-\begin{thebibliography}{30}
+\begin{thebibliography}{32}
 \newcommand{\enquote}[1]{``#1''}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
@@ -33,6 +33,12 @@ Cox, D.~R. (1972{\natexlab{a}}).
   (Methodological)\/}, 34(2): 187--220.
 \endbibitem
 
+\bibitem[{Dykstra and Laud(1981)}]{BayesianNonpara}
+Dykstra, R.~L. and Laud, P. (1981).
+\newblock \enquote{A Bayesian Nonparametric Approach to Reliability.}
+\newblock {\em The Annals of Statistics\/}, 9(2): 356--367.
+\endbibitem
+
 \bibitem[{Geyer.(2020)}]{trust}
 Geyer., C.~J. (2020).
 \newblock {\em trust: Trust Region Optimization\/}.
@@ -52,6 +58,13 @@ Jin, S. and Andersson, B. (2020).
 \newblock \enquote{{A note on the accuracy of adaptive Gauss–Hermite
   quadrature}.}
 \newblock {\em Biometrika\/}.
+\endbibitem
+
+\bibitem[{Kim and Kim(2009)}]{BayesianPartialMCMC}
+Kim, Y. and Kim, D. (2009).
+\newblock \enquote{Bayesian partial likelihood approach for tied observations.}
+\newblock {\em Journal of Statistical Planning and Inference\/}, 139(2):
+  469--477.
 \endbibitem
 
 \bibitem[{Kristensen et~al.(2016)Kristensen, Nielsen, Berg, Skaug, and

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  16 JUN 2021 13:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  17 JUN 2021 10:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -578,24 +578,19 @@ Overfull \hbox (6.94511pt too wide) in paragraph at lines 127--128
 te ef-fects, semi-parametric smooth-
  []
 
+[2]
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 129.
-[2] [3]
-Underfull \vbox (badness 2662) has occurred while \output is active []
+ [3]
+Underfull \vbox (badness 2961) has occurred while \output is active []
 
  [4]
-[5] [6] [7] [8] [9]
-Overfull \hbox (13.45105pt too wide) in paragraph at lines 284--285
-\OT1/cmr/m/n/10 used for the lin-ear re-gres-sion co-ef-fi-cients. The semi-par
-ametric ef-fects $\OMS/cmsy/m/n/10 f\OML/cmm/m/it/10 ^^M\OT1/cmr/m/n/10 ([][])\
-OML/cmm/m/it/10 ; []  ; ^^M\OT1/cmr/m/n/10 ([][])\OMS/cmsy/m/n/10 g$
- []
-
-[10] [11] [12] (./revision.bbl (./revision.brf)
+[5] [6] [7] [8] [9] [10] [11] [12] (./revision.bbl (./revision.brf)
 \tf@brf=\write4
 \openout4 = `revision.brf'.
 
- [13] [14]) [15]
+ [13]
+[14]) [15]
 Overfull \hbox (74.52457pt too wide) in paragraph at lines 340--341
  [] 
  []
@@ -605,37 +600,37 @@ Overfull \hbox (70.20795pt too wide) in paragraph at lines 365--366
  [] 
  []
 
-<base_sim1.pdf, id=435, 444.66125pt x 414.54875pt>
+<base_sim1.pdf, id=441, 444.66125pt x 414.54875pt>
 File: base_sim1.pdf Graphic file (type pdf)
 <use base_sim1.pdf>
 Package pdftex.def Info: base_sim1.pdf  used on input line 375.
 (pdftex.def)             Requested size: 208.44801pt x 180.67514pt.
-<simple_base.png, id=437, 2730.2pt x 1299.85625pt>
+<simple_base.png, id=443, 2730.2pt x 1299.85625pt>
 File: simple_base.png Graphic file (type png)
 <use simple_base.png>
 Package pdftex.def Info: simple_base.png  used on input line 385.
 (pdftex.def)             Requested size: 170.5121pt x 180.66957pt.
-<stepwise_base.png, id=439, 2730.2pt x 1299.85625pt>
+<stepwise_base.png, id=445, 2730.2pt x 1299.85625pt>
 File: stepwise_base.png Graphic file (type png)
 <use stepwise_base.png>
 Package pdftex.def Info: stepwise_base.png  used on input line 388.
 (pdftex.def)             Requested size: 170.5121pt x 180.66957pt.
-<com_base.png, id=440, 2730.2pt x 1299.85625pt>
+<com_base.png, id=446, 2730.2pt x 1299.85625pt>
 File: com_base.png Graphic file (type png)
 <use com_base.png>
 Package pdftex.def Info: com_base.png  used on input line 391.
 (pdftex.def)             Requested size: 208.4222pt x 180.66957pt.
-<simple_box.png, id=442, 655.44875pt x 657.45625pt>
+<simple_box.png, id=448, 655.44875pt x 657.45625pt>
 File: simple_box.png Graphic file (type png)
 <use simple_box.png>
 Package pdftex.def Info: simple_box.png  used on input line 401.
 (pdftex.def)             Requested size: 170.54266pt x 180.66559pt.
-<stepwise_box.png, id=443, 655.44875pt x 657.45625pt>
+<stepwise_box.png, id=449, 655.44875pt x 657.45625pt>
 File: stepwise_box.png Graphic file (type png)
 <use stepwise_box.png>
 Package pdftex.def Info: stepwise_box.png  used on input line 404.
 (pdftex.def)             Requested size: 170.54266pt x 180.66559pt.
-<com_box.png, id=444, 655.44875pt x 657.45625pt>
+<com_box.png, id=450, 655.44875pt x 657.45625pt>
 File: com_box.png Graphic file (type png)
 <use com_box.png>
 Package pdftex.def Info: com_box.png  used on input line 407.
@@ -645,17 +640,17 @@ Overfull \hbox (55.78566pt too wide) in paragraph at lines 428--429
  [] 
  []
 
-<leukSmooth.png, id=449, 670.6656pt x 464.4552pt>
+<leukSmooth.png, id=455, 670.6656pt x 464.4552pt>
 File: leukSmooth.png Graphic file (type png)
 <use leukSmooth.png>
 Package pdftex.def Info: leukSmooth.png  used on input line 443.
 (pdftex.def)             Requested size: 170.5416pt x 180.66905pt.
-<leukHyper.png, id=450, 640.5531pt x 464.4552pt>
+<leukHyper.png, id=456, 640.5531pt x 464.4552pt>
 File: leukHyper.png Graphic file (type png)
 <use leukHyper.png>
 Package pdftex.def Info: leukHyper.png  used on input line 446.
 (pdftex.def)             Requested size: 170.54723pt x 180.66905pt.
-<leukHyper2.png, id=451, 626.34pt x 372.64218pt>
+<leukHyper2.png, id=457, 626.34pt x 372.64218pt>
 File: leukHyper2.png Graphic file (type png)
 <use leukHyper2.png>
 Package pdftex.def Info: leukHyper2.png  used on input line 449.
@@ -710,12 +705,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 508--508
 []\OT1/cmr/m/n/10 Disease
  []
 
-<kidneyHyper.png, id=458, 578.16pt x 372.64218pt>
+<kidneyHyper.png, id=464, 578.16pt x 372.64218pt>
 File: kidneyHyper.png Graphic file (type png)
 <use kidneyHyper.png>
 Package pdftex.def Info: kidneyHyper.png  used on input line 521.
 (pdftex.def)             Requested size: 170.54689pt x 180.67438pt.
-<kidneyHyper2.png, id=459, 578.16pt x 372.64218pt>
+<kidneyHyper2.png, id=465, 578.16pt x 372.64218pt>
 File: kidneyHyper2.png Graphic file (type png)
 <use kidneyHyper2.png>
 Package pdftex.def Info: kidneyHyper2.png  used on input line 524.
@@ -732,16 +727,16 @@ Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 533.
 Package rerunfilecheck Info: File `revision.out' has not changed.
 (rerunfilecheck)             Checksum: 54AC06A11CED18E84CD6375D6D0B4C09;937.
 Package rerunfilecheck Info: File `revision.brf' has not changed.
-(rerunfilecheck)             Checksum: 0E316695E329D5BF92B57D54D6E53C11;2674.
+(rerunfilecheck)             Checksum: 1E32AADE5EECB8350659CB8DFA04DF87;2772.
  ) 
 Here is how much of TeX's memory you used:
- 9231 strings out of 492649
- 135864 string characters out of 6129622
- 250658 words of memory out of 5000000
- 12837 multiletter control sequences out of 15000+600000
+ 9245 strings out of 492649
+ 136184 string characters out of 6129622
+ 250726 words of memory out of 5000000
+ 12849 multiletter control sequences out of 15000+600000
  16580 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,17n,37p,1792b,506s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,17n,37p,2230b,496s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb>
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
 /usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
@@ -762,10 +757,10 @@ exmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2018/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2018/texmf
 -dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on revision.pdf (20 pages, 851147 bytes).
+Output written on revision.pdf (20 pages, 852319 bytes).
 PDF statistics:
- 600 PDF objects out of 1000 (max. 8388607)
- 521 compressed objects within 6 object streams
- 108 named destinations out of 1000 (max. 500000)
+ 608 PDF objects out of 1000 (max. 8388607)
+ 529 compressed objects within 6 object streams
+ 110 named destinations out of 1000 (max. 500000)
  181 words of extra memory for PDF output out of 10000 (max. 10000000)
 
