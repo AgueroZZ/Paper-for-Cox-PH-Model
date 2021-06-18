@@ -1,4 +1,4 @@
-\begin{thebibliography}{30}
+\begin{thebibliography}{37}
 \newcommand{\enquote}[1]{``#1''}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
@@ -33,6 +33,12 @@ Cox, D.~R. (1972{\natexlab{a}}).
   (Methodological)\/}, 34(2): 187--220.
 \endbibitem
 
+\bibitem[{Dykstra and Laud(1981)}]{BayesianNonpara}
+Dykstra, R.~L. and Laud, P. (1981).
+\newblock \enquote{A Bayesian Nonparametric Approach to Reliability.}
+\newblock {\em The Annals of Statistics\/}, 9(2): 356--367.
+\endbibitem
+
 \bibitem[{Geyer.(2020)}]{trust}
 Geyer., C.~J. (2020).
 \newblock {\em trust: Trust Region Optimization\/}.
@@ -47,11 +53,25 @@ Gray, R.~J. (1992).
   942--951.
 \endbibitem
 
+\bibitem[{Henderson et~al.(2002)Henderson, Shimakura, and Gorst}]{leukaemia}
+Henderson, R., Shimakura, S., and Gorst, D. (2002).
+\newblock \enquote{{Modelling spatial variation in Leukaemia survival}.}
+\newblock {\em Journal of the American Statistical Association\/}, 97(460):
+  965--972.
+\endbibitem
+
 \bibitem[{Jin and Andersson(2020)}]{adaptive_GH_2020}
 Jin, S. and Andersson, B. (2020).
 \newblock \enquote{{A note on the accuracy of adaptive Gauss–Hermite
   quadrature}.}
 \newblock {\em Biometrika\/}.
+\endbibitem
+
+\bibitem[{Kim and Kim(2009)}]{BayesianPartialMCMC}
+Kim, Y. and Kim, D. (2009).
+\newblock \enquote{Bayesian partial likelihood approach for tied observations.}
+\newblock {\em Journal of Statistical Planning and Inference\/}, 139(2):
+  469--477.
 \endbibitem
 
 \bibitem[{Kristensen et~al.(2016)Kristensen, Nielsen, Berg, Skaug, and
@@ -74,6 +94,14 @@ Lindgren, F. and Rue, H. (2008).
 \newblock \enquote{On the second-order random walk model for irregular
   locations.}
 \newblock {\em Scandinavian Journal of Statistics\/}, 35(4): 691--700.
+\endbibitem
+
+\bibitem[{Lindgren et~al.(2011)Lindgren, Rue, and Lindstr{\"o}m}]{spde}
+Lindgren, F., Rue, H., and Lindstr{\"o}m, J. (2011).
+\newblock \enquote{An explicit link between Gaussian fields and Gaussian Markov
+  random fields: the stochastic partial differential equation approach.}
+\newblock {\em Journal of the Royal Statistical Society, Series B (Statistical
+  Methodology)\/}, 73(4): 423--498.
 \endbibitem
 
 \bibitem[{Liu and Pierce(1994)}]{adaptive_GH_1994}
@@ -122,6 +150,12 @@ Ogden, H. (2013).
 \newblock \enquote{A sequential reduction method for inference in generalized
   linear mixed models.}
 \newblock {\em arXiv: Computation\/}.
+\endbibitem
+
+\bibitem[{O'Sullivan(1986)}]{osullivanspline}
+O'Sullivan, F. (1986).
+\newblock \enquote{A Statistical Perspective on Ill-Posed Inverse Problems.}
+\newblock {\em Statistical Science\/}, 1(4): 502--527.
 \endbibitem
 
 \bibitem[{Rue and Martino(2007)}]{gmrfmodels}
@@ -208,12 +242,27 @@ Wahba, G. (1978).
   (Methodological)\/}, 40(3): 364--372.
 \endbibitem
 
+\bibitem[{Wood(2017)}]{derivativepenalties}
+Wood, S.~N. (2017).
+\newblock \enquote{P-splines with derivative based penalties and tensor product
+  smoothing of unevenly distributed data.}
+\newblock {\em Statistics and Computing\/}, 27: 985--989.
+\endbibitem
+
 \bibitem[{Wood et~al.(2016)Wood, Pya, and S{\"a}fken}]{GAM}
 Wood, S.~N., Pya, N., and S{\"a}fken, B. (2016).
 \newblock \enquote{Smoothing parameter and model selection for general smooth
   models.}
 \newblock {\em Journal of the American Statistical Association\/}, 111(516):
   1548--1563.
+\endbibitem
+
+\bibitem[{Yue et~al.(2014)Yue, Simpson, Lindgren, and
+  Rue}]{adaptivesmoothingsplines}
+Yue, Y.~R., Simpson, D., Lindgren, F., and Rue, H. (2014).
+\newblock \enquote{Bayesian Adaptive Smoothing Splines Using Stochastic
+  Differential Equations.}
+\newblock {\em Bayesian Analysis\/}, 9(2): 397--424.
 \endbibitem
 
 \end{thebibliography}

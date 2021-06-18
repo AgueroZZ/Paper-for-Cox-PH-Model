@@ -4,12 +4,13 @@
 \BOOKMARK [2][-]{subsection.2.2}{Modeling Semi-parametric covariate effect}{section.2}% 4
 \BOOKMARK [1][-]{section.3}{Methods}{}% 5
 \BOOKMARK [2][-]{subsection.3.1}{Approximate Bayesian Inference}{section.3}% 6
-\BOOKMARK [1][-]{section.4}{Examples}{}% 7
-\BOOKMARK [2][-]{subsection.4.1}{Simulation studies}{section.4}% 8
-\BOOKMARK [3][-]{section*.1}{Simulation with sparse frailties}{subsection.4.1}% 9
-\BOOKMARK [3][-]{section*.2}{Simulation with non-smooth baseline}{subsection.4.1}% 10
-\BOOKMARK [2][-]{subsection.4.2}{Leukemia Data}{section.4}% 11
-\BOOKMARK [2][-]{subsection.4.3}{Kidney Catheter Data}{section.4}% 12
-\BOOKMARK [1][-]{section.5}{Discussion}{}% 13
-\BOOKMARK [1][-]{section*.4}{Data Availability Statement}{}% 14
-\BOOKMARK [1][-]{section*.6}{References}{}% 15
+\BOOKMARK [2][-]{subsection.3.2}{Adaptive quadrature and automatic differentiation}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{Examples}{}% 8
+\BOOKMARK [2][-]{subsection.4.1}{Simulation studies}{section.4}% 9
+\BOOKMARK [3][-]{section*.1}{Simulation with sparse frailties}{subsection.4.1}% 10
+\BOOKMARK [3][-]{section*.2}{Simulation with non-smooth baseline}{subsection.4.1}% 11
+\BOOKMARK [2][-]{subsection.4.2}{Leukemia Data}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.3}{Kidney Catheter Data}{section.4}% 13
+\BOOKMARK [1][-]{section.5}{Discussion}{}% 14
+\BOOKMARK [1][-]{section*.4}{Data Availability Statement}{}% 15
+\BOOKMARK [1][-]{section*.6}{References}{}% 16
