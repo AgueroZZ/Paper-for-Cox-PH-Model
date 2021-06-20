@@ -38,7 +38,7 @@ p <- 4 # 4 = cubic
 # Order of derivative penalty
 m <- 2
 # Number of INTERIOR knots
-d <- 20
+d <- 46
 # Number of knots
 T <- d + p
 # The knots
@@ -106,7 +106,7 @@ ff <- TMB::MakeADFun(
 ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
 
 # AGHQ
-quad <- aghq::marginal_laplace_tmb(ff,7,0)
+quad <- aghq::marginal_laplace_tmb(ff,15,0)
 
 # Plot of theta posterior
 logpostsigma <- compute_pdf_and_cdf(quad$marginals[[1]],list(totheta = function(x) -2*log(x),fromtheta = function(x) exp(-x/2)), interpolation = "spline")
