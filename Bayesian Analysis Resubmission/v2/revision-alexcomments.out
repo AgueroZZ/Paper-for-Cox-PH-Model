@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Model}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{A\040General\040Cox\040PH\040Model}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Modeling\040Semi-parametric\040covariate\040effect}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{Methods}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{Approximate\040Bayesian\040Inference}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.2}{Adaptive\040quadrature\040and\040automatic\040differentiation}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{Examples}{}% 8
+\BOOKMARK [2][-]{subsection.4.1}{Simulation\040studies}{section.4}% 9
+\BOOKMARK [3][-]{section*.1}{Simulation\040with\040sparse\040frailties}{subsection.4.1}% 10
+\BOOKMARK [3][-]{section*.2}{Simulation\040with\040non-smooth\040baseline}{subsection.4.1}% 11
+\BOOKMARK [2][-]{subsection.4.2}{Leukemia\040Data}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.3}{Kidney\040Catheter\040Data}{section.4}% 13
+\BOOKMARK [1][-]{section.5}{Discussion}{}% 14
+\BOOKMARK [1][-]{section*.4}{Data\040Availability\040Statement}{}% 15
+\BOOKMARK [1][-]{section*.6}{References}{}% 16
