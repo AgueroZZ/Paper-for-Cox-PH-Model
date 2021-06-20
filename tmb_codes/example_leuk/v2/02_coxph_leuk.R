@@ -106,7 +106,7 @@ ff <- TMB::MakeADFun(
 ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
 
 # AGHQ
-quad <- aghq::marginal_laplace_tmb(ff,15,0)
+quad <- aghq::marginal_laplace_tmb(ff,7,0)
 
 # Plot of theta posterior
 logpostsigma <- compute_pdf_and_cdf(quad$marginals[[1]],list(totheta = function(x) -2*log(x),fromtheta = function(x) exp(-x/2)), interpolation = "spline")
@@ -269,7 +269,7 @@ stanmod <- tmbstan(
 end_time <- Sys.time()
 runtime_MCMC <- end_time - start_time
 runtime_MCMC
-
+save(stanmod, file = "stanmod.Rdat")
 
 summ <- summary(stanmod)
 U_mcmc <- summ$summary[1:(d+m),1]

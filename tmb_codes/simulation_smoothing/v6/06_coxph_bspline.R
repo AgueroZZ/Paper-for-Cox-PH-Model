@@ -225,53 +225,53 @@ do_once <- function(seed, truth = "complicated", N = 1000, baseline){
 }
 
 
-### First Case: where baseline hazard is very complicated
-result <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, truth = "complicated", N = 1000 , baseline)
-agg_result <- result %>% group_by(method) %>% summarise(rmse = mean(rmse), coverage = mean(coverage), mse = mean(mse))
-agg_result
-save(result, file = "result_300_aggregations_complicated.rda")
-save(agg_result, file = "aggresult_300_aggregations_complicated.rda")
-
-
-#### Second Case: where baseline hazard is medium
-set.seed(1234)
-Simulate_baseline2 <- function(timelim = 300, breaks = 0.001, cut = 30){
-  timelim <- timelim
-  tdom <- seq(0, timelim, by = breaks)
-  haz <- rep(0, length(tdom))
-  cut <- cut
-  for (i in 1:cut) {
-    low <- as.numeric(quantile(tdom,(i-1)/cut))
-    high <- as.numeric(quantile(tdom,(i)/cut))
-    if(i %% 2 == 1){
-      a <- runif(1,0,1)
-      if(a > 0.3) haz[tdom<=high & tdom > low] <- 0.1
-      else {
-        c <- tdom[tdom<=high & tdom > low]
-        haz[tdom<=high & tdom > low] <-0.05
-      }
-    }
-    if(i %% 2 == 0){
-      a <- runif(1,0,1)
-      if(a > 0.8){
-        c <- tdom[tdom<=high & tdom > low]
-        haz[tdom<=high & tdom > low] <- 0.25
-      }
-      else{
-        haz[tdom<=high & tdom > low] <- sample(c(0.05,0.15),size = 1,prob = c(0.5,0.5))
-      }
-    }
-  }
-  baseline <- data.frame(time = tdom, hazard = haz, timelim = timelim)
-}
-baseline2 <- Simulate_baseline2()
-ggplot(baseline2,aes(x = time, y = hazard)) + geom_line() + theme_classic(base_size = TEXT_SIZE)
-ggsave(filename = "stepwise_base.png")
-result2 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, truth = "complicated", N = 1000 , baseline2)
-agg_result2 <- result2 %>% group_by(method) %>% summarise(rmse = mean(rmse), coverage = mean(coverage), mse = mean(mse))
-agg_result2
-save(result2, file = "result_300_aggregations_stepwise.rda")
-save(agg_result2, file = "aggresult_300_aggregations_stepwise.rda")
+# ### First Case: where baseline hazard is very complicated
+# result <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, truth = "complicated", N = 1000 , baseline)
+# agg_result <- result %>% group_by(method) %>% summarise(rmse = mean(rmse), coverage = mean(coverage), mse = mean(mse))
+# agg_result
+# save(result, file = "result_300_aggregations_complicated.rda")
+# save(agg_result, file = "aggresult_300_aggregations_complicated.rda")
+# 
+# 
+# #### Second Case: where baseline hazard is medium
+# set.seed(1234)
+# Simulate_baseline2 <- function(timelim = 300, breaks = 0.001, cut = 30){
+#   timelim <- timelim
+#   tdom <- seq(0, timelim, by = breaks)
+#   haz <- rep(0, length(tdom))
+#   cut <- cut
+#   for (i in 1:cut) {
+#     low <- as.numeric(quantile(tdom,(i-1)/cut))
+#     high <- as.numeric(quantile(tdom,(i)/cut))
+#     if(i %% 2 == 1){
+#       a <- runif(1,0,1)
+#       if(a > 0.3) haz[tdom<=high & tdom > low] <- 0.1
+#       else {
+#         c <- tdom[tdom<=high & tdom > low]
+#         haz[tdom<=high & tdom > low] <-0.05
+#       }
+#     }
+#     if(i %% 2 == 0){
+#       a <- runif(1,0,1)
+#       if(a > 0.8){
+#         c <- tdom[tdom<=high & tdom > low]
+#         haz[tdom<=high & tdom > low] <- 0.25
+#       }
+#       else{
+#         haz[tdom<=high & tdom > low] <- sample(c(0.05,0.15),size = 1,prob = c(0.5,0.5))
+#       }
+#     }
+#   }
+#   baseline <- data.frame(time = tdom, hazard = haz, timelim = timelim)
+# }
+# baseline2 <- Simulate_baseline2()
+# ggplot(baseline2,aes(x = time, y = hazard)) + geom_line() + theme_classic(base_size = TEXT_SIZE)
+# ggsave(filename = "stepwise_base.png")
+# result2 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, truth = "complicated", N = 1000 , baseline2)
+# agg_result2 <- result2 %>% group_by(method) %>% summarise(rmse = mean(rmse), coverage = mean(coverage), mse = mean(mse))
+# agg_result2
+# save(result2, file = "result_300_aggregations_stepwise.rda")
+# save(agg_result2, file = "aggresult_300_aggregations_stepwise.rda")
 
 
 
@@ -290,7 +290,7 @@ Simulate_baseline3 <- function(timelim = 300, breaks = 0.001, cut = 5){
       if(a > 0.3) haz[tdom<=high & tdom > low] <- 0.1
       else {
         c <- tdom[tdom<=high & tdom > low]
-        haz[tdom<=high & tdom > low] <-0.05
+        haz[tdom<=high & tdom > low] <-0.01
       }
     }
     if(i %% 2 == 0){
