@@ -1,4 +1,4 @@
-\begin{thebibliography}{39}
+\begin{thebibliography}{37}
 \newcommand{\enquote}[1]{``#1''}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
@@ -201,23 +201,10 @@ Sinha, D., Ibrahim, J.~G., and Chen, M. (2003).
 \newblock {\em Biometrika\/}, 90(3): 629--641.
 \endbibitem
 
-\bibitem[{Stringer(2020)}]{stringeraghqpackage}
-Stringer, A. (2020).
-\newblock \enquote{Implementing Approximate Bayesian Inference using Adaptive
-  Quadrature: the aghq Package.}
-\newblock {\em In preparation\/}.
-\endbibitem
-
 \bibitem[{Stringer et~al.(2020)Stringer, Brown, and Stafford}]{casecross}
 Stringer, A., Brown, P., and Stafford, J. (2020).
 \newblock \enquote{Approximate Bayesian inference for case-crossover models.}
 \newblock {\em Biometrics\/}, In press.
-\endbibitem
-
-\bibitem[{Stringer et~al.(2021)Stringer, Brown, and Stafford}]{ELGM}
---- (2021).
-\newblock \enquote{Fast, Scalable Approximations to Posterior Distributions in
-  Extended Latent Gaussian Models.}
 \endbibitem
 
 \bibitem[{Therneau(2015)}]{survival-package}
