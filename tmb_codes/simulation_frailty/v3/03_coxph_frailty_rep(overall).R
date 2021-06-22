@@ -32,12 +32,12 @@ library(mvQuad, lib = lib_loc)
 
 precompile()
 TEXT_SIZE = 25
-ncores = 8
+ncores = 10
 registerDoMC(ncores)
 
 
 ### Simulating function:
-K = 50
+K = 60
 beta = 0.2
 sd = 0.8
 M <- 500
@@ -85,7 +85,7 @@ Simulate_grouped_data <- function(N = 2, bas = "piecewiseconstant", K = 50, beta
     true <- data.frame(time = tdom, hazard = haz)
     u <- rnorm(K, sd = sdtheta)
     u <- rep(u, each = N)
-    x <- rnorm(n, sd = 3)
+    x <- rnorm(n, sd = 1)
     eta <- u + beta*x
     failtimes <- c()
     r <- runif(n)
@@ -199,7 +199,7 @@ prior.prec <- list(prec = list(prior = "pc.prec",
 
 
 # TMB function template
-# compile("03_coxph_frailty.cpp")
+ compile("03_coxph_frailty.cpp")
 dyn.load(dynlib("03_coxph_frailty"))
 
 
