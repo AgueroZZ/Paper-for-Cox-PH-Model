@@ -1,34 +1,34 @@
-### Coxph regression with frailty ###
-# lib_loc <- '/home/ziang/lib'
-# library(tidyverse, lib = lib_loc)
-# library(aghq, lib = lib_loc)
-# library(mgcv)
-# library(Matrix)
-# library(rstan, lib = lib_loc)
-# library(TMB, lib = lib_loc)
-# library(INLA, lib = lib_loc)
-# library(tmbstan, lib = lib_loc)
-# library(foreach, lib = lib_loc)
-# library(doMC, lib = lib_loc)
-# library(parallel)
-# library(foreach)
-# library(abcoxph, lib = lib_loc)
-# library(mvQuad, lib = lib_loc)
-
-library(tidyverse)
-library(aghq)
+## Coxph regression with frailty ###
+lib_loc <- '/home/ziang/lib'
+library(tidyverse, lib = lib_loc)
+library(aghq, lib = lib_loc)
 library(mgcv)
 library(Matrix)
-library(rstan)
-library(TMB)
-library(INLA)
-library(tmbstan)
-library(foreach)
-library(doMC)
+library(rstan, lib = lib_loc)
+library(TMB, lib = lib_loc)
+library(INLA, lib = lib_loc)
+library(tmbstan, lib = lib_loc)
+library(foreach, lib = lib_loc)
+library(doMC, lib = lib_loc)
 library(parallel)
 library(foreach)
-library(abcoxph)
-library(mvQuad)
+library(abcoxph, lib = lib_loc)
+library(mvQuad, lib = lib_loc)
+# 
+# library(tidyverse)
+# library(aghq)
+# library(mgcv)
+# library(Matrix)
+# library(rstan)
+# library(TMB)
+# library(INLA)
+# library(tmbstan)
+# library(foreach)
+# library(doMC)
+# library(parallel)
+# library(foreach)
+# library(abcoxph)
+# library(mvQuad)
 
 precompile()
 TEXT_SIZE = 25
@@ -40,7 +40,7 @@ registerDoMC(ncores)
 K = 50
 beta = 0.2
 sd = 0.8
-M <- 300
+M <- 500
 N <- 2
 
 Simulate_baseline3 <- function(timelim = 300, breaks = 0.001, cut = 5){
@@ -76,7 +76,7 @@ Simulate_baseline3 <- function(timelim = 300, breaks = 0.001, cut = 5){
 set.seed(1234)
 baseline <- Simulate_baseline3()
 
-Simulate_grouped_data <- function(N = 2, bas = "piecewiseconstant", K = 100, beta = 0.2, sdtheta = 0.8){
+Simulate_grouped_data <- function(N = 2, bas = "piecewiseconstant", K = 50, beta = 0.2, sdtheta = 0.8){
   n <- N*K ### Total samples
   if(bas == "piecewiseconstant") {
     timelim <- baseline$timelim[1]
@@ -301,6 +301,15 @@ do_once <- function(seed,beta, N, K, sd, bas = "constant"){
 ### Sigma = 0.4
 sd = 0.4
 
+
+### N = 1
+time_begin <- Sys.time()
+result1 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, beta = beta, N = 1, K = K, sd = sd, bas = "piecewiseconstant")
+time_end <- Sys.time()
+time_end - time_begin
+agg_means1 <- apply(result1, 2, mean)
+
+
 ### N = 2
 time_begin <- Sys.time()
 result2 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, beta = beta, N = 2, K = K, sd = sd, bas = "piecewiseconstant")
@@ -343,15 +352,23 @@ agg_means10 <- apply(result10, 2, mean)
 
 
 ### Combine:
-aggresultStep <- rbind(agg_means2,agg_means3,agg_means4, agg_means5, agg_means10)
-colnames(aggresultStep) <- c("beta_cov_aghq","beta_cov_inla","beta_mse_aghq","beta_mse_inla","frailty_cov_aghq","frailty_cov_inla", "frailty_mse_aghq", "frailty_mse_inla")
-save(aggresultStep, file = "aggresultStepSD1.Rda")
+aggresultStep1 <- rbind(agg_means1, agg_means2,agg_means3,agg_means4, agg_means5, agg_means10)
+colnames(aggresultStep1) <- c("beta_cov_aghq","beta_cov_inla","beta_mse_aghq","beta_mse_inla","frailty_cov_aghq","frailty_cov_inla", "frailty_mse_aghq", "frailty_mse_inla")
+save(aggresultStep1, file = "aggresultStepSD1.Rda")
 
 
 
 ### Sigma = 0.8
 sd = 0.8
 
+### N = 1
+time_begin <- Sys.time()
+result1 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, beta = beta, N = 1, K = K, sd = sd, bas = "piecewiseconstant")
+time_end <- Sys.time()
+time_end - time_begin
+agg_means1 <- apply(result1, 2, mean)
+
+
 ### N = 2
 time_begin <- Sys.time()
 result2 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, beta = beta, N = 2, K = K, sd = sd, bas = "piecewiseconstant")
@@ -394,13 +411,92 @@ agg_means10 <- apply(result10, 2, mean)
 
 
 ### Combine:
-aggresultStep <- rbind(agg_means2,agg_means3,agg_means4, agg_means5, agg_means10)
-colnames(aggresultStep) <- c("beta_cov_aghq","beta_cov_inla","beta_mse_aghq","beta_mse_inla","frailty_cov_aghq","frailty_cov_inla", "frailty_mse_aghq", "frailty_mse_inla")
-save(aggresultStep, file = "aggresultStepSD2.Rda")
+aggresultStep2 <- rbind(agg_means1, agg_means2,agg_means3,agg_means4, agg_means5, agg_means10)
+colnames(aggresultStep2) <- c("beta_cov_aghq","beta_cov_inla","beta_mse_aghq","beta_mse_inla","frailty_cov_aghq","frailty_cov_inla", "frailty_mse_aghq", "frailty_mse_inla")
+save(aggresultStep2, file = "aggresultStepSD2.Rda")
+
+
+
+
+
+
+
+### Sigma = 1
+sd = 1
+
+### N = 1
+time_begin <- Sys.time()
+result1 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, beta = beta, N = 1, K = K, sd = sd, bas = "piecewiseconstant")
+time_end <- Sys.time()
+time_end - time_begin
+agg_means1 <- apply(result1, 2, mean)
+
+
+### N = 2
+time_begin <- Sys.time()
+result2 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, beta = beta, N = 2, K = K, sd = sd, bas = "piecewiseconstant")
+time_end <- Sys.time()
+time_end - time_begin
+agg_means2 <- apply(result2, 2, mean)
+
+
+## N = 3
+time_begin <- Sys.time()
+result3 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, beta = beta, N = 3, K = K, sd = sd, bas = "piecewiseconstant")
+time_end <- Sys.time()
+time_end - time_begin
+agg_means3 <- apply(result3, 2, mean)
+
+
+### N = 4
+time_begin <- Sys.time()
+result4 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq')) %dopar% do_once(seed = i, beta = beta, N = 4, K = K, sd = sd, bas = "piecewiseconstant")
+time_end <- Sys.time()
+time_end - time_begin
+agg_means4 <- apply(result4, 2, mean)
+
+
+
+## N = 5
+time_begin <- Sys.time()
+result5 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, beta = beta, N = 5, K = K, sd = sd, bas = "piecewiseconstant")
+time_end <- Sys.time()
+time_end - time_begin
+agg_means5 <- apply(result5, 2, mean)
+
+
+## N = 10
+time_begin <- Sys.time()
+result10 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, beta = beta, N = 10, K = K, sd = sd, bas = "piecewiseconstant")
+time_end <- Sys.time()
+time_end - time_begin
+agg_means10 <- apply(result10, 2, mean)
+
+
+### Combine:
+aggresultStep3 <- rbind(agg_means1, agg_means2,agg_means3,agg_means4, agg_means5, agg_means10)
+colnames(aggresultStep3) <- c("beta_cov_aghq","beta_cov_inla","beta_mse_aghq","beta_mse_inla","frailty_cov_aghq","frailty_cov_inla", "frailty_mse_aghq", "frailty_mse_inla")
+save(aggresultStep3, file = "aggresultStepSD3.Rda")
+
+
+
+
+
+
+
 
 
 ### Sigma = 1.6
 sd = 1.6
+
+### N = 1
+time_begin <- Sys.time()
+result1 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, beta = beta, N = 1, K = K, sd = sd, bas = "piecewiseconstant")
+time_end <- Sys.time()
+time_end - time_begin
+agg_means1 <- apply(result1, 2, mean)
+
+
 ### N = 2
 time_begin <- Sys.time()
 result2 <- foreach(i = 1:M,.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq', 'abcoxph')) %dopar% do_once(seed = i, beta = beta, N = 2, K = K, sd = sd, bas = "piecewiseconstant")
@@ -443,10 +539,9 @@ agg_means10 <- apply(result10, 2, mean)
 
 
 ### Combine:
-aggresultStep <- rbind(agg_means2,agg_means3,agg_means4, agg_means5, agg_means10)
-colnames(aggresultStep) <- c("beta_cov_aghq","beta_cov_inla","beta_mse_aghq","beta_mse_inla","frailty_cov_aghq","frailty_cov_inla", "frailty_mse_aghq", "frailty_mse_inla")
-save(aggresultStep, file = "aggresultStepSD3.Rda")
-
+aggresultStep4 <- rbind(agg_means1, agg_means2,agg_means3,agg_means4, agg_means5, agg_means10)
+colnames(aggresultStep4) <- c("beta_cov_aghq","beta_cov_inla","beta_mse_aghq","beta_mse_inla","frailty_cov_aghq","frailty_cov_inla", "frailty_mse_aghq", "frailty_mse_inla")
+save(aggresultStep4, file = "aggresultStepSD4.Rda")
 
 
 
