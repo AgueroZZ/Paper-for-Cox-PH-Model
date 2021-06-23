@@ -3,44 +3,46 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: revision02.aux
 The style file: ba.bst
 Database file #1: myrefs.bib
-You've used 37 entries,
+Warning--empty journal in kneib2005geoadditive
+You've used 41 entries,
             2760 wiz_defined-function locations,
-            821 strings with 10406 characters,
-and the built_in function-call counts, 21037 in all, are:
-= -- 1737
-> -- 754
-< -- 24
-+ -- 287
-- -- 237
-* -- 1609
-:= -- 3290
-add.period$ -- 146
-call.type$ -- 37
-change.case$ -- 229
-chr.to.int$ -- 36
-cite$ -- 37
-duplicate$ -- 1530
-empty$ -- 1610
-format.name$ -- 344
-if$ -- 4072
+            844 strings with 11014 characters,
+and the built_in function-call counts, 23296 in all, are:
+= -- 1922
+> -- 838
+< -- 26
++ -- 320
+- -- 264
+* -- 1782
+:= -- 3648
+add.period$ -- 161
+call.type$ -- 41
+change.case$ -- 254
+chr.to.int$ -- 40
+cite$ -- 42
+duplicate$ -- 1692
+empty$ -- 1782
+format.name$ -- 379
+if$ -- 4505
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 326
-newline$ -- 231
-num.names$ -- 148
-pop$ -- 551
+missing$ -- 361
+newline$ -- 254
+num.names$ -- 164
+pop$ -- 614
 preamble$ -- 1
-purify$ -- 227
+purify$ -- 252
 quote$ -- 0
-skip$ -- 553
+skip$ -- 611
 stack$ -- 0
-substring$ -- 1109
-swap$ -- 894
+substring$ -- 1233
+swap$ -- 984
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 333
-warning$ -- 0
-while$ -- 160
+type$ -- 369
+warning$ -- 1
+while$ -- 178
 width$ -- 0
-write$ -- 522
+write$ -- 575
+(There was 1 warning)

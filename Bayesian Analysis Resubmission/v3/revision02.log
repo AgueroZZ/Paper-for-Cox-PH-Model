@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.5.17)  21 JUN 2021 22:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.5.17)  23 JUN 2021 14:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -430,157 +430,135 @@ Overfull \vbox (0.53343pt too high) has occurred while \output is active []
 
  [1{/home/ziang/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
-] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13] [14] (./revision02.bbl (./revision02.brf)
+] [2] [3] [4] [5] [6] [7] [8] [9] [10]
+Underfull \vbox (badness 2035) has occurred while \output is active []
+
+ [11] [12] [13] (./revision02.bbl (./revision02.brf)
 \tf@brf=\write4
 \openout4 = `revision02.brf'.
 
- [15] [16]) [17]
-Overfull \hbox (74.52463pt too wide) in paragraph at lines 389--390
+ [14] [15] [16]) [17]
+Overfull \hbox (14.21275pt too wide) in paragraph at lines 399--400
  [] 
  []
 
-
-Overfull \hbox (70.20801pt too wide) in paragraph at lines 414--415
- [] 
- []
-
-<base_sim1.pdf, id=495, 444.66125pt x 414.54875pt>
-File: base_sim1.pdf Graphic file (type pdf)
-<use base_sim1.pdf>
-Package pdftex.def Info: base_sim1.pdf  used on input line 424.
-(pdftex.def)             Requested size: 208.44801pt x 180.67514pt.
-<simple_base.png, id=497, 2730.2pt x 1299.85625pt>
+<simple_base.png, id=521, 437.2335pt x 369.5406pt>
 File: simple_base.png Graphic file (type png)
 <use simple_base.png>
-Package pdftex.def Info: simple_base.png  used on input line 434.
-(pdftex.def)             Requested size: 170.5121pt x 180.66957pt.
-<stepwise_base.png, id=499, 2730.2pt x 1299.85625pt>
+Package pdftex.def Info: simple_base.png  used on input line 413.
+(pdftex.def)             Requested size: 170.55373pt x 187.90497pt.
+<stepwise_base.png, id=522, 437.2335pt x 369.5406pt>
 File: stepwise_base.png Graphic file (type png)
 <use stepwise_base.png>
-Package pdftex.def Info: stepwise_base.png  used on input line 437.
-(pdftex.def)             Requested size: 170.5121pt x 180.66957pt.
-<com_base.png, id=500, 2730.2pt x 1299.85625pt>
+Package pdftex.def Info: stepwise_base.png  used on input line 416.
+(pdftex.def)             Requested size: 170.55373pt x 187.90497pt.
+<com_base.png, id=523, 437.2335pt x 369.5406pt>
 File: com_base.png Graphic file (type png)
 <use com_base.png>
-Package pdftex.def Info: com_base.png  used on input line 440.
-(pdftex.def)             Requested size: 208.4222pt x 180.66957pt.
-<simple_box.png, id=502, 655.44875pt x 657.45625pt>
+Package pdftex.def Info: com_base.png  used on input line 419.
+(pdftex.def)             Requested size: 189.50117pt x 187.90497pt.
+<simple_box.png, id=525, 437.38406pt x 369.63094pt>
 File: simple_box.png Graphic file (type png)
 <use simple_box.png>
-Package pdftex.def Info: simple_box.png  used on input line 450.
-(pdftex.def)             Requested size: 170.54266pt x 180.66559pt.
-<stepwise_box.png, id=503, 655.44875pt x 657.45625pt>
+Package pdftex.def Info: simple_box.png  used on input line 429.
+(pdftex.def)             Requested size: 170.54572pt x 180.67517pt.
+<stepwise_box.png, id=526, 437.38406pt x 369.63094pt>
 File: stepwise_box.png Graphic file (type png)
 <use stepwise_box.png>
-Package pdftex.def Info: stepwise_box.png  used on input line 453.
-(pdftex.def)             Requested size: 170.54266pt x 180.66559pt.
-<com_box.png, id=504, 655.44875pt x 657.45625pt>
+Package pdftex.def Info: stepwise_box.png  used on input line 432.
+(pdftex.def)             Requested size: 170.54572pt x 180.67517pt.
+<com_box.png, id=527, 437.38406pt x 369.63094pt>
 File: com_box.png Graphic file (type png)
 <use com_box.png>
-Package pdftex.def Info: com_box.png  used on input line 456.
-(pdftex.def)             Requested size: 208.44771pt x 180.66559pt.
+Package pdftex.def Info: com_box.png  used on input line 435.
+(pdftex.def)             Requested size: 208.45367pt x 180.67517pt.
 
-Overfull \hbox (55.78572pt too wide) in paragraph at lines 477--478
+Overfull \hbox (3.94814pt too wide) in paragraph at lines 456--457
  [] 
  []
 
-<leukSmooth.png, id=509, 670.6656pt x 464.4552pt>
+<leukSmooth.png, id=532, 670.6656pt x 464.4552pt>
 File: leukSmooth.png Graphic file (type png)
 <use leukSmooth.png>
-Package pdftex.def Info: leukSmooth.png  used on input line 492.
+Package pdftex.def Info: leukSmooth.png  used on input line 471.
 (pdftex.def)             Requested size: 170.5416pt x 180.66905pt.
-<leukHyper.png, id=510, 640.5531pt x 464.4552pt>
+<leukHyper.png, id=533, 640.5531pt x 464.4552pt>
 File: leukHyper.png Graphic file (type png)
 <use leukHyper.png>
-Package pdftex.def Info: leukHyper.png  used on input line 495.
+Package pdftex.def Info: leukHyper.png  used on input line 474.
 (pdftex.def)             Requested size: 170.54723pt x 180.66905pt.
-<leukHyper2.png, id=511, 626.34pt x 372.64218pt>
+<leukHyper2.png, id=534, 626.34pt x 372.64218pt>
 File: leukHyper2.png Graphic file (type png)
 <use leukHyper2.png>
-Package pdftex.def Info: leukHyper2.png  used on input line 498.
+Package pdftex.def Info: leukHyper2.png  used on input line 477.
 (pdftex.def)             Requested size: 208.45135pt x 180.67438pt.
 
-Overfull \hbox (1.8363pt too wide) in paragraph at lines 526--526
+Overfull \hbox (1.8363pt too wide) in paragraph at lines 507--507
 []\U/rsfs/m/n/10 Variables/Reference| 
  []
 
 
-Overfull \hbox (4.32513pt too wide) in paragraph at lines 526--526
+Overfull \hbox (4.32513pt too wide) in paragraph at lines 507--507
 []\U/rsfs/m/n/10 0.00467| 
  []
 
 
-Overfull \hbox (4.32513pt too wide) in paragraph at lines 526--526
+Overfull \hbox (4.32513pt too wide) in paragraph at lines 507--507
 []\U/rsfs/m/n/10 0.00235| 
  []
 
 
-Overfull \hbox (2.24176pt too wide) in paragraph at lines 526--526
-[]\U/rsfs/m/n/10 Female| 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 526--526
-[]\U/rsfs/m/n/10 Disease
- []
-
-
-Overfull \hbox (1.8363pt too wide) in paragraph at lines 557--557
-[]\U/rsfs/m/n/10 Variables/Reference| 
- []
-
-
-Overfull \hbox (4.32513pt too wide) in paragraph at lines 557--557
-[]\U/rsfs/m/n/10 0.00467| 
- []
-
-
-Overfull \hbox (4.32513pt too wide) in paragraph at lines 557--557
+Overfull \hbox (4.32513pt too wide) in paragraph at lines 507--507
 []\U/rsfs/m/n/10 0.00516| 
  []
 
 
-Overfull \hbox (2.24176pt too wide) in paragraph at lines 557--557
+Overfull \hbox (2.24176pt too wide) in paragraph at lines 507--507
 []\U/rsfs/m/n/10 Female| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 557--557
+Underfull \hbox (badness 10000) in paragraph at lines 507--507
 []\U/rsfs/m/n/10 Disease
  []
 
-<kidneyHyper.png, id=518, 578.16pt x 372.64218pt>
+
+Overfull \hbox (6.3043pt too wide) in paragraph at lines 507--508
+ [] 
+ []
+
+<kidneyHyper.png, id=539, 578.16pt x 372.64218pt>
 File: kidneyHyper.png Graphic file (type png)
 <use kidneyHyper.png>
-Package pdftex.def Info: kidneyHyper.png  used on input line 570.
+Package pdftex.def Info: kidneyHyper.png  used on input line 523.
 (pdftex.def)             Requested size: 170.54689pt x 180.67438pt.
-<kidneyHyper2.png, id=519, 578.16pt x 372.64218pt>
+<kidneyHyper2.png, id=540, 578.16pt x 372.64218pt>
 File: kidneyHyper2.png Graphic file (type png)
 <use kidneyHyper2.png>
-Package pdftex.def Info: kidneyHyper2.png  used on input line 573.
+Package pdftex.def Info: kidneyHyper2.png  used on input line 526.
 (pdftex.def)             Requested size: 170.54689pt x 180.67438pt.
-[18 <./base_sim1.pdf>] [19 <./simple_base.png> <./stepwise_base.png> <./com_base.png>] [20 <./simple_box.png> <./stepwise_box.png> <./com_box.png>] [21 <./leukSmooth.png> <./leukHyper.png> <./leukHyper2.png (PNG copy)>] [22 <./kidneyHyper.png> <./kidneyHyper2.png>] (./revision02.aux)
+[18] [19 <./simple_base.png> <./stepwise_base.png> <./com_base.png>] [20 <./simple_box.png> <./stepwise_box.png> <./com_box.png>] [21 <./leukSmooth.png> <./leukHyper.png> <./leukHyper2.png (PNG copy)>] [22 <./kidneyHyper.png> <./kidneyHyper2.png>] (./revision02.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `revision02.out' has not changed.
 (rerunfilecheck)             Checksum: C199DB873EBA0247980C8FDECB462CA1;2746.
 Package rerunfilecheck Info: File `revision02.brf' has not changed.
-(rerunfilecheck)             Checksum: D55E4C491DBB9BC9B8D9229727107E25;3363.
+(rerunfilecheck)             Checksum: EB09FD588CD577E6177DF8FAC62594D5;3801.
  ) 
 Here is how much of TeX's memory you used:
- 12167 strings out of 480796
- 179969 string characters out of 5904810
- 511773 words of memory out of 5000000
- 29209 multiletter control sequences out of 15000+600000
+ 12181 strings out of 480796
+ 180476 string characters out of 5904810
+ 508511 words of memory out of 5000000
+ 29223 multiletter control sequences out of 15000+600000
  419352 words of font info for 84 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,12n,91p,1809b,507s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,12n,91p,2257b,537s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk> </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.600pk> </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0600.600pk> </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0700.600pk></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on revision02.pdf (22 pages, 856687 bytes).
+Output written on revision02.pdf (22 pages, 615807 bytes).
 PDF statistics:
- 678 PDF objects out of 1000 (max. 8388607)
- 591 compressed objects within 6 object streams
- 119 named destinations out of 1000 (max. 500000)
- 197 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 694 PDF objects out of 1000 (max. 8388607)
+ 611 compressed objects within 7 object streams
+ 120 named destinations out of 1000 (max. 500000)
+ 192 words of extra memory for PDF output out of 10000 (max. 10000000)
 

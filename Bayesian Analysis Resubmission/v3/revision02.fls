@@ -783,10 +783,9 @@ INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.t
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/jknappen/ec/tcrm0900.tfm
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/jknappen/ec/tcrm0500.tfm
 INPUT /home/ziang/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map
-INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
-INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/cm/cmbxsl10.tfm
+INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/cm/cmss12.tfm
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/cm/cmssbx10.tfm
@@ -799,6 +798,7 @@ INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy7.tfm
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/cm/cmsl10.tfm
+INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/tfm/public/cm/cmssbx10.tfm
 INPUT ./revision02.bbl
 INPUT revision02.bbl
@@ -810,11 +810,6 @@ INPUT revision02.brf
 INPUT ./revision02.brf
 INPUT ./revision02.brf
 OUTPUT revision02.brf
-INPUT ./base_sim1.pdf
-INPUT ./base_sim1.pdf
-INPUT base_sim1.pdf
-INPUT ./base_sim1.pdf
-INPUT ./base_sim1.pdf
 INPUT ./simple_base.png
 INPUT ./simple_base.png
 INPUT simple_base.png
