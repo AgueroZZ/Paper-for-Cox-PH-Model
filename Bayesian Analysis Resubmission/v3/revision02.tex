@@ -215,36 +215,30 @@ To deal with the problem of dense Hessian matrix, we proposed a new way to utili
 When semi-parametric covariate effect is included in the model, $W$ will have a singular precision matrix as the precision matrix of $\Gamma$ is rank deficient, and hence direct application of the Laplace approximation of \cite{tierney} will be problematic. This problem of singular precision matrix is typically fixed by introducing a small Gaussian noise into the additive linear predictors, which makes the precision matrix full rank \citep{casecross, inla}. In our proposed approach, no noises will be added into the linear predictors; instead we fix this problem by adding a small constant term (i.e. 0.0001) into the diagonal terms of the precision matrix of $\Gamma$, $\Sigma^{-1}_\Gamma$, which will also result in a full rank precision matrix for $W$. Our approach is essentially similar to the method of \cite{casecross,inla}, with main difference being that our approach only adds noise into the precision matrix corresponding to $\Gamma$, but the method of \cite{casecross,inla} adds noise to the precision matrix of the full latent parameter vector. Furthermore, our modification only shifts the diagonal terms of $\Sigma^{-1}_\Gamma$ by a very small constant, hence will not change any conditional independence structure in the original prior.
 
 
-Define $W|\theta\sim\text{N}\left[ 0,Q^{-1}_{\theta}\right]$, where $Q_{\theta}$ is the covariance matrix for $W$. Our main inferential interest is to obtain the marginal posterior distributions of the latent parameters:
-\begin{equation}\begin{aligned}\label{eqn:interestedQuat3}
-\pi(W_{s}|y) = \int \pi(W_{s}|y,\theta) \pi(\theta|y) d\theta, s = 1,\ldots,m .  \\
-\end{aligned}\end{equation}
-These are used for point estimates and uncertainty quantification of the latent parameters, which often include the effects of primary interest. We are also interested in the joint posterior distributions of the variance parameters:
+Define $W|\theta\sim\text{N}\left[ 0,Q^{-1}_{\theta}\right]$, where $Q_{\theta}$ is the covariance matrix for $W$. 
+We are interested in estimating and sampling from the joint posterior distribution of the latent parameters:
 \begin{equation}\begin{aligned}\label{eqn:interestedQuat1}
-\pi(\theta|y) = \frac{\int \pi(W,y,\theta) dW}{\int_{} \int_{} \pi(W,y,\theta) dW d\theta } . \\
-\end{aligned}\end{equation}
-These are used for point estimates and uncertainty quantification of the variance parameter $\theta$, and appear as integration weights in (\ref{eqn:interestedQuat3}). Of secondary inference is the joint posterior distribution of the latent parameters:
-\begin{equation}\begin{aligned}\label{eqn:interestedQuat2}
 \pi(W|y) = \int \pi(W|y,\theta) \pi(\theta|y) d\theta .  \\
 \end{aligned}\end{equation}
-This appears primarily as an intermediate step in the calculation of the marginal posteriors (\ref{eqn:interestedQuat3}), but is also useful in calculating complicated posterior summary statistics such as joint credible bands.
+We are also interested in the joint posterior distributions of the variance parameters:
+\begin{equation}\begin{aligned}\label{eqn:interestedQuat2}
+\pi(\theta|y) = \frac{\int \pi(W,y,\theta) dW}{\int_{} \int_{} \pi(W,y,\theta) dW d\theta } . \\
+\end{aligned}\end{equation}
+These are used for point estimates and uncertainty quantification of the variance parameter $\theta$, and appear as integration weights in (\ref{eqn:interestedQuat1}). 
 
-All of the quantities of interest (\ref{eqn:interestedQuat3}) -- (\ref{eqn:interestedQuat2}) depend on intractable high-dimensional integrals. We follow the procedure of \cite{casecross}, to utilize Gaussian and Laplace approximations combined with numerical quadrature to approximate each of these integrals accurately and efficiently. The approximations take the form:
+For the posterior of variance parameter (\ref{eqn:interestedQuat2}), we follow the procedure of \cite{casecross} to approximate it with its corresponding Laplace approximation $\tilde{\pi}_{LA}(\theta|y)$. The posterior of the latent parameter vector (\ref{eqn:interestedQuat1}) is approximated by $\tilde{\pi}(W|y)$ defined as:
 \begin{equation}\begin{aligned}\label{eqn:integration}
-\tilde{\pi}(W_{s}|y) &= \sum_{k=1}^{K}
-\tilde{\pi}_{G}(W_{s}|y,\theta^{k})
-\tilde{\pi}_{LA}(\theta^{k}|y)\delta_{k}, s = 1,\ldots,m , \\
 \tilde{\pi}(W|y) &= \sum_{k=1}^{K}
 \tilde{\pi}_{G}(W|y,\theta^{k})
 \tilde{\pi}_{LA}(\theta^{k}|y)\delta_{k} , \\
 \end{aligned}\end{equation}
-where $\left\{\theta^{k},\delta_{k}\right\}_{k=1}^{K}$ is a set of nodes and weights corresponding to a Gauss-Hermite quadrature rule. The $\tilde{\pi}_{G}(W_{s}|y,\theta^{k})$ is a Gaussian approximation for $\pi(W_{s}|y,\theta^{k})$ and the $\tilde{\pi}_{LA}(\theta^{k}|y)$ is a Laplace approximation for $\pi(\theta^{k}|y)$, which we describe at below.
+where $\left\{\theta^{k},\delta_{k}\right\}_{k=1}^{K}$ is a set of nodes and weights corresponding to a Gauss-Hermite quadrature rule. The $\tilde{\pi}_{G}(W|y,\theta^{k})$ is a Gaussian approximation for $\pi(W|y,\theta^{k})$ and the $\tilde{\pi}_{LA}(\theta^{k}|y)$ is a Laplace approximation for $\pi(\theta^{k}|y)$, which we describe at below.
 
-In the proposed method, the approximations (\ref{eqn:integration}) are computed as follows. For any fixed $\theta$, define
+
+For any fixed $\theta$, define
 \begin{equation}\begin{aligned}\label{eqn:modeandhessian}
 \widehat{W}_{\theta} = \left(\widehat{\Gamma}_{\theta},\widehat{\beta},\widehat{\xi}_{\theta}\right) &= \text{argmax}_{W}\log\pi(W|\theta,y) , \\ 
-H_{\theta}(W) &= -\frac{\partial^{2}}{\partial W \partial W^{T}}\log\pi(W|\theta,y) , \\
-v_{\theta,s}^{2} &= \left[H_\theta \left(\widehat{W}_{\theta}\right) ^ {-1} \right]_{ss}, s = 1,\ldots,m .
+H_{\theta}(W) &= -\frac{\partial^{2}}{\partial W \partial W^{T}}\log\pi(W|\theta,y).
 \end{aligned}\end{equation}
 For the conditional posterior
 \begin{equation}\begin{aligned}\label{eqn:condpost}
@@ -254,15 +248,16 @@ a second-order Taylor expansion of $\log\pi(W|\theta,y)$ about $W = \widehat{W}_
 \begin{equation}\label{eqn:gaussianapprox}
 \pi(W|\theta,y) \approx \tilde{\pi}_{G}(W|y,\theta) \propto \text{exp}\left\{-\frac{1}{2} \left(W-\widehat{W}_{\theta} \right)^T H_\theta\left(\widehat{W}_{\theta}\right) \left(W-\widehat{W}_{\theta} \right) \right\}. \\
 \end{equation}
-Direct integration of this Gaussian approximation yields a Gaussian approximation for the corresponding marginal density:
-\begin{equation}\label{eqb:marginalgaussianapprox}
-\tilde{\pi}_{G}(W_{s}|y,\theta) = \int\tilde{\pi}_{G}(W|y,\theta)dW_{-s} \propto\text{exp}\left\{-\frac{1}{2v_{\theta,s}^{2}} \left(W_s-\widehat{W}_{\theta s} \right)^2 \right\}, s = 1,\ldots,m .
-\end{equation}
+
 For the joint posterior of the variance parameters, the method of \cite{tierney} yields a Laplace approximation:
 \begin{equation}\begin{aligned}\label{eqn:laplace}
 \pi(\theta|y) \approx \tilde{\pi}_{LA}(\theta|y) \propto \pi(\theta)\left\{\frac{\left|Q_{\theta}\right|}{\left|H_{\theta}\left(\widehat{W}_{\theta}\right)\right|}\right\}^{1/2}\exp\left\{ -\frac{1}{2}\widehat{W}_{\theta}^{T}Q_{\theta}\widehat{W}_{\theta} + \ell\left(\widehat{\Delta}_{\theta};y \right)\right\}.
 \end{aligned}\end{equation}
-With these approximations available, inference for $W$ makes use of the approximation (\ref{eqn:integration}).
+
+With these approximations available, inference for $\theta$ can be directly obtained using the analytical form of $\tilde{\pi}_{LA}(\theta|y)$ as in equation (\ref{eqn:laplace}). Inference for $W$ or its marginal component can be easily obtained if it is possible to get independent samples from $\tilde{\pi}(W|y)$. 
+
+To sample from $\tilde{\pi}(W|y)$, note that by equation(\ref{eqn:interestedQuat1}), $\tilde{\pi}(W|y)$ is Guassian mixture distribution with $K$ mixture components each with mixture weight being $$\phi_k = \tilde{\pi}_{LA}(\theta^{k}|y)\delta_{k},\quad k \in [K].$$
+For a large integer $B$, we sample independent $\{Z_i\}_{i=1}^{B}$ from $\text{Multinomial}(\phi_1,...,\phi_K)$, and then for each $Z_i \in [K]$, sample $W_i$ from $\tilde{\pi}_{G}(W|y,\theta^{Z_i})$. The resulting sample $\{W_i\}_{i=1}^{B}$ then contains $B$ independent draws from $\tilde{\pi}(W|y)$, and all the posterior summaries for $W$ can be obtained using this independent sample.
 
 
 
