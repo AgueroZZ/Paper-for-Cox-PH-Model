@@ -204,7 +204,7 @@ prior.prec <- list(prec = list(prior = "pc.prec",
 
 
 # TMB function template
-# compile("03_coxph_frailty.cpp")
+compile("03_coxph_frailty.cpp")
 dyn.load(dynlib("03_coxph_frailty"))
 
 
