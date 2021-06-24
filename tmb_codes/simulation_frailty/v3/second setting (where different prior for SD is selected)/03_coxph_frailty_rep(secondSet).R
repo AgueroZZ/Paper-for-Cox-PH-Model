@@ -593,7 +593,7 @@ agg_means3 <- apply(result3, 2, mean)
 
 ### N = 4
 time_begin <- Sys.time()
-result4 <- foreach(i = ((1:M) + 4*M),.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq')) %dopar% do_once(seed = i, beta = beta, N = 4, K = K, sd = sd, bas = "piecewiseconstant")
+result4 <- foreach(i = ((1:M) + 3*M),.combine = rbind, .packages = c('foreach', 'stats', 'INLA', 'aghq')) %dopar% do_once(seed = i, beta = beta, N = 4, K = K, sd = sd, bas = "piecewiseconstant")
 time_end <- Sys.time()
 time_end - time_begin
 agg_means4 <- apply(result4, 2, mean)
