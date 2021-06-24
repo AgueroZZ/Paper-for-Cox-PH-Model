@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.5.17)  23 JUN 2021 19:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.5.17)  23 JUN 2021 23:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -541,7 +541,7 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package rerunfilecheck Info: File `revision02.out' has not changed.
 (rerunfilecheck)             Checksum: C199DB873EBA0247980C8FDECB462CA1;2746.
 Package rerunfilecheck Info: File `revision02.brf' has not changed.
-(rerunfilecheck)             Checksum: E56A0F1AB5A2536FE6CFE767D6D27A8B;3800.
+(rerunfilecheck)             Checksum: 4C4BF4BAB316BB7B81E9894B52DC6482;3800.
  ) 
 Here is how much of TeX's memory you used:
  12176 strings out of 480796
@@ -550,9 +550,9 @@ Here is how much of TeX's memory you used:
  29221 multiletter control sequences out of 15000+600000
  419352 words of font info for 84 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,12n,91p,2257b,515s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,12n,91p,2257b,517s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk> </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.600pk> </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0600.600pk> </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0700.600pk></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on revision02.pdf (21 pages, 614852 bytes).
+Output written on revision02.pdf (21 pages, 614697 bytes).
 PDF statistics:
  687 PDF objects out of 1000 (max. 8388607)
  605 compressed objects within 7 object streams
