@@ -1,21 +1,41 @@
+# ### CoxPH regression for the kidney example ###
+# lib_loc <- '/home/ziang/lib'
+# library(tidyverse, lib = lib_loc)
+# library(aghq, lib = lib_loc)
+# library(mgcv)
+# library(Matrix)
+# library(rstan, lib = lib_loc)
+# library(TMB, lib = lib_loc)
+# library(INLA, lib = lib_loc)
+# library(tmbstan, lib = lib_loc)
+# library(foreach, lib = lib_loc)
+# library(doMC, lib = lib_loc)
+# library(parallel)
+# library(foreach)
+# library(abcoxph, lib = lib_loc)
+# library(mvQuad, lib = lib_loc)
+# library(survival)
+# library(brinla, lib = lib_loc)
+
 ### CoxPH regression for the kidney example ###
-lib_loc <- '/home/ziang/lib'
-library(tidyverse, lib = lib_loc)
-library(aghq, lib = lib_loc)
+
+library(tidyverse)
+library(aghq)
 library(mgcv)
 library(Matrix)
-library(rstan, lib = lib_loc)
-library(TMB, lib = lib_loc)
-library(INLA, lib = lib_loc)
-library(tmbstan, lib = lib_loc)
-library(foreach, lib = lib_loc)
-library(doMC, lib = lib_loc)
+library(rstan)
+library(TMB)
+library(INLA)
+library(tmbstan)
+library(foreach)
+library(doMC)
 library(parallel)
 library(foreach)
-library(abcoxph, lib = lib_loc)
-library(mvQuad, lib = lib_loc)
+library(abcoxph)
+library(mvQuad)
 library(survival)
-library(brinla, lib = lib_loc)
+library(brinla)
+
 
 precompile()
 TEXT_SIZE = 25
@@ -56,7 +76,7 @@ tmbparams <- list(
 
 
 # TMB function template
-compile("01_coxph_kidney.cpp")
+# compile("01_coxph_kidney.cpp")
 dyn.load(dynlib("01_coxph_kidney"))
 
 
@@ -78,7 +98,7 @@ ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
 
 # AGHQ
 start_time <- Sys.time()
-quad <- aghq::marginal_laplace_tmb(ff,18,0)
+quad <- aghq::marginal_laplace_tmb(ff,15,0)
 
 # Plot of theta posterior
 prec_marg <- quad$marginals[[1]]
@@ -87,7 +107,7 @@ with(logpostsigma,plot(transparam,pdf_transparam,type='l'))
 
 # Inference for W
 K <- ncol(B)
-samps <- sample_marginal(quad,1000,interpolation = 'spline')
+samps <- sample_marginal(quad,10000,interpolation = 'spline')
 beta_est <- samps$samps[(K+1):nrow(samps$samps),]
 end_time <- Sys.time()
 runtime_aghq <- end_time - start_time
@@ -161,9 +181,7 @@ quadsamp <- sample_marginal(quad,numsamp,interpolation = 'spline')$thetasamples[
 normsamp <- rnorm(numsamp,quad$optresults$mode,1/sqrt(quad$optresults$hessian))
 stansamps$sigma <- exp(-stansamps$theta/2)
 ks.test(stansamps$theta,quadsamp)$statistic
-ks.test(stansamps$theta,normsamp)$statistic
 ks.test(stansamps$sigma,exp(-quadsamp/2))$statistic
-ks.test(stansamps$sigma,exp(-normsamp/2))$statistic
 
 # Look at the KS
 # The distributions look pretty close:
@@ -189,16 +207,8 @@ plot(tt,abs(stanecdf - quadecdf),type='l')
 ggplot(stansamps, aes(x = sigma)) + 
   geom_histogram(fill = "gray", color = "gray", stat = "density") + 
   geom_line(data = logpostsigma, aes(x = transparam, y = pdf_transparam)) + xlim(0,3) +
-  theme_classic(base_size = TEXT_SIZE)
-
-plotdata <- tibble(x = rep(tt,2), cdf = c(quadecdf,stanecdf), methods = rep(c("Proposed","MCMC"), each = length(tt)))
-plotdata %>% ggplot(aes(x,cdf)) + geom_line(aes(linetype = method)) + 
-  theme_classic(base_size = TEXT_SIZE)
-
-
-
-### pairs plot:
-pairs(stanmod,verInd = c(1:3,44), horInd = c(1:3,44))
+  geom_line(data = inla_hyper, aes(x,y), linetype = "dashed") + xlab("SD") + ylab("Density") +
+  theme_classic(base_size = TEXT_SIZE) 
 
 
 
@@ -209,15 +219,28 @@ fixed_effect <- tibble(AGHQ_mean = t(post_sum_aghq)[c(39:43),c(1)],
                        INLA_mean = Inlaresult$summary.fixed[-1,1], 
                        INLA_sd = Inlaresult$summary.fixed[-1,2])
 
-fixed_effect_AGHQ_INLA <- fixed_effect[,c(1:2,5:6)]
-
-fixed_effect_AGHQ_MCMC <- fixed_effect[,c(1:4)]
 
 
 
+############# Fixed effect KS:
+KS_vec_fx <- c()
+for(i in 39:43){
+  fx_aghq <- samps$samps[i,]
+  fx_mcmc <- STAN_samples$W[,i]
+  KS_vec_fx <- c(KS_vec_fx,ks.test(fx_mcmc,fx_aghq)$statistic)
+}
+mean(KS_vec_fx)
+max(KS_vec_fx)
 
 
-
-
+########### Frailties KS:
+KS_vec <- c()
+for(i in 1:38){
+  xi_aghq <- samps$samps[i,]
+  xi_mcmc <- STAN_samples$W[,i]
+  KS_vec[i] <- ks.test(xi_mcmc,xi_aghq)$statistic
+}
+mean(KS_vec)
+max(KS_vec)
 
 

@@ -4,45 +4,45 @@ The top-level auxiliary file: revision02.aux
 The style file: ba.bst
 Database file #1: myrefs.bib
 Warning--empty journal in kneib2005geoadditive
-You've used 41 entries,
+You've used 42 entries,
             2760 wiz_defined-function locations,
-            844 strings with 11014 characters,
-and the built_in function-call counts, 23296 in all, are:
-= -- 1922
-> -- 838
-< -- 26
-+ -- 320
-- -- 264
-* -- 1782
-:= -- 3648
-add.period$ -- 161
-call.type$ -- 41
-change.case$ -- 254
-chr.to.int$ -- 40
-cite$ -- 42
-duplicate$ -- 1692
-empty$ -- 1782
-format.name$ -- 379
-if$ -- 4505
+            850 strings with 11260 characters,
+and the built_in function-call counts, 23782 in all, are:
+= -- 1964
+> -- 848
+< -- 27
++ -- 324
+- -- 267
+* -- 1813
+:= -- 3725
+add.period$ -- 165
+call.type$ -- 42
+change.case$ -- 259
+chr.to.int$ -- 41
+cite$ -- 43
+duplicate$ -- 1731
+empty$ -- 1824
+format.name$ -- 383
+if$ -- 4600
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 361
-newline$ -- 254
-num.names$ -- 164
-pop$ -- 614
+missing$ -- 369
+newline$ -- 260
+num.names$ -- 168
+pop$ -- 625
 preamble$ -- 1
-purify$ -- 252
+purify$ -- 257
 quote$ -- 0
-skip$ -- 611
+skip$ -- 626
 stack$ -- 0
-substring$ -- 1233
-swap$ -- 984
+substring$ -- 1260
+swap$ -- 1006
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 369
+type$ -- 378
 warning$ -- 1
-while$ -- 178
+while$ -- 183
 width$ -- 0
-write$ -- 575
+write$ -- 589
 (There was 1 warning)

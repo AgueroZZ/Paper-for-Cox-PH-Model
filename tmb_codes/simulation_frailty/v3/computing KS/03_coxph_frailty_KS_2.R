@@ -39,7 +39,7 @@ registerDoMC(ncores)
 ### Simulating function:
 K = 60
 beta = 0.2
-sd = 0.8
+sd = 1
 N <- 2
 
 Simulate_baseline3 <- function(timelim = 300, breaks = 0.001, cut = 5){
@@ -248,7 +248,7 @@ quad <- aghq::marginal_laplace_tmb(ff,15,0)
 samps <- sample_marginal(quad,10000,interpolation = 'spline')
 end_time <- Sys.time()
 runtime_aghq <- end_time - start_time
-#### runtime of the proposed method took 25 secs, each sample took 0.0025 secs
+#### runtime of the proposed method took 1.18 secs, each sample took 0.000118 secs
 
 
 # Plot of theta posterior
@@ -285,8 +285,8 @@ stanmod <- tmbstan(
 )
 end_time <- Sys.time()
 runtime_MCMC <- end_time - start_time
-#### Runtime for MCMC is 40.25 minutes; each iteration took 0.07 secs.
-#### If run under the same time constraint as the proposed method, can only take 358 iterations.
+#### Runtime for MCMC is 2.64 minutes; each iteration took 0.005 secs.
+#### If run under the same time constraint as the proposed method, can only take 263 iterations.
 summ <- summary(stanmod)$summary
 beta_STAN <- summ[(K+1):(nrow(summ)-2),]
 STAN_samples <- extract(stanmod)

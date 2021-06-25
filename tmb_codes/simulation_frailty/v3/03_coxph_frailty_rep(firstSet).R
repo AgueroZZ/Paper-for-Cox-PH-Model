@@ -258,7 +258,7 @@ do_once <- function(seed,beta, N, K, sd, bas = "constant"){
   ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
   # AGHQ
   quad <- aghq::marginal_laplace_tmb(ff,15,0)
-  samps <- sample_marginal(quad,2000)
+  samps <- sample_marginal(quad,10000,interpolation = 'spline')
   beta_est <- samps$samps[(K+1),]
   post_means <- apply(samps$samps, 1, mean)
   post_sds <- apply(samps$samps, 1, sd)

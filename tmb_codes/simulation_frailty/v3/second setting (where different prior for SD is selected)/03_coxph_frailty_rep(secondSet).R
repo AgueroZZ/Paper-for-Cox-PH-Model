@@ -263,7 +263,7 @@ dyn.load(dynlib("03_coxph_frailty"))
 #   ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
 #   # AGHQ
 #   quad <- aghq::marginal_laplace_tmb(ff,15,0)
-#   samps <- sample_marginal(quad,2000,interpolation = 'spline')
+#   samps <- sample_marginal(quad,10000,interpolation = 'spline')
 #   beta_est <- samps$samps[(K+1),]
 #   post_means <- apply(samps$samps, 1, mean)
 #   post_sds <- apply(samps$samps, 1, sd)
@@ -484,6 +484,7 @@ dyn.load(dynlib("03_coxph_frailty"))
 
 
 ############################# Second try: With PC(3,0.01) as prior, the proposed method worked but INLA failed to converge.
+############################# After trying a lot of different seeds, INLA eventually stop having errors...
 do_once <- function(seed,beta, N, K, sd, bas = "constant"){
   set.seed(seed)
   n <- K*N
@@ -525,7 +526,7 @@ do_once <- function(seed,beta, N, K, sd, bas = "constant"){
   ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
   # AGHQ
   quad <- aghq::marginal_laplace_tmb(ff,15,0)
-  samps <- sample_marginal(quad,2000,interpolation = 'spline')
+  samps <- sample_marginal(quad,10000,interpolation = 'spline')
   beta_est <- samps$samps[(K+1),]
   post_means <- apply(samps$samps, 1, mean)
   post_sds <- apply(samps$samps, 1, sd)

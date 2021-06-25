@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.5.17)  23 JUN 2021 23:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.5.17)  24 JUN 2021 21:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -434,128 +434,123 @@ Overfull \vbox (0.53343pt too high) has occurred while \output is active []
 \tf@brf=\write4
 \openout4 = `revision02.brf'.
 
- [14] [15]) [16]
-Overfull \hbox (14.21275pt too wide) in paragraph at lines 394--395
+ [14] [15] [16]) [17]
+Overfull \hbox (14.21275pt too wide) in paragraph at lines 398--399
  [] 
  []
 
-<simple_base.png, id=514, 437.2335pt x 369.5406pt>
+<simple_base.png, id=522, 437.2335pt x 369.5406pt>
 File: simple_base.png Graphic file (type png)
 <use simple_base.png>
-Package pdftex.def Info: simple_base.png  used on input line 408.
+Package pdftex.def Info: simple_base.png  used on input line 431.
 (pdftex.def)             Requested size: 170.55373pt x 187.90497pt.
-<stepwise_base.png, id=515, 437.2335pt x 369.5406pt>
+<stepwise_base.png, id=523, 437.2335pt x 369.5406pt>
 File: stepwise_base.png Graphic file (type png)
 <use stepwise_base.png>
-Package pdftex.def Info: stepwise_base.png  used on input line 411.
+Package pdftex.def Info: stepwise_base.png  used on input line 434.
 (pdftex.def)             Requested size: 170.55373pt x 187.90497pt.
-<com_base.png, id=516, 437.2335pt x 369.5406pt>
+<com_base.png, id=524, 437.2335pt x 369.5406pt>
 File: com_base.png Graphic file (type png)
 <use com_base.png>
-Package pdftex.def Info: com_base.png  used on input line 414.
+Package pdftex.def Info: com_base.png  used on input line 437.
 (pdftex.def)             Requested size: 189.50117pt x 187.90497pt.
-<simple_box.png, id=518, 437.38406pt x 369.63094pt>
+<simple_box.png, id=526, 437.38406pt x 369.63094pt>
 File: simple_box.png Graphic file (type png)
 <use simple_box.png>
-Package pdftex.def Info: simple_box.png  used on input line 424.
+Package pdftex.def Info: simple_box.png  used on input line 447.
 (pdftex.def)             Requested size: 170.54572pt x 180.67517pt.
-<stepwise_box.png, id=519, 437.38406pt x 369.63094pt>
+<stepwise_box.png, id=527, 437.38406pt x 369.63094pt>
 File: stepwise_box.png Graphic file (type png)
 <use stepwise_box.png>
-Package pdftex.def Info: stepwise_box.png  used on input line 427.
+Package pdftex.def Info: stepwise_box.png  used on input line 450.
 (pdftex.def)             Requested size: 170.54572pt x 180.67517pt.
-<com_box.png, id=520, 437.38406pt x 369.63094pt>
+<com_box.png, id=528, 437.38406pt x 369.63094pt>
 File: com_box.png Graphic file (type png)
 <use com_box.png>
-Package pdftex.def Info: com_box.png  used on input line 430.
+Package pdftex.def Info: com_box.png  used on input line 453.
 (pdftex.def)             Requested size: 208.45367pt x 180.67517pt.
 
-Overfull \hbox (3.94814pt too wide) in paragraph at lines 451--452
+Overfull \hbox (3.94814pt too wide) in paragraph at lines 474--475
  [] 
  []
 
-<leukSmooth.png, id=525, 670.6656pt x 464.4552pt>
-File: leukSmooth.png Graphic file (type png)
-<use leukSmooth.png>
-Package pdftex.def Info: leukSmooth.png  used on input line 466.
-(pdftex.def)             Requested size: 170.5416pt x 180.66905pt.
-<leukHyper.png, id=526, 640.5531pt x 464.4552pt>
-File: leukHyper.png Graphic file (type png)
-<use leukHyper.png>
-Package pdftex.def Info: leukHyper.png  used on input line 469.
-(pdftex.def)             Requested size: 170.54723pt x 180.66905pt.
-<leukHyper2.png, id=527, 626.34pt x 372.64218pt>
-File: leukHyper2.png Graphic file (type png)
-<use leukHyper2.png>
-Package pdftex.def Info: leukHyper2.png  used on input line 472.
-(pdftex.def)             Requested size: 208.45135pt x 180.67438pt.
+<kidneyHyper.png, id=533, 624.83438pt x 410.2828pt>
+File: kidneyHyper.png Graphic file (type png)
+<use kidneyHyper.png>
+Package pdftex.def Info: kidneyHyper.png  used on input line 486.
+(pdftex.def)             Requested size: 303.20639pt x 252.93907pt.
 
-Overfull \hbox (1.8363pt too wide) in paragraph at lines 502--502
+Overfull \hbox (1.8363pt too wide) in paragraph at lines 518--518
 []\U/rsfs/m/n/10 Variables/Reference| 
  []
 
 
-Overfull \hbox (4.32513pt too wide) in paragraph at lines 502--502
-[]\U/rsfs/m/n/10 0.00467| 
+Overfull \hbox (4.32513pt too wide) in paragraph at lines 518--518
+[]\U/rsfs/m/n/10 0.00484| 
  []
 
 
-Overfull \hbox (4.32513pt too wide) in paragraph at lines 502--502
+Overfull \hbox (4.32513pt too wide) in paragraph at lines 518--518
 []\U/rsfs/m/n/10 0.00235| 
  []
 
 
-Overfull \hbox (4.32513pt too wide) in paragraph at lines 502--502
+Overfull \hbox (4.32513pt too wide) in paragraph at lines 518--518
 []\U/rsfs/m/n/10 0.00516| 
  []
 
 
-Overfull \hbox (2.24176pt too wide) in paragraph at lines 502--502
+Overfull \hbox (2.24176pt too wide) in paragraph at lines 518--518
 []\U/rsfs/m/n/10 Female| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 502--502
+Underfull \hbox (badness 10000) in paragraph at lines 518--518
 []\U/rsfs/m/n/10 Disease
  []
 
 
-Overfull \hbox (6.3043pt too wide) in paragraph at lines 502--503
+Overfull \hbox (6.3043pt too wide) in paragraph at lines 518--519
  [] 
  []
 
-<kidneyHyper.png, id=532, 578.16pt x 372.64218pt>
-File: kidneyHyper.png Graphic file (type png)
-<use kidneyHyper.png>
-Package pdftex.def Info: kidneyHyper.png  used on input line 518.
-(pdftex.def)             Requested size: 170.54689pt x 180.67438pt.
-<kidneyHyper2.png, id=533, 578.16pt x 372.64218pt>
-File: kidneyHyper2.png Graphic file (type png)
-<use kidneyHyper2.png>
-Package pdftex.def Info: kidneyHyper2.png  used on input line 521.
-(pdftex.def)             Requested size: 170.54689pt x 180.67438pt.
-[17] [18 <./simple_base.png> <./stepwise_base.png> <./com_base.png>] [19 <./simple_box.png> <./stepwise_box.png> <./com_box.png>] [20 <./leukSmooth.png> <./leukHyper.png> <./leukHyper2.png (PNG copy)>] [21 <./kidneyHyper.png> <./kidneyHyper2.png>] (./revision02.aux)
+<leukSmooth.png, id=540, 670.6656pt x 464.4552pt>
+File: leukSmooth.png Graphic file (type png)
+<use leukSmooth.png>
+Package pdftex.def Info: leukSmooth.png  used on input line 551.
+(pdftex.def)             Requested size: 170.5416pt x 180.66905pt.
+<leukHyper.png, id=541, 640.5531pt x 464.4552pt>
+File: leukHyper.png Graphic file (type png)
+<use leukHyper.png>
+Package pdftex.def Info: leukHyper.png  used on input line 554.
+(pdftex.def)             Requested size: 170.54723pt x 180.66905pt.
+<leukHyper2.png, id=542, 626.34pt x 372.64218pt>
+File: leukHyper2.png Graphic file (type png)
+<use leukHyper2.png>
+Package pdftex.def Info: leukHyper2.png  used on input line 557.
+(pdftex.def)             Requested size: 208.45135pt x 180.67438pt.
+[18] [19 <./simple_base.png> <./stepwise_base.png> <./com_base.png>] [20 <./simple_box.png> <./stepwise_box.png> <./com_box.png>] [21 <./kidneyHyper.png>] [22 <./leukSmooth.png> <./leukHyper.png> <./leukHyper2.png (PNG copy)>] (./revision02.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `revision02.out' has not changed.
-(rerunfilecheck)             Checksum: C199DB873EBA0247980C8FDECB462CA1;2746.
+(rerunfilecheck)             Checksum: A587528C43971FD9D9D0CB16938C8E48;2746.
 Package rerunfilecheck Info: File `revision02.brf' has not changed.
-(rerunfilecheck)             Checksum: 4C4BF4BAB316BB7B81E9894B52DC6482;3800.
+(rerunfilecheck)             Checksum: 36C0E189D4415A4A867429B47FA21A9B;3712.
  ) 
 Here is how much of TeX's memory you used:
- 12176 strings out of 480796
- 180394 string characters out of 5904810
- 508395 words of memory out of 5000000
- 29221 multiletter control sequences out of 15000+600000
+ 12180 strings out of 480796
+ 180414 string characters out of 5904810
+ 513666 words of memory out of 5000000
+ 29223 multiletter control sequences out of 15000+600000
  419352 words of font info for 84 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,12n,91p,2257b,517s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk> </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.600pk> </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0600.600pk> </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0700.600pk></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on revision02.pdf (21 pages, 614697 bytes).
+ 87i,12n,91p,2257b,533s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk> </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.600pk> </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0600.600pk> </home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0700.600pk></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on revision02.pdf (22 pages, 610484 bytes).
 PDF statistics:
- 687 PDF objects out of 1000 (max. 8388607)
- 605 compressed objects within 7 object streams
- 117 named destinations out of 1000 (max. 500000)
- 192 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 698 PDF objects out of 1000 (max. 8388607)
+ 614 compressed objects within 7 object streams
+ 120 named destinations out of 1000 (max. 500000)
+ 187 words of extra memory for PDF output out of 10000 (max. 10000000)
 

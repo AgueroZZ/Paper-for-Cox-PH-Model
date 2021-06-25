@@ -840,6 +840,11 @@ INPUT ./com_box.png
 INPUT com_box.png
 INPUT ./com_box.png
 INPUT ./com_box.png
+INPUT ./kidneyHyper.png
+INPUT ./kidneyHyper.png
+INPUT kidneyHyper.png
+INPUT ./kidneyHyper.png
+INPUT ./kidneyHyper.png
 INPUT ./leukSmooth.png
 INPUT ./leukSmooth.png
 INPUT leukSmooth.png
@@ -856,16 +861,6 @@ INPUT ./leukHyper2.png
 INPUT leukHyper2.png
 INPUT ./leukHyper2.png
 INPUT ./leukHyper2.png
-INPUT ./kidneyHyper.png
-INPUT ./kidneyHyper.png
-INPUT kidneyHyper.png
-INPUT ./kidneyHyper.png
-INPUT ./kidneyHyper.png
-INPUT ./kidneyHyper2.png
-INPUT ./kidneyHyper2.png
-INPUT kidneyHyper2.png
-INPUT ./kidneyHyper2.png
-INPUT ./kidneyHyper2.png
 INPUT revision02.aux
 INPUT ./revision02.out
 INPUT ./revision02.out
@@ -880,6 +875,7 @@ INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb
+INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb
 INPUT /home/ziang/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb
