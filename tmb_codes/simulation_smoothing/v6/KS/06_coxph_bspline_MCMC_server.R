@@ -169,12 +169,11 @@ ff$he <- function(w) numDeriv::jacobian(ff$gr,w)
 # Find proposed inference
 start_time <- Sys.time()
 quad <- aghq::marginal_laplace_tmb(ff,7,0)
-samps <- sample_marginal(quad,2000)
+samps <- sample_marginal(quad,10000)
 end_time <- Sys.time()
 runtime_aghq <- end_time - start_time
 ### Result from AGHQ:
 W <- apply(samps$samps,1,mean)
-U <- W[1:ncol(P)]
 truefunc <- function(x) 1.5*(sin(0.8*x))
 plotx <- seq(a,b,by=0.01)
 sampled_lambda <- construct_design(plotx,splineknots,p,m) %*% samps$samps
@@ -182,14 +181,13 @@ for (i in 1:ncol(sampled_lambda)) {
   sampled_lambda[,i] <- sampled_lambda[,i] - mean(sampled_lambda[,i])
 }
 est_lambda <- apply(sampled_lambda,1,mean)
-est_lambda <- est_lambda
 lambda_lower <- apply(sampled_lambda,1,quantile,probs = .025)
 lambda_upper <- apply(sampled_lambda,1,quantile,probs = .975)
 true_lambda <- truefunc(plotx) - mean(truefunc(plotx))
 rmse_aghq <- sqrt( mean( (est_lambda - true_lambda)^2 ) )
 mse_aghq <- mean( (est_lambda - true_lambda)^2 )
 covr_aghq <- mean(true_lambda <= lambda_upper & true_lambda >= lambda_lower)
-
+plot(plotx,est_lambda, type = 'l')
 
 
 
@@ -237,3 +235,33 @@ for(i in 1:ncol(P)){
 mean(KS_vec)
 max(KS_vec)
 
+### Result from MCMC:
+U_mcmc <- t(STAN_samples$W)
+truefunc <- function(x) 1.5*(sin(0.8*x))
+plotx <- seq(a,b,by=0.01)
+sampled_lambda_mcmc <- construct_design(plotx,splineknots,p,m) %*% U_mcmc
+for (i in 1:ncol(sampled_lambda_mcmc)) {
+  sampled_lambda_mcmc[,i] <- sampled_lambda_mcmc[,i] - mean(sampled_lambda_mcmc[,i])
+}
+est_lambda_mcmc <- apply(sampled_lambda_mcmc,1,mean)
+lambda_lower <- apply(sampled_lambda_mcmc,1,quantile,probs = .025)
+lambda_upper <- apply(sampled_lambda_mcmc,1,quantile,probs = .975)
+true_lambda <- truefunc(plotx) - mean(truefunc(plotx))
+plot(plotx, est_lambda_mcmc, type = 'l')
+
+########## GG plot to compare \gamma:
+plotdata <- rbind(tibble(x = plotx, y = est_lambda, method = "Proposed"),tibble(x = plotx, y = est_lambda_mcmc, method = "MCMC"))
+plotdata %>% ggplot(aes(x = x, y = y, color = method)) + geom_line()
+
+mean(abs(est_lambda_mcmc-est_lambda))
+max(abs(est_lambda_mcmc-est_lambda))
+
+######### KS statistics for y(ui):
+KS_vec <- c()
+for(i in 1:ncol(P)){
+  lam_aghq <- sampled_lambda[i,]
+  lam_mcmc <- sampled_lambda_mcmc[i,]
+  KS_vec[i] <- ks.test(lam_mcmc,lam_aghq)$statistic
+}
+mean(KS_vec)
+max(KS_vec)

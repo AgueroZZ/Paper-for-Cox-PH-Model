@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex revision02"] 1624584064 "revision02.aux" "revision02.bbl" "revision02" 1624584129
+["bibtex revision02"] 1624730194 "revision02.aux" "revision02.bbl" "revision02" 1624731603
   "./ba.bst" 1621999587 30137 37e47e7af783246ab15ee950a8649b05 ""
   "myrefs.bib" 1624583359 17069 d614d92f0f1899a6100c4f48e8c738b8 ""
-  "revision02.aux" 1624584128 21466 1fe75a9a0d54ea38caff47262218a350 "pdflatex"
+  "revision02.aux" 1624731603 21902 4ed926d01db8520a08ca8bc65e803434 "pdflatex"
   (generated)
-  "revision02.blg"
   "revision02.bbl"
-["pdflatex"] 1624584127 "/home/ziang/Documents/Paper-for-Cox-PH-Model/Bayesian Analysis Resubmission/v3/revision02.tex" "revision02.pdf" "revision02" 1624584129
+  "revision02.blg"
+["pdflatex"] 1624731602 "/home/ziang/Documents/Paper-for-Cox-PH-Model/Bayesian Analysis Resubmission/v3/revision02.tex" "revision02.pdf" "revision02" 1624731603
   "/home/ziang/.TinyTeX/texmf-dist/fonts/tfm/jknappen/ec/tcrm0500.tfm" 1136768653 1536 b3387106d9afecbfe14bde2de6eadf47 ""
   "/home/ziang/.TinyTeX/texmf-dist/fonts/tfm/jknappen/ec/tcrm0600.tfm" 1136768653 1536 12e8c510d3e158fdd0e9a42e75118bd9 ""
   "/home/ziang/.TinyTeX/texmf-dist/fonts/tfm/jknappen/ec/tcrm0700.tfm" 1136768653 1536 73da8e8f1d2a4c957d51ca133585586b ""
@@ -149,7 +149,7 @@
   "/home/ziang/.TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk" 1621743457 11524 369ef60da51f3a4c81a2a4928e50db98 ""
   "/home/ziang/.TinyTeX/texmf-var/web2c/pdftex/pdflatex.fmt" 1621283179 1345469 c7c4b7648e923d810e9d7256617c61da ""
   "/home/ziang/.TinyTeX/texmf.cnf" 1620755509 656 66e56dbbcba00ff2722a8957b1fddc62 ""
-  "/home/ziang/Documents/Paper-for-Cox-PH-Model/Bayesian Analysis Resubmission/v3/revision02.tex" 1624584127 55128 86cbcf7d5a63a18d434d9c6377eb5e76 ""
+  "/home/ziang/Documents/Paper-for-Cox-PH-Model/Bayesian Analysis Resubmission/v3/revision02.tex" 1624731601 56815 37de6eb3edb6140c763516f7b79a3974 ""
   "com_base.png" 1624402821 96873 9da81e0c3afda1e1c7dbc0c8a3a44b80 ""
   "com_box.png" 1624403134 9519 3e331a7011437439d0375d762a0fa5f5 ""
   "imsart-ba.cnf" 0 -1 0 ""
@@ -162,18 +162,18 @@
   "leukHyper2.png" 1623697903 28784 02669ef04dcf1dde7f5a0e8877e89161 ""
   "leukSmooth.png" 1623692807 62157 794203cee1477c0ad747905d0b8e300d ""
   "mathrsfs.sty" 930786492 300 12fa6f636b617656f2810ee82cb05015 ""
-  "revision02.aux" 1624584128 21466 1fe75a9a0d54ea38caff47262218a350 "pdflatex"
-  "revision02.bbl" 1624584064 11507 2f6d906b5d42099f96600571ebd8d204 "bibtex revision02"
-  "revision02.brf" 1624584128 3712 36c0e189d4415a4a867429b47fa21a9b "pdflatex"
-  "revision02.out" 1624584128 2746 a587528c43971fd9d9d0cb16938c8e48 "pdflatex"
-  "revision02.tex" 1624584127 55128 86cbcf7d5a63a18d434d9c6377eb5e76 ""
+  "revision02.aux" 1624731603 21902 4ed926d01db8520a08ca8bc65e803434 "pdflatex"
+  "revision02.bbl" 1624730194 11507 2f6d906b5d42099f96600571ebd8d204 "bibtex revision02"
+  "revision02.brf" 1624731603 3712 ec263d98a9af0853c71af7e958329342 "pdflatex"
+  "revision02.out" 1624731603 2746 a587528c43971fd9d9d0cb16938c8e48 "pdflatex"
+  "revision02.tex" 1624731601 56815 37de6eb3edb6140c763516f7b79a3974 ""
   "simple_base.png" 1624402838 32023 1be1e7dbbe3ed0d68a6ecedb1cd78c04 ""
   "simple_box.png" 1624403080 8027 2f80611f0cbd6412d2b298a686c35249 ""
   "stepwise_base.png" 1624402878 34842 6414ec65ecee78b4a102294bfcfc69ab ""
   "stepwise_box.png" 1624403101 8095 c2fcf93a04f6c298ab04a85530fb8c9a ""
   (generated)
-  "revision02.pdf"
-  "revision02.out"
   "revision02.log"
   "revision02.brf"
   "revision02.aux"
+  "revision02.out"
+  "revision02.pdf"

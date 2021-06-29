@@ -299,8 +299,7 @@ For completeness, we also implemented the same simulation setting for $\sigma_\x
 
 The simulation result above seems to be related to the type of full likelihood INLA utlized in its inference \citep{inlacoxph}. In \cite{coxdiscussion}, Cox pointed out one problem associated with the use of the type of full likelihood considered by \cite{inlacoxph}, that is the large number of parameters introduced in order to model the unknown baseline hazard function. In this simulation study, the sample size is only $60m$, but the latent parameter contains more than $60$ parameters not counting the additional parameters INLA introduced for modeling the baseline hazard, which is likely to become a problem if $m$ is small. 
 
-To demonstrate the accuracy of our proposed approximation and the computational advantage compared to existing method, we also fitted the same partial likelihood model using MCMC method, through STAN's No U-turn Sampler (NUTS) \citep{NUTS}, using two replications where $\sigma_\xi = 1$ and $m = 10$ and $2$ respectively. With $35000$ total iterations with $25000$ warmups, MCMC took a total time of $40.89$ minutes when $m = 10$ and $3.56$ minutes when $m = 2$. As a comparison, the proposed method only took $29.64$ seconds when $m = 10$ and $1.31$ seconds when $m = 2$, to obtain $10000$ independent samples of $W$ from the approximate posterior. The average times to take one sample in MCMC are $0.07$ and $0.005$ seconds respectively for $m = 10$ and $m = 2$, but for the proposed method are only respectively $0.003$ and 
-$0.0001$ seconds.
+To demonstrate the accuracy of our proposed approximation and the computational advantage compared to existing method, we also fitted the same partial likelihood model using MCMC method, through STAN's No U-turn Sampler (NUTS) \citep{NUTS}, using two replications where $\sigma_\xi = 1$ and $m = 10$ and $2$ respectively. With four chains each with $35000$ total iterations with $25000$ warmups running in paralell, MCMC took a total time of $40.89$ minutes when $m = 10$ and $3.56$ minutes when $m = 2$. As a comparison, the proposed method only took $29.64$ seconds when $m = 10$ and $1.31$ seconds when $m = 2$, to obtain $10000$ independent samples of $W$ from the approximate posterior. The average times to take one sample in MCMC are $0.07$ and $0.005$ seconds respectively for $m = 10$ and $m = 2$, but for the proposed method are only respectively $0.003$ and $0.0001$ seconds.
 
 
 The difference between posterior distributions yielded by MCMC method and the approximate posterior obtained by the proposed method is quantified using Kolmogorv-Smirov (KS) statistic, which measures the maximal absolute difference between the two cumulative posterior distributions. The KS statistics have been computed for both $\sigma_\xi$ and $\beta$, as well as the mean and maximal KS statistic for the $60$ frailties. The results are summarized in table (\ref{table:Sim1KS}). As illutrated in the table, the proposed method yielded approximate posteriors that are very similar to those yielded by MCMC method, but took significantly shorter time for computation than MCMC. As $m$ decreases from $10$ to $2$, the accuracy of the posterior approximation decreases, in particular for the variance parameter $\sigma_\xi$. That is because of the use of Laplace approximation for $\pi(\sigma_\xi|y)$, which has been known to be less accurate when random effects are sparse \citep{Ogden2013ASR}. However, the result from our proposed method is still significantly more accurate than the existing Laplace approximation based method as shown in table (\ref{table:Sim1Agg}).
@@ -311,22 +310,14 @@ The difference between posterior distributions yielded by MCMC method and the ap
 
 To illustrate the accuracy of our method over INLA when the smoothness assumption for baseline hazard function is violated, we performed our second simulation study. We generated $n = 1000$ uncorrelated data points from a distribution with known hazard function. For the baseline hazard functions, we consider three different settings corresponding to three different levels of wiggliness. Specifically baseline hazard function is respectively set to simple step function, oscillating step function and an extremely complicated function that switches between linear and constant. Again, the first two piecewise constant baseline hazards correspond to piecewise Exponential models with different complexity \citep{piecewiseExp}. All of the three baseline hazards $h_{0}(t)$ are shown in Figure (\ref{fig:truebase}). The additive predictor is $\eta_{i} = \gamma\left(u_{i}\right)$ with $\gamma(u) = 1.5 [ \text{sin}(0.8u) + 1 ]$ in all the three simulation settings. We generated the covariates $u$ as  $u_{i}\overset{iid}{\sim}\text{Unif}(-6,6)$, $i \in [n]$ and randomly censored $10\%$ of all the survival times.
 
-
-
 To infer the unknown risk function $\gamma$, we used the Bayesian cubic B-spline smoothing method mentioned in section \ref{subsec:smooth} in our proposed method, with $50$ equally spaced knots. For the smoothing method in INLA, we placed the values of $u$ into $50$ discrete bins, and fitted its second-order random walk model for $\gamma$ \citep{rw2}. As shown in \cite{casecross}, the Bayesian semi-parametric smoothing methods we considered here are not sensitive to the choice of number and placement of knots. 
-As before, we implemented INLA under its default setting, with a first-order random walk model for the baseline hazard. This implicitly assumes that $h_{0}(t)$ is smooth. In contrast, our procedure does not infer $h_{0}(t)$, and does not make assumptions about its smoothness. In both of the smoothing methods, the single variance parameter $\sigma$ that controls the smoothness of $\gamma$, was modeled with an Exponential($\lambda$) prior with $\lambda$ chosen such that $\mathbb{P}\left( \sigma > 2\right) = 0.5$. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter to is set to be $K = 7$.
+As before, we implemented INLA under its default setting, with a first-order random walk model for the baseline hazard. This implicitly assumes that $h_{0}(t)$ is smooth. In contrast, our procedure does not infer $h_{0}(t)$, and does not make assumptions about its smoothness. In both of the smoothing methods, the single variance parameter $\sigma$ that controls the smoothness of $\gamma$, was modeled with an Exponential($\lambda$) prior with $\lambda$ chosen such that $\mathbb{P}\left( \sigma > 2\right) = 0.5$. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter to is set to be $K = 7$. As in the first simulation study, we compared the accuracy of our proposed method with INLA, using the metrics of MSE computed using posterior mean and coverage rate computed using the $95\%$ posterior credible interval. These metrics were computed from 300 independent replications.
 
-
-
-
-As in the first simulation study, we compared the accuracy of our proposed method with INLA, using the metrics of MSE computed using posterior mean and coverage rate computed using the $95\%$ posterior credible interval. The metrics were still computed by averaging over 300 independent replications.
-
-
-
-The comparison metrics under the three settings of baseline hazard are shown in figure (\ref{fig:SimAggBox}) and table (\ref{table:Sim2Agg}). Based on the boxplots in figure (\ref{fig:SimAggBox}), the proposed method provides inference results that are at least as accurate as INLA in terms of MSE, in all the settings. The same observation can be made from the table (\ref{table:Sim2Agg}), where the proposed method provides consistent coverage rate that is close to the nominal level $95\%$ in all the settings. 
+The comparison metrics under the three settings of baseline hazard are shown in figure (\ref{fig:SimAggBox}) and table (\ref{table:Sim2Agg}). Figure(\ref{fig:SimAggBox}) shows boxplots of the mean squared erros provided by the two methods for $\{\gamma(u_i)\}_{i=1}^n$ in each replication. Based on the boxplots, the proposed method provides inference results that are at least as accurate as INLA in terms of MSE, in all the settings. The same observation can be made from the table (\ref{table:Sim2Agg}), where the proposed method provides consistent coverage rate that is close to the nominal level $95\%$ in all the settings. 
 
 While the performance of the proposed method is not affected by the choice of true baseline hazard function, the performance of INLA is sensitive to the true baseline hazard function, as shown in the correponding boxplots and table. This is not unexpected as the full-likelihood used in INLA's inference implicitly requires that the baseline hazard is smooth enough to be approximated well by its first-order random walk, which will not hold under setting such as (\ref{fig:truebase})(c) where the baseline hazard is varying rapidly as time changes. On the other hand, the inference of our proposed method relies on the partial likelihood, which makes no assumption on the form of the baseline hazard, and hence unaffected by the wiggliness of baseline hazard in this study. 
 
+Again, to assess the accuracy of the proposed posterior approximation, we fitted the same partial likelihood model using MCMC using NUTS with four chains each with 10000 iterations and 8000 warmups, for an arbitrarily chosen replication. We computed the KS statistic for variane parameter $\sigma$ that controls the smoothness of the inferred $\gamma$, and the maximum and mean KS statistics for the risk fucntion evaluations $\{\gamma(u_i)\}_{i=1}^n$. These results are summarized in table(\ref{table:Sim2KS}). We also computed the mean and maximum absolute difference between the posterior mean for $\{\gamma(u_i)\}_{i=1}^n$ given by the proposed method and by MCMC, which are respectively 0.002 and 0.007. The small KS statistics and absolute difference between posterior mean demonstrate that the proposed posterior approximation is comparable to MCMC. On the other hand, the average runtime of each Markov chain was around 18.7 hours for MCMC method to get 10000 iterations, but the proposed method with 10000 independent samples only requires 28.3 seconds, which is a huge improvement in computational time.
 
 \subsection{Kidney Catheter Data}\label{subsec:kidney}
 
@@ -476,6 +467,27 @@ Complicated Baseline & 0.968 & 0.659 & 0.0117 & 0.0448 \\
 \caption{Comparison metrics in terms of MSE and posterior coverage rate from 300 independent replications, for the three baselines in the second simulation study in section \ref{subsubsec:sim2}.}
 \label{table:Sim2Agg}
 \end{table}
+
+
+
+
+\begin{table}
+  \begin{center}
+  \scalebox{0.99}{
+  \begin{tabular}{||c c c||}
+   \hline
+   $\sigma$  & $\gamma(u_i)$ (max) & $\gamma(u_i)$ (mean) \\
+   \hline\hline
+   0.035 & 0.027 & 0.021\\
+    \hline \hline
+  \end{tabular}
+  }
+  \end{center}
+  \caption{KS statistic for each parameter in the second simulation study in section \ref{subsubsec:sim2}, to compare the proposed approach with MCMC.}
+  \label{table:Sim2KS}
+  \end{table}
+
+
 
 
 
