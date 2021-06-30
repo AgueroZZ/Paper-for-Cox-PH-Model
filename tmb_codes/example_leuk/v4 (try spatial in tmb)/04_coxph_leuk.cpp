@@ -83,6 +83,8 @@ Type objective_function<Type>::operator() ()
   lpW += -0.5 * exp(theta) * UPU; // U part
   // also the fixed effect part!
   Type bb = (beta * beta).sum();
+  REPORT(beta);
+  REPORT(bb);
   lpW += -0.5 * betaprec * bb; // Beta part
 
   // Log determinant
@@ -118,6 +120,7 @@ Type objective_function<Type>::operator() ()
   for (int i=0;i<n;i++) W1(i) = W(i);
   Type nll1 = density::MVNORM_t<Type>(C)(W1);
   REPORT(nll1);
+  REPORT(C);
   lp -= nll1; // Negative prior
   REPORT(lp);
   
