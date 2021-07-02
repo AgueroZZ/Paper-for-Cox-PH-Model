@@ -113,8 +113,8 @@ beta_prec <- .001
 
 # PC Prior for kappa,tau
 maternconstants <- list()
-maternconstants$d <- 2 # Dimension of spatial field, fixed
-maternconstants$nu <- 1 # Shape param, fixed
+maternconstants$d <- 1 # Dimension of spatial field, fixed
+maternconstants$nu <- 2 # Shape param, fixed
 get_kappa <- function(sigma,rho) sqrt(8*maternconstants$nu)/rho
 get_tau <- function(sigma,rho) sigma * get_kappa(sigma,rho)^(maternconstants$nu) * sqrt(gamma(maternconstants$nu + maternconstants$d/2) * (4*pi)^(maternconstants$d/2) / gamma(maternconstants$nu))
 get_sigma <- function(kappa,tau) tau / (kappa^(maternconstants$nu) * sqrt(gamma(maternconstants$nu + maternconstants$d/2) * (4*pi)^(maternconstants$d/2) / gamma(maternconstants$nu)))
@@ -276,7 +276,7 @@ simulate_spatial_fields <- function(U,
     # Simulate from the two fields
     capture.output({
       fieldlist[[i]] <- geostatsp::RFsimulate(
-        model = c("variance" = sig^2,"range" = rho,"shape" = maternconstants$nu),
+        model = c("variance" = sig^2,"range" = rho,"shape" = 2),
         data = fielddat,
         x = raster(fielddat,nrows = resolution$nrow,ncols = resolution$ncol),
         n = 1
