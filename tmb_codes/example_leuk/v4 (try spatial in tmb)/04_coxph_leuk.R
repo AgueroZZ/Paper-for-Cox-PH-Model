@@ -240,7 +240,9 @@ with(etaplotframe,plot(x,etamean,type='l',ylim = c(-0.5,0.5)))
 with(etaplotframe,lines(x,lower,type='l',lty='dashed'))
 with(etaplotframe,lines(x,upper,type='l',lty='dashed'))
 
-
+etaplotframe %>% ggplot(aes(x,etamean)) + geom_line(linetype = "solid") + geom_line(aes(x,lower), linetype = "dashed") +
+  geom_line(aes(x,upper), linetype = "dashed") + 
+  theme_classic(base_size = TEXT_SIZE) + ylab("") + xlab("tpi")
 
 
 ##### Fixed effects and Hyper parameters table:
@@ -290,9 +292,9 @@ fieldsbrick <- simulate_spatial_fields(
   U = posterior_samples$samps[1:n,simstodo],
   theta = posterior_samples$theta[simstodo, 2:3],
   pointsdata = pointsdata,
-  resolution = list(nrow = 100,ncol = 100)
+  resolution = list(nrow = 400,ncol = 200)
 )
-save(fieldsbrick, "fieldsbrick.rda")
+save(fieldsbrick, file = "fieldsbrick.rda")
 
 
 ###### Spatial plot:
@@ -308,7 +310,7 @@ ukBorder <- ukBorder[ukBorder$GID_2 %in% pointsinpolyID, ]
 ukBorderouter <- rgeos::gUnaryUnion(ukBorder)
 
 simfieldsmean <- mean(exp(fieldsbrick))
-simfieldsexceedence <- mean(fieldsbrick > log(1.2))
+simfieldsexceedence <- mean(fieldsbrick > log(1.5))
 
 # MEAN
 plotraster <- simfieldsmean
