@@ -1,0 +1,110 @@
+### Loa Loa Zip Model ###
+
+## Load the data ##
+library(TMB)
+precompile()
+library(geostatsp)
+data(loaloa,package = "geostatsp")
+library(aghq)
+library(tmbstan)
+
+# Set the resolution for the spatial interpolations:
+# The results shown in the paper use:
+# reslist <- list(nrow = 200,ncol = 400)
+# but this takes a couple hours. Here I set:
+reslist <- list(nrow = 50,ncol = 100)
+
+
+# Compile TMB template-- only need to do once
+compile("try.cpp")
+dyn.load(dynlib("try"))
+
+
+## Prepare the "inner" model ##
+
+# Design matrices
+Amat <- Diagonal(nrow(loaloa))
+
+Xmat <- cbind(rep(1,nrow(Amat)))
+# Design matrix: zip model and risk model are the same
+design <- bdiag(
+  # ZIP
+  cbind(
+    Amat,
+    Xmat
+  ),
+  # Risk
+  cbind(
+    Amat,
+    Xmat
+  )
+)
+
+# Response
+y <- loaloa@data$y
+N <- loaloa@data$N
+
+## Dimensions
+n <- nrow(Xmat) # Number of obs
+p <- ncol(Xmat) * 2 # Number of betas
+m <- ncol(Amat) * 2 # Number of spatial points
+Wd <- ncol(design) # Number of total params
+# Check
+stopifnot(Wd == m + p)
+
+## Prior distributions ##
+# Use the same prior for both sets of Matern params
+sigma_u <- 1
+sigma_alpha <- .025
+rho_u <- 2e05
+rho_alpha <- .975
+
+# PC Prior for kappa,tau
+maternconstants <- list()
+maternconstants$d <- 2 # Dimension of spatial field, fixed
+maternconstants$nu <- 1 # Shape param, fixed
+get_kappa <- function(sigma,rho) sqrt(8*maternconstants$nu)/rho
+get_tau <- function(sigma,rho) sigma * get_kappa(sigma,rho)^(maternconstants$nu) * sqrt(gamma(maternconstants$nu + maternconstants$d/2) * (4*pi)^(maternconstants$d/2) / gamma(maternconstants$nu))
+get_sigma <- function(kappa,tau) tau / (kappa^(maternconstants$nu) * sqrt(gamma(maternconstants$nu + maternconstants$d/2) * (4*pi)^(maternconstants$d/2) / gamma(maternconstants$nu)))
+get_rho <- function(kappa,tau) sqrt(8*maternconstants$nu) / kappa
+
+# Precision for betas
+
+beta_prec <- .001
+
+## Log Posterior ----
+
+startingsig <- 1
+startingrho <- 4.22*1e04
+
+datlist <- list(
+  y = y,
+  N = N,
+  design = design,
+  nu = maternconstants$nu,
+  rho_u = rho_u,
+  rho_alpha = rho_alpha,
+  sigma_u = sigma_u,
+  sigma_alpha = sigma_alpha,
+  D = raster::pointDistance(loaloa,lonlat = FALSE),
+  betaprec = beta_prec
+)
+# NOTE: for some initial values of W, TMB's inner optimization seems to fail
+# This was tried over a bunch of random intializations and most worked, and all
+# gave the same optimum. But this is why we set the seed here and use a random start.
+set.seed(123)
+paraminit <- list(
+  W = rnorm(ncol(design)),
+  logkappa = log(get_kappa(startingsig,startingrho)),
+  logtau = log(get_tau(startingsig,startingrho))
+)
+
+ff <- MakeADFun(data = datlist,
+                parameters = paraminit,
+                random = "W",
+                DLL = "try",
+                ADreport = FALSE,
+                silent = FALSE)
+
+
+

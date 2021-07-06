@@ -3,9 +3,12 @@ library(tidyverse)
 TEXT_SIZE = 25
 
 ### load results:
-load("/Users/ziangzhang/Documents/GitHub/Paper-for-Cox-PH-Model/tmb_codes/simulation_smoothing/v6/result_300_aggregations_complicated.rda")
-load("/Users/ziangzhang/Documents/GitHub/Paper-for-Cox-PH-Model/tmb_codes/simulation_smoothing/v6/result_300_aggregations_stepwise.rda")
-load("/Users/ziangzhang/Documents/GitHub/Paper-for-Cox-PH-Model/tmb_codes/simulation_smoothing/v6/result_300_aggregations_simple.rda")
+# load("/Users/ziangzhang/Documents/GitHub/Paper-for-Cox-PH-Model/tmb_codes/simulation_smoothing/v6/result_300_aggregations_complicated.rda")
+# load("/Users/ziangzhang/Documents/GitHub/Paper-for-Cox-PH-Model/tmb_codes/simulation_smoothing/v6/result_300_aggregations_stepwise.rda")
+# load("/Users/ziangzhang/Documents/GitHub/Paper-for-Cox-PH-Model/tmb_codes/simulation_smoothing/v6/result_300_aggregations_simple.rda")
+load("/home/ziang/Documents/Paper-for-Cox-PH-Model/tmb_codes/simulation_smoothing/v6/result_300_aggregations_complicated.rda")
+load("/home/ziang/Documents/Paper-for-Cox-PH-Model/tmb_codes/simulation_smoothing/v6/result_300_aggregations_stepwise.rda")
+load("/home/ziang/Documents/Paper-for-Cox-PH-Model/tmb_codes/simulation_smoothing/v6/result_300_aggregations_simple.rda")
 
 ### First plot: when true function is simple:
 simple_result <- result3 %>% filter(method != "MGCV") %>% select(method,coverage,mse)

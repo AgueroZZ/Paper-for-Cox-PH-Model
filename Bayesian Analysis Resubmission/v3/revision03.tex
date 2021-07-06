@@ -1,0 +1,623 @@
+\documentclass[ba]{imsart}
+%
+\pubyear{0000}
+\volume{00}
+\issue{0}
+\doi{0000}
+%\arxiv{}
+\firstpage{1}
+\lastpage{1}
+
+\usepackage{adjustbox}
+\usepackage{placeins}
+\usepackage{mathrsfs}
+\usepackage{subfigure}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{natbib}
+\usepackage[colorlinks,citecolor=blue,urlcolor=blue,filecolor=blue,backref=page]{hyperref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+% Macro for commenting
+\newcommand{\highlight}[1]{\textcolor{red}{#1}}
+\newcommand{\alex}[1]{\textcolor{violet}{{ }#1}}
+\newcommand{\ziang}[1]{\textcolor{orange}{{ }#1}}
+
+
+\startlocaldefs
+% ** Local definitions **
+\endlocaldefs
+
+\begin{document}
+
+%% *** Frontmatter *** 
+
+\begin{frontmatter}
+\title{Bayesian Inference for Cox Proportional Hazard Models with Partial Likelihoods, Semi-Parametric Covariate Effects and Correlated Observations}
+
+%\title{\thanksref{T1}}
+%\thankstext{T1}{<thanks text>}
+\runtitle{}
+
+\begin{aug}
+%\author{\fnms{} \snm{}}
+%\author{\fnms{<firstname>} \snm{<surname>}\thanksref{}\ead[label=e1]{}}
+%\and
+%\author{\fnms{} \snm{}}
+\author{\fnms{Ziang} \snm{Zhang}\thanksref{addr1}\ead[label=e1]{aguero.zhang@mail.utoronto.ca}}
+\author{\fnms{Alex} \snm{Stringer}\thanksref{addr1,addr2}\ead[label=e2]{alex.stringer@mail.utoronto.ca}}
+\author{\fnms{Patrick} \snm{Brown}\thanksref{addr1,addr2}\ead[label=e3]{patrick.brown@utoronto.ca}}
+\and
+\author{\fnms{James} \snm{Stafford}\thanksref{addr1}\ead[label=e4]{jamie.stafford@utoronto.ca}}%
+
+
+\runauthor{Zhang et al.}
+
+\address[addr1]{Department of Statistical Science,
+University of Toronto,
+\printead{e1} 
+\printead*{e2} 
+\printead*{e3} 
+\printead*{e4} 
+}
+\address[addr2]{Centre for Global Health Research,
+St Michael's Hospital,
+\printead{e2} 
+\printead*{e3} 
+}
+
+%\thankstext{<id>}{<text>}
+
+\end{aug}
+
+\begin{abstract}
+We propose a flexible and scalable approximate Bayesian inference methodology for the Cox Proportional Hazards model with partial likelihood. The model we consider includes semi-parametric covariate effects and correlated survival times. The proposed method is based on nested approximations and adaptive quadrature, and the computational burden of working with the log-partial likelihood is mitigated through automatic differentiation and Laplace approximation. We provide two simulation studies to show the accuracy of the proposed approach, compared with the existing methods. We demonstrate the practical utility of our method and its computational advantages over MCMC methods through the analysis of Leukemia survival times, with a semi-parametric covariate effect, and Kidney infection times, which are paired. An R package implementing our method will be released publicly.
+\end{abstract}
+
+%% ** Keywords **
+\begin{keyword}
+\kwd{Cox Proportional Hazard Model}
+\kwd{Partial Likelihood}
+\kwd{Approximate Bayesian inference}
+\kwd{Hierarchical Modeling}
+\end{keyword}
+
+\end{frontmatter}
+
+%% ** Mainmatter **
+
+%\section{}\label{}
+
+% \begin{figure} 
+% \includegraphics{<eps-file>}% place <eps-file> in ./img  subfolder
+% \caption{}
+% \label{}
+% \end{figure}
+
+
+% \begin{table} 
+% *****************
+% \begin{tabular}{lll}
+% \end{tabular}
+% *****************
+% \caption{}
+% \label{}
+% \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Supplementary Material, if any, should   %%
+%% be provided in {supplement} environment  %%
+%% with title and short description.        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{supplement}
+%\stitle{???}
+%\sdescription{???.}
+%\end{supplement}
+
+%% ** The bibliograhy **
+%\bibliographystyle{ba}
+%\bibliography{<bib-data-file>}% place <bib-data-file> in ./bib folder 
+
+% ** Acknowledgements **
+% \begin{acknowledgement}
+% \end{acknowledgement}
+
+\section{Introduction}\label{sec1}
+For problems involving time-to-event data, the combination of Cox proportional hazard (Cox PH) models and inference via partial likelihood has been the dominant methodology following its development by Cox \citep{coxph}. The Cox PH model assumes that any two subjects' event hazards are proportional as a function of time, with the ratio depending on unknown covariate effects which are inferred from the observed data. Event times may be correlated within the sample, for example when the response is time to kidney failure for the left and right kidneys from the same subject. Inference that is conducted via partial likelihood does not require assumptions to be made about the form of the baseline hazard. Further, the use of Bayesian inference with the Cox PH model is desirable as this yields model-based estimation and uncertainty quantification for all parameters of interest in the presence of complex models for the hazard, which would be difficult to achieve otherwise. However, existing methods for approximate Bayesian inference based on Integrated Nested Laplace Approximations (INLA) \citep{inla} cannot be applied to the Cox PH model with partial likelihood because the Hessian matrix of the log partial-likelihood is fully dense while INLA requires this matrix to be diagonal.
+
+
+Alternative methods of doing Bayesian inference on this kind of survival model have been considered in the literature. \cite{BayesianNonpara} considered a fully non-parametric approach for Bayesian survival analysis, where the entire hazard function is modelled with an extended gamma process prior and the posterior distribution is derived to be another extended gamma process. \cite{BayesianPartialMCMC} considered Bayesian analysis on Cox PH model on partial likelihood and on full likelihood with a extended gamma process prior for the baseline hazard, and carried out inferences based on Markov Chain Monte Carlo (MCMC). \cite{inlacoxph} considered application of the INLA methodology to the Cox PH model, using the full likelihood with baseline hazard modeled semi-parametrically. \cite{PartialandFull1} derived the partial likelihood to be the limiting posterior when baseline hazards are modelled with noninformative priors, and \cite{PartialandFull2} later extended the result to allow the inclusion of grouped survival data, and implemented partial likelihood based Bayesian inference with a Gibbs sampling algorithm. \cite{henschel2009semiparametric} proposed a Bayesian inference method using MCMC on the full likelihood, with baseline hazard function modelled either as piecewise constant or as linear combination of B splines, and they accommodated the inclusion of different types of frailties in their method. \cite{hennerfeind2006geoadditive} developed a general geo-additive Cox PH model that allows the inclusion of components such as non-linear covariate effect, spatial effect and group level frailties, with inference carried out using MCMC on full likelihood and baseline hazards modelled using P splines. \cite{kneib2005geoadditive} generalized the method of \cite{hennerfeind2006geoadditive} to acommodate left truncation, left censoring, and interval censoring of the survival times. Most of the existing methods for Bayesian inference of Cox PH model have been utlizing MCMC method to obtain the posterior, and are based on the full likelihood with an explicit form to model the unknown baseline hazard.
+
+
+
+\cite{casecross} developed an approximate Bayesian inference methodology for case-crossover model, which can be viewed as a special case of Cox PH model, by applying the approximation strategy of INLA to a log-partial likelihood with a non-diagonal Hessian matrix. 
+Their methodology includes semi-parametric covariate effects and yields full posterior uncertainty for the corresponding smoothness parameters, an improvement over existing frequentist methods. The partial likelihood they considered correponds to one of the simplest special case of the general Cox PH model, and the Hessian matrix of their log-partial likelihood is block-diagonal and sparse. In contrast, the Hessian matrix of log-partial likelihood of Cox PH model is generally fully dense, leading to increased computational burden when compared to the model considered by \cite{casecross}. Further, they use a manual integration strategy which requires the user to supply their own quadrature points, which requires specialist knowledge to do properly. This limits the practical utility of their method. In order to make approximate Bayesian inferences for the Cox PH model with partial likelihood, an alternative computational strategy is needed.
+
+
+
+In this paper, we improve upon the posterior approximation methodology of \cite{casecross} and apply it to fitting Cox PH models with partial likelihood, with fixed and semi-parametric covariate effects, spatial effects and frailties for modelling correlations between survival times. Through two simulation studies, we illustrate the circumstances under which the proposed method yields improved results compared to existing methods based on full likelihood, and demonstrate the accuracy of the posterior approximation and its computational advantages compared to partial likelihood method fit with MCMC. Through the analysis of two classical datasets with correlated survival times, semi-parametric effects and spatial variations, we show the practical utility of the proposed method.
+
+
+The remainder of this paper is organized as follows. In \S\ref{sec:model} we describe the semi-parametric Cox PH model and the method of semi-parametric smoothing that will be used in this paper. In \S\ref{sec:method}, we describe our proposed methodology and the introduced improvements to solve the computational challenges presented by the complicated partial likelihood. In \S\ref{sec:example} we illustrate advantages of the proposed methodology in two simulation studies and through the analysis of the Kidney catheter data analyzed by \cite{kidney} and Leukemia survival data analyzed by \cite{inlacoxph}. We conclude in \S\ref{sec:discussion} with a discussion.
+
+\section{Model}\label{sec:model}
+
+\subsection{A General Cox PH Model}
+
+Suppose we observe $n$ groups indexed by $i$, each with $n_{i}$ observations indexed by $j$. For example, we may observe $n$ subjects with $n_{i}$ measurements per subject. Denote the random variable representing the $j^{th}$ survival time in the $i^{th}$ group by $T_{ij}$, and denote its realization by $t_{ij}$. Let $c_{ij}$ denote the censoring time for observation $T_{ij}$ such that $T_{ij}$ is not directly observable when $c_{ij} < T_{ij}$. The observed survival time is $y_{ij} = \min\{t_{ij},c_{ij}\}$. Define $d_{ij} = 1$ if $y_{ij} = t_{ij}$ (a survival time) and $d_{ij} = 0$ if $t_{ij} > y_{ij}$ (a censoring time). The observations for each $i,j$ are hence denoted by pairs $y =  \left\{(y_{ij},d_{ij}): i\in[n]; j\in[n_{i}] \right\}$. The total number of rows in the data set is denoted by $N = \sum_{i=1}^{n}n_{i}$.
+
+Define $h_{ij}(t)$ to be the hazard function for the random variable $T_{ij}$. The Cox PH model assumes $h_{ij}(t) = h_0(t)\text{exp}(\eta_{ij})$ where $h_0(t)$ is an unknown baseline hazard function that does not depend on the covariates. \cite{BayesianPartialMCMC} only considered the inference on linear fixed effects with linear predictor defined as $\eta_{ij} = x_{ij}^T \boldsymbol{\beta}$, and they briefly discussed the possibility of generalizing their method to accommodate group frailty terms. \cite{PartialandFull2} proposed a MCMC method for inference with both fixed effects and group level frailties using partial likelihood, but their method is not flexible enough to accommodate nonlinear covariate effect.
+\cite{BayesianNonpara} on the other hand considered to model the entire hazard function $h_{ij}(t)$ nonparametrically, but their method cannot be used to quantify the effect of a particular covariate on the survival times.
+
+\cite{casecross} considered a general linear predictor that accommodates both linear fixed and nonlinear semi-parametric covariate effects, but the type of likelihood they considered is one of the simplest special cases of the general partial likelihood of Cox PH model, and does not allow the estimation of group level frailty terms that account for the correlation between survival times within the same group.
+
+
+To accommodate nonlinear covariate effects and correlated survival times, we define an additive predictor $\eta_{ij}$ which links the covariates for the $ij$th observation to the survival time $T_{ij}$:
+\begin{equation}\begin{aligned}\label{eqn:eta}
+\eta_{ij} &=x_{ij}^{T}\boldsymbol{\beta}+\sum_{q=1}^{r} \gamma_q(u_{qij}) +\xi_{i} , i\in[n],j\in[n_{i}], \\
+\xi_i | \sigma_{\xi} &\overset{iid}{\sim} \mathcal{N}(0,\sigma_{\xi}) , i\in[n], \\
+\gamma_{q}(\cdot)|\sigma_{q} &\overset{ind}{\sim} \mathcal{GP}\left(0,\mathcal{C}_{\sigma_q}\right), q\in[r].
+\end{aligned}\end{equation}
+Let $ \boldsymbol{\eta} = \left\{ \eta_{ij}: i \in [n]; j\in[n_{i}] \right\}$ be the vector of all the additive linear predictors. Here $x_{ij}$ is a $p$-dimensional vector of covariates that are modeled as having linear associations with the log-hazard, and $\boldsymbol{\beta} = (\beta_{1},\ldots,\beta_{p})$ are regression coefficients. The $u_{q} = \left\{u_{qij}: i \in [n]; j \in[n_{i}] \right\}, q \in [r]$ are covariates whose associations with the log-hazard are modeled semi-parametrically through unknown smooth functions $\{\gamma_i, i \in [r]\}$. The vector of group intercepts $\xi = \left\{ \xi_{i}: i \in [n] \right\}$---referred to as \textit{frailties} coefficients in the context of survival analysis \citep{frailty}---are included to model correlation between survival times coming from the same group $i$. There is no global intercept $\beta_{0}$ as this would be absorbed by $h_{0}(t)$. However, in contrast to the model considered by \cite{casecross}, the group-specific intercepts $\xi_{i}$ are estimable in this model.
+
+\subsection{Modeling Semi-parametric covariate effect}\label{subsec:smooth}
+
+The semi-parametric covariate effects $\gamma_q$, $q \in [r]$ are modeled as $r\in\mathbb{N}$ independent zero-mean Gaussian processes, each defined by its covariance function $C_{\sigma_{q}}$. The covariance functions are each parametrized by a single parameter $\sigma_q > 0$. A typical choice of covariance function is the covariance function of second fold Integrated Wiener process\citep{wiener}, which has a connection to cubic smoothing splines \citep{wahbaprior}.
+
+To infer the infinite-dimensional parameters $\gamma_q$, $q \in [r]$, \cite{rw2} proposed the use of second order random walk model (RW2) to discretize the Integrated Wiener process prior. \cite{SPDEandPspline} showed that the RW2 model proposed by \cite{rw2} can be understood as a penalizing basis expansion of the form $\gamma(u) = \sum_{j=1}^{d}\phi_{j}(u)\Gamma_{j}$ for each $\gamma(\cdot)$ (dropping the subscript $q$), where the random weights $\boldsymbol{\Gamma} = \{\Gamma_{j},j\in[d]\}$ are parameters to be inferred and $\phi_{j}(\cdot),j\in[d]$ are fixed, known basis functions which must be chosen. 
+\cite{adaptivesmoothingsplines} note that a similar discretization technique to the one used by \cite{rw2} yields the B-spline smoothing with integrated derivative penalty of general order proposed by \cite{osullivanspline}, and \cite{derivativepenalties} provide an explicit construction of the corresponding precision matrix.
+In the method of \cite{rw2}, the basis function $\phi_{j}(\cdot)$ is chosen to be the linear B spline function, and the random weights are given zero-mean Gaussian prior with a banded precision matrix $\Sigma^{-1}(\sigma)$ controlled by a single variance parameter $\sigma$.
+In the proposed approach, we use cubic B-splines for the $\phi_{j}(\cdot)$ and choose the precision matrix $\Sigma^{-1}(\sigma)$ that is obtained by using an integrated second derivative penalty of \cite{derivativepenalties}.
+
+Finally, define the variance parameter vector $\theta = (\theta_{0},\ldots,\theta_{r})$ where $\theta_{q} = -2\log\sigma_{q}$, $q = 1,\ldots,r$, and $\theta_{0} = -2\log\sigma_{\xi}$. The variance parameters are given prior distribution $\theta \sim \pi(\theta)$. Since the overall intercept parameter cannot be identified in partial likelihood, we put a sum-to-zero constraint such that $\sum_{i=1}^{n} \gamma{(u_i)} = 0$ in all the following example as default.
+
+The proposed method can also accommodate the inference of spatial variations, by replacing the covariance function of $\gamma_q(u)$ with a proper spatial covariance function. In the following example, we will take the Matern covariance function $M_\nu(||.||;\sigma_q,\rho_q)$ as the default choice, such that $\text{Cov}\big(\gamma_q(u_i+h),\gamma_q(u_i)\big) = M_\nu(||h||;\sigma_q,\rho_q)$ for any $u_i, h \in \mathbb{R}^2$. For the Matern covariance function $M_\nu(||.||;\sigma_q,\rho_q)$, we take the same parametrization as in \cite{brown2015model}, with fixed shape parameter $\nu = 1$, and $\sigma_q$ and $\rho_q$ respectively represent the marginal standard deviation parameter of $\gamma_q$ and its practical correlation range. The correponding variance parameter $\theta_q$ is defined as $\theta_q = (\log(\sigma_q), \log(\rho_q))$ in this case.
+
+
+
+\subsection{Partial Likelihood}
+
+Our inference is carried out via a partial likelihood function. Define the \textit{risk set} $R_{ij} = \left\{k,l : y_{kl} \geq y_{ij}\right\}$. Assuming $y_{ij} \neq y_{kl}$ when $(i,j) \neq (k,l)$, the partial likelihood can be written as follows: 
+\begin{equation}\begin{aligned}\label{eqn:partial}
+\pi(y|\eta) &= \prod_{i=1}^{n}\prod_{j=1}^{n_{i}} \bigg\{\frac{\exp[\eta_{ij}]}{{\sum_{l,k\in R_{ij}}^{}\exp[\eta_{lk}]}}\bigg \}^{d_{ij}} , \\
+&= \prod_{i=1}^{n}\prod_{j=1}^{n_{i}} \bigg\{\frac{1}{{1 + \sum_{l,k\in R_{ij} , (l,k) \neq (i,j)}\exp[\Delta_{lk,ij}]}}\bigg \}^{d_{ij}} , \\
+\end{aligned}\end{equation}
+where $\Delta_{lk,ij} = \eta_{lk} - \eta_{ij}$. Note that $h_{0}(t)$ does not appear in the partial likelihood, and hence inference may be carried out in the absence of assumptions about $h_{0}(t)$. 
+
+The partial likelihood (\ref{eqn:partial}) can be written in the following form:
+\begin{equation}\begin{aligned}\label{eqn:whyINLAfail1}
+\pi(y|\eta) &= \prod_{i=1}^{n}\prod_{j=1}^{n_{i}} \pi(y_{ij}|\eta),
+\end{aligned}\end{equation}
+while in order for a model to be compatible with INLA, its likelihood must have the form:
+\begin{equation}\begin{aligned}\label{eqn:whyINLAfail2}
+\pi(y|\eta) &= \prod_{i=1}^{n}\prod_{j=1}^{n_{i}} \pi(y_{ji}|\eta_{ij}).
+\end{aligned}\end{equation}
+\cite{casecross} extend this to permit partial likelihoods of the form:
+\begin{equation}\begin{aligned}\label{eqn:casecrosslik}
+\pi(y|\eta) &= \prod_{i=1}^{n}\prod_{j=1}^{n_{i}} \pi(y_{ji}|\eta_{i}).
+\end{aligned}\end{equation}
+which still does not include (\ref{eqn:partial}). \cite{inlacoxph} are able to write the likelihood for their Cox PH model in the form (\ref{eqn:whyINLAfail2}) using the full, not partial likelihood (\ref{eqn:partial}). Because of this, they require assumptions to be made about the baseline hazard.
+
+Further define $\Delta_{lk,ij} = \eta_{lk} - \eta_{ij}$ in terms of the additive predictors (\ref{eqn:eta}). Note that $\Delta_{lk,ij} = \Delta_{11,ij} - \Delta_{11,lk}$ for every $(i,j,l,k)$. To simplify notation, define $\Delta_{ij} = \Delta_{11,ij}$, and note that $\Delta_{11} = 0$. The entire partial likelihood (\ref{eqn:partial}) depends on $\eta$ only through  $\Delta = \left\{\Delta_{ij}: i \in [n]; j \in [n_{i}] \right\}$. For the remainder of the paper we reflect this in our notation, writing $\pi(y|\Delta) \equiv \pi(y|\eta)$ and defining the log-likelihood $\ell(\Delta; y) = \log\pi(y|\Delta)$.
+
+In typical Laplace approximation for posterior distributions, the \textit{latent parameters} $W$ will be defined as $W = \left(\Delta, \Gamma,\beta, \xi \right)$, where the (differenced) linear predictors $\Delta$ are included as part of the latent parameter vector \citep{inla,inlacoxph,casecross}. Approximate Bayesian inference of this type requires the precision matrix of $W$ to be non-singular \citep{tierney}, and hence a small noise term $\epsilon_{ij} \stackrel{iid}{\sim} \text{N}(0,\tau^{-1})$ (for some large, fixed $\tau$) is added into the model to make the required matrices non-singular. Define the noised linear predictors as $\ \tilde{\Delta}_{ij} = \eta_{11} - \eta_{ij} + \epsilon_{ij}$, then the resulting precision matrix of (noised) latent parameters $\tilde{W} := (\tilde{\Delta}, \Gamma,\beta, \xi )$ will be non-singular even when improper prior such as the RW2 prior is used.
+
+Such posterior approximation methods have the advantage that, when the likelihood can be factored out in the form of (\ref{eqn:whyINLAfail2}), the resulting log likelihood Hessian matrix will be diagonal and hence efficient to be computed and stored \citep{inla}. Alternatively, if the likelihood is in the form of (\ref{eqn:casecrosslik}), the Hessian matrix will still be sparse even it is no longer diagonal \citep{casecross}. However, if one considers applying such approximate Bayesian inference on Cox PH model with partial likelihood, the resulting Hessian matrix will be completely dense and with number of elements growing quadratically with sample size $N$. Therefore, the methods of \cite{inla,inlacoxph,casecross} are not computationally feasible for the inference on Cox PH model with partial likelihood. 
+
+\section{Methods}\label{sec:method}
+
+
+\subsection{Approximate Bayesian Inference}\label{subsec:abi}
+
+
+To deal with the problem of dense Hessian matrix, we proposed a new way to utilize the Laplace approximation, by defining the latent parameter vector to only include the parameters of interest, $W = (\Gamma, \beta, \xi)$. Note that in our definition, the dimension of this latent parameter vector will be constant, and hence the size of the dense Hessian matrix will be small regardless of the sample size $N$. This will significantly reduces the memory requirement and computational challenge introduced by computing, storing and factorizing the Hessian matrix, which are necessary for the inferential procedures. 
+
+When semi-parametric covariate effect is included in the model, $W$ will have a singular precision matrix as the precision matrix of $\Gamma$ is rank deficient, and hence direct application of the Laplace approximation of \cite{tierney} will be problematic. This problem of singular precision matrix is typically fixed by introducing a small Gaussian noise into the additive linear predictors, which makes the precision matrix full rank \citep{casecross, inla}. In our proposed approach, no noises will be added into the linear predictors; instead we will follow the approach of \cite{wood2011fast}, to fix this problem by adding a very small constant term into the diagonal terms of the precision matrix of $\Gamma$, $\Sigma^{-1}_\Gamma$, which will also result in a full rank precision matrix for $W$. 
+The proposed modification only shifts the diagonal terms of $\Sigma^{-1}_\Gamma$ by a very small constant, hence will not change any conditional independence structure in the original prior.
+
+
+Define $W|\theta\sim\text{N}\left[ 0,Q^{-1}_{\theta}\right]$, where $Q_{\theta}$ is the covariance matrix for $W$. 
+We are interested in estimating and sampling from the joint posterior distribution of the latent parameters:
+\begin{equation}\begin{aligned}\label{eqn:interestedQuat1}
+\pi(W|y) = \int \pi(W|y,\theta) \pi(\theta|y) d\theta .  \\
+\end{aligned}\end{equation}
+We are also interested in the joint posterior distributions of the variance parameters:
+\begin{equation}\begin{aligned}\label{eqn:interestedQuat2}
+\pi(\theta|y) = \frac{\int \pi(W,y,\theta) dW}{\int_{} \int_{} \pi(W,y,\theta) dW d\theta } . \\
+\end{aligned}\end{equation}
+These are used for point estimates and uncertainty quantification of the variance parameter $\theta$, and appear as integration weights in (\ref{eqn:interestedQuat1}). 
+
+For the posterior of variance parameter (\ref{eqn:interestedQuat2}), we follow the procedure of \cite{casecross} to approximate it with its corresponding Laplace approximation $\tilde{\pi}_{LA}(\theta|y)$. The posterior of the latent parameter vector (\ref{eqn:interestedQuat1}) is approximated by $\tilde{\pi}(W|y)$ defined as:
+\begin{equation}\begin{aligned}\label{eqn:integration}
+\tilde{\pi}(W|y) &= \sum_{k=1}^{K}
+\tilde{\pi}_{G}(W|y,\theta^{k})
+\tilde{\pi}_{LA}(\theta^{k}|y)\delta_{k} , \\
+\end{aligned}\end{equation}
+where $\left\{\theta^{k},\delta_{k}\right\}_{k=1}^{K}$ is a set of nodes and weights corresponding to a Gauss-Hermite quadrature rule. The $\tilde{\pi}_{G}(W|y,\theta^{k})$ is a Gaussian approximation for $\pi(W|y,\theta^{k})$ and the $\tilde{\pi}_{LA}(\theta^{k}|y)$ is a Laplace approximation for $\pi(\theta^{k}|y)$, which we describe at below.
+
+
+For any fixed $\theta$, define
+\begin{equation}\begin{aligned}\label{eqn:modeandhessian}
+\widehat{W}_{\theta} = \left(\widehat{\Gamma}_{\theta},\widehat{\beta},\widehat{\xi}_{\theta}\right) &= \text{argmax}_{W}\log\pi(W|\theta,y) , \\ 
+H_{\theta}(W) &= -\frac{\partial^{2}}{\partial W \partial W^{T}}\log\pi(W|\theta,y).
+\end{aligned}\end{equation}
+For the conditional posterior
+\begin{equation}\begin{aligned}\label{eqn:condpost}
+\pi(W|\theta,y) \propto \exp\left\lbrace -\frac{1}{2}W^{T}Q_{\theta}W + \ell\left(\Delta;Y\right)\right\rbrace,
+\end{aligned}\end{equation}
+a second-order Taylor expansion of $\log\pi(W|\theta,y)$ about $W = \widehat{W}_{\theta}$ yields a Gaussian approximation:
+\begin{equation}\label{eqn:gaussianapprox}
+\pi(W|\theta,y) \approx \tilde{\pi}_{G}(W|y,\theta) \propto \text{exp}\left\{-\frac{1}{2} \left(W-\widehat{W}_{\theta} \right)^T H_\theta\left(\widehat{W}_{\theta}\right) \left(W-\widehat{W}_{\theta} \right) \right\}. \\
+\end{equation}
+
+For the joint posterior of the variance parameters, the method of \cite{tierney} yields a Laplace approximation:
+\begin{equation}\begin{aligned}\label{eqn:laplace}
+\pi(\theta|y) \approx \tilde{\pi}_{LA}(\theta|y) \propto \pi(\theta)\left\{\frac{\left|Q_{\theta}\right|}{\left|H_{\theta}\left(\widehat{W}_{\theta}\right)\right|}\right\}^{1/2}\exp\left\{ -\frac{1}{2}\widehat{W}_{\theta}^{T}Q_{\theta}\widehat{W}_{\theta} + \ell\left(\widehat{\Delta}_{\theta};y \right)\right\}.
+\end{aligned}\end{equation}
+
+With these approximations available, inference for $\theta$ can be directly obtained using the analytical form of $\tilde{\pi}_{LA}(\theta|y)$ as in equation (\ref{eqn:laplace}). Inference for $W$ or its marginal component can be easily obtained if it is possible to get independent samples from $\tilde{\pi}(W|y)$. 
+
+To sample from $\tilde{\pi}(W|y)$, note that by equation(\ref{eqn:interestedQuat1}), $\tilde{\pi}(W|y)$ is Guassian mixture distribution with $K$ mixture components each with mixture weight being $$\phi_k = \tilde{\pi}_{LA}(\theta^{k}|y)\delta_{k},\quad k \in [K].$$
+For a large integer $B$, we sample independent $\{Z_i\}_{i=1}^{B}$ from $\text{Multinomial}(\phi_1,...,\phi_K)$, and then for each $Z_i \in [K]$, sample $W_i$ from $\tilde{\pi}_{G}(W|y,\theta^{Z_i})$. The resulting sample $\{W_i\}_{i=1}^{B}$ then contains $B$ independent draws from $\tilde{\pi}(W|y)$, and all the posterior summaries for $W$ can be obtained using this independent sample.
+
+
+
+
+\subsection{Adaptive quadrature and automatic differentiation}
+
+
+Computing the approximations (\ref{eqn:integration}) requires choosing a quadrature rule consisting of nodes $\left\{\theta^{k}\right\}_{k=1}^{K}$ and weights $\left\{\delta_{k}\right\}_{k=1}^{K}$ for some chosen $K\in\mathbb{N}$. \cite{casecross} lay a user-chosen grid over a range of $\theta$ that is thought to be plausible, and then compute the Gaussian (\ref{eqn:gaussianapprox}) and Laplace (\ref{eqn:laplace}) approximations at each point on this grid. This requires the user to choose the location and spread of the grid points, as well as a number $K$
+of points that is large enough such that the structure of the resulting posterior approximations is captured. The function $\pi(W|Y,\theta)$ must be optimized, and the Hessian matrix must be stored, for each of these $K$ points. In addition to this strategy requiring the user to have specialist knowledge to implement, it is potentially computationally wasteful since $K$ has to be chosen large enough such that the quadrature points densely cover the range where the majority of mass in $\pi(\theta|Y)$ lies. In our case, this problem is made more severe by the presence of a dense Hessian. \cite{inlacoxph} use the INLA software with a custom adaptive quadrature rule which avoids the need for the user to choose points, but may still result in a large number of points being used for this same reason.
+
+
+To mitigate the computational challenges associated with applying a manual quadrature rule for (\ref{eqn:integration}), we implement Adaptive Gauss-Hermite Quadrature (AGHQ). This technique has been motivated as a useful tool for Bayesian inference \citep{nayloradaptive} and work has been done to show that it is very accurate when using only a very small number of quadrature points \citep{adaptive_GH_1994,adaptive_GH_2020}, for example attaining $O(N^{-1})$ asymptotic accuracy with $K = 3$ and $O(N^{-2})$ with $K = 5$. The use of a small number of quadrature points means only a small number of dense Hessian matrices need to be stored in memory, an improvement over \cite{casecross} that is necessary to extend their method to work with the partial likelihood of the Cox PH model.
+
+Computing the AGHQ rule requires computation of the mode of the Laplace approximation:
+\begin{equation}\begin{aligned}
+\widehat{\theta} &= \text{argmax}\log\widetilde{\pi}_{LA}(\theta|y),
+\end{aligned}\end{equation}
+as well as the Hessian matrix of $\log\widetilde{\pi}_{LA}(\theta|y)$ and its Cholesky decomposition. For the optimization, we use the TMB package, which implements automatic computation of the Laplace approximation and its gradient, using the inverse subset algorithm which avoids repeated inner optimizations to find $\widehat{W}_{\theta}$ at different values of $\theta$ \citep{tmb}. Because of the use of automatic differentiation algorithm, computing the AGHQ rule in the proposed method will not introduce significant computational difficulty.
+
+
+
+\section{Examples}\label{sec:example}
+
+In this section we present two simulation studies and two data analysis examples. All the codes are available in the online supplementary materials.
+
+\subsection{Simulation studies}\label{subsec:sim}
+We will provide two simulation studies to demonstrate the accuracy of our proposed method and under which situations the accuracy is improved over the existing full likelihood method INLA. Also, we will show that the proposed method provides posterior approximations that are comparable to results of MCMC, with much shorter runtime.
+
+\subsubsection{Simulation with sparse frailties}\label{subsubsec:sim1}
+
+In the first simulation study, we considered the Bayesian inference problem for models with sparse frailties. In other words, survival times were correlated within groups while the number of observations in each group is small. We randomly generated $n = 60$ groups, each group with $n_i \equiv m$ observations. The group-level frailties $\{\xi_i, i\in [n] \}$ were simulated independently from $\mathcal{N}(0,\sigma_\xi^{2})$, with $\sigma_{\xi} = 1$. Besides the independent frailties, we also assumed there is a covariate $x$ generated from $\mathcal{N}(0,1)$, with covariate effect $\beta = 0.2$. Among all the survival times generated in this study, $10\%$ of observations were randomly selected to be right-censored. In this simulation study, we consider the baseline function to be a simple step function. This choice of piecewise constant baseline function corresponds to the piecewise Exponential model, which is a type of Cox PH model that is frequently used in the literature \citep{piecewiseExp}.
+The baseline hazard function in this simulation study is shown in figure \ref{fig:truebase}(a). We consider six different levels of frailty sparsity in this simulation study by respectively setting $m$ to $1$, $2$, $3$, $4$, $5$ and $10$. The parameters of primary interest in this study are the group level frailties.
+
+The fixed effect $\beta$ was given a prior $\mathcal{N}(0,1000)$. The variance parameter $\sigma_\xi$ was given an Exponential prior with median of 1, which is a \emph{penalized complexity} prior of \cite{pcprior}. The same priors were used for implementations of both our proposed method and of INLA. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter was set to be $K = 15$. For the implementation of INLA, we used its first order random walk model for the baseline hazard run under its default settings. To compare the accuracies between the two methods, we used the metrics of posterior mean square error (MSE) and coverage rates of the $95\%$ posterior credible intervals, for both the fixed effect parameter and the frailties. All the metrics were computed by averaging through 500 independent replications.
+
+The comparison metrics are shown in table (\ref{table:Sim1Agg}). Based on the table, it can be noticed that our proposed method in general gives more accurate inferential results than INLA, both in terms of smaller MSE and coverage rates closer to the nominal level (i.e. $95\%$), and these differences get larger as the frailties get sparser (smaller $m$). 
+For completeness, we also implemented the same simulation setting for $\sigma_\xi = 0.4, 0.8$ and $1.3$. We found that as $\sigma_\xi$ gets larger, inference from INLA suffers more from the sparse frailties, especially in terms of coverage probability for $\xi$. On the other hand, the proposed approach tends to provide consistent coverage rate across different $\sigma_\xi$. The detailed comparison metrics for each setting of $\sigma_\xi$ can be found in the appendix. These results show that unless the group level frailties have trivial variation, the proposed method yields more reliable result than INLA, especially when frailties are sparse.
+
+The simulation result above seems to be related to the type of full likelihood INLA utlized in its inference \citep{inlacoxph}. In \cite{coxdiscussion}, Cox pointed out one problem associated with the use of the type of full likelihood considered by \cite{inlacoxph}, that is the large number of parameters introduced in order to model the unknown baseline hazard function. In this simulation study, the sample size is only $60m$, but the latent parameter contains more than $60$ parameters not counting the additional parameters INLA introduced for modeling the baseline hazard, which is likely to become a problem if $m$ is small. 
+
+To demonstrate the accuracy of our proposed approximation and the computational advantage compared to existing method, we also fitted the same partial likelihood model using MCMC method, through STAN's No U-turn Sampler (NUTS) \citep{NUTS}, using two replications where $\sigma_\xi = 1$ and $m = 10$ and $2$ respectively. With four chains each with $35000$ total iterations with $25000$ warmups running in paralell, MCMC took a total time of $40.89$ minutes when $m = 10$ and $3.56$ minutes when $m = 2$. As a comparison, the proposed method only took $29.64$ seconds when $m = 10$ and $1.31$ seconds when $m = 2$, to obtain $10000$ independent samples of $W$ from the approximate posterior. The average times to take one sample in MCMC are $0.07$ and $0.005$ seconds respectively for $m = 10$ and $m = 2$, but for the proposed method are only respectively $0.003$ and $0.0001$ seconds.
+
+
+The difference between posterior distributions yielded by MCMC method and the approximate posterior obtained by the proposed method is quantified using Kolmogorv-Smirov (KS) statistic, which measures the maximal absolute difference between the two cumulative posterior distributions. The KS statistics have been computed for both $\sigma_\xi$ and $\beta$, as well as the mean and maximal KS statistic for the $60$ frailties. The results are summarized in table (\ref{table:Sim1KS}). As illutrated in the table, the proposed method yielded approximate posteriors that are very similar to those yielded by MCMC method, but took significantly shorter time for computation than MCMC. As $m$ decreases from $10$ to $2$, the accuracy of the posterior approximation decreases, in particular for the variance parameter $\sigma_\xi$. That is because of the use of Laplace approximation for $\pi(\sigma_\xi|y)$, which has been known to be less accurate when random effects are sparse \citep{Ogden2013ASR}. However, the result from our proposed method is still significantly more accurate than the existing Laplace approximation based method as shown in table (\ref{table:Sim1Agg}).
+
+
+
+\subsubsection{Simulation with non-smooth baseline}\label{subsubsec:sim2}
+
+To illustrate the accuracy of our method over INLA when the smoothness assumption for baseline hazard function is violated, we performed our second simulation study. We generated $n = 1000$ uncorrelated data points from a distribution with known hazard function. For the baseline hazard functions, we consider three different settings corresponding to three different levels of wiggliness. Specifically baseline hazard function is respectively set to simple step function, oscillating step function and an extremely complicated function that switches between linear and constant. Again, the first two piecewise constant baseline hazards correspond to piecewise Exponential models with different complexity \citep{piecewiseExp}. All of the three baseline hazards $h_{0}(t)$ are shown in Figure (\ref{fig:truebase}). The additive predictor is $\eta_{i} = \gamma\left(u_{i}\right)$ with $\gamma(u) = 1.5 [ \text{sin}(0.8u) + 1 ]$ in all the three simulation settings. We generated the covariates $u$ as  $u_{i}\overset{iid}{\sim}\text{Unif}(-6,6)$, $i \in [n]$ and randomly censored $10\%$ of all the survival times.
+
+To infer the unknown risk function $\gamma$, we used the Bayesian cubic B-spline smoothing method mentioned in section \ref{subsec:smooth} in our proposed method, with $50$ equally spaced knots. For the smoothing method in INLA, we placed the values of $u$ into $50$ discrete bins, and fitted its second-order random walk model for $\gamma$ \citep{rw2}. As shown in \cite{casecross}, the Bayesian semi-parametric smoothing methods we considered here are not sensitive to the choice of number and placement of knots. 
+As before, we implemented INLA under its default setting, with a first-order random walk model for the baseline hazard. This implicitly assumes that $h_{0}(t)$ is smooth. In contrast, our procedure does not infer $h_{0}(t)$, and does not make assumptions about its smoothness. In both of the smoothing methods, the single variance parameter $\sigma$ that controls the smoothness of $\gamma$, was modeled with an Exponential($\lambda$) prior with $\lambda$ chosen such that $\mathbb{P}\left( \sigma > 2\right) = 0.5$. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter to is set to be $K = 7$. As in the first simulation study, we compared the accuracy of our proposed method with INLA, using the metrics of MSE computed using posterior mean and coverage rate computed using the $95\%$ posterior credible interval. These metrics were computed from 300 independent replications.
+
+The comparison metrics under the three settings of baseline hazard are shown in figure (\ref{fig:SimAggBox}) and table (\ref{table:Sim2Agg}). Figure(\ref{fig:SimAggBox}) shows boxplots of the mean squared erros provided by the two methods for $\{\gamma(u_i)\}_{i=1}^n$ in each replication. Based on the boxplots, the proposed method provides inference results that are at least as accurate as INLA in terms of MSE, in all the settings. The same observation can be made from the table (\ref{table:Sim2Agg}), where the proposed method provides consistent coverage rate that is close to the nominal level $95\%$ in all the settings. 
+
+While the performance of the proposed method is not affected by the choice of true baseline hazard function, the performance of INLA is sensitive to the true baseline hazard function, as shown in the correponding boxplots and table. This is not unexpected as the full-likelihood used in INLA's inference implicitly requires that the baseline hazard is smooth enough to be approximated well by its first-order random walk, which will not hold under setting such as (\ref{fig:truebase})(c) where the baseline hazard is varying rapidly as time changes. On the other hand, the inference of our proposed method relies on the partial likelihood, which makes no assumption on the form of the baseline hazard, and hence unaffected by the wiggliness of baseline hazard in this study. 
+
+Again, to assess the accuracy of the proposed posterior approximation, we fitted the same partial likelihood model using MCMC using NUTS with four chains each with 10000 iterations and 8000 warmups, for an arbitrarily chosen replication. The KS statistic for variane parameter $\sigma$ that controls the smoothness of the inferred $\gamma$ is 0.035, and the maximum and mean KS statistics for the risk fucntion evaluations $\{\gamma(u_i)\}_{i=1}^n$ are 0.027 and 0.021. We also computed the mean and maximum absolute difference between the posterior mean for $\{\gamma(u_i)\}_{i=1}^n$ given by the proposed method and by MCMC, which are respectively 0.002 and 0.007. The small KS statistics and absolute difference between posterior mean demonstrate that the proposed posterior approximation is comparable to MCMC. On the other hand, the average runtime of each Markov chain was around 18.7 hours for MCMC method to get 10000 iterations, but the proposed method with 10000 independent samples only requires 28.3 seconds, which is a huge improvement in computational time.
+
+\subsection{Kidney Catheter Data}\label{subsec:kidney}
+
+\cite{freqPL} analyzed a Kidney Catheter dataset using their proposed penalized partial likelihood method. The Kidney Catheter dataset contains 76 times to infection at the point of insertion of a catheter, for $n = 38$ patients. An observation for the survival time of a kidney is censored if the catheter is removed for reasons other than an infection.  Each patient $i=1,\ldots,n$ forms a group, and the survival times are the time to infection of each patient's $n_{i} = 2$ kidneys. This is therefore a practical example of the type of sparse frailty model on which our partial likelihood approach performed better than INLA in the simulations of section \ref{subsubsec:sim1}.
+
+We first analyzed this dataset on partial likelihood using the propose method, with $\mathcal{N}(0, 1000)$ priors on the linear covariate effects for age, sex and pre-existing disease types. Subject-specific intercepts $\xi_{i}\overset{iid}{\sim}\mathcal{N}(0,\sigma^{2}_{\xi})$ were included to account for correlation between kidneys from the same subject. We used an $\text{Exponential}$ prior distribution for $\sigma_{\xi}$ with median 2. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter to is set to be 15. Ties are handled using the method of \cite{Breslow}.
+As a comparison, we also used INLA to fit a Cox PH model to these grouped data on its full likelihood, with the same set of priors as above. The setting for baseline hazard is set to default in INLA's implementation.
+
+Table (\ref{table:KidneyFixed}) shows the results of our procedure compared to the results obtained using INLA and MCMC. Based on the table, our procedure gave different posterior means and reported larger posterior standard deviations compared to INLA, especially for the effects of different disease types. This is also reflected in figure (\ref{fig:kidneyHyper}), where our posterior distribution for $\sigma_{\xi}$ is wider than that of INLA. As we have shown in section \ref{subsubsec:sim1}, when sparse frailties exist, Bayesian inference on partial likelihood tends to be more stable than on full-likelihood. On the other hand, results from the proposed method are shown to be much closer to MCMC than results from INLA, which again demonstrates the accuracy of the proposed posterior approximation.
+
+Again, to quantify the difference between the proposed posterior approximation and the posterior yielded by MCMC, we computed the KS statistics for the $5$ fixed covariate effects, the $38$ patient level frailties and the variance parameter $\sigma_\xi$. The KS statistic for $\sigma_\xi$ is 0.083, and the mean/maximal KS statistics for fixed effects and frailties are respectively 0.034/0.069 and 0.036/0.051. The KS statistics show that the proposed method give similar posteriors to MCMC method, for most of the parameters. As shown in the table, the posterior for the variance parameter $\sigma_\xi$ is approximated less accurately compared to other parameters, because of the problem with Laplace approximation for sparse frailties \citep{Ogden2013ASR}. This deviation can also be noticed from figure (\ref{fig:kidneyHyper}). The runtimes are respectively 0.64 seconds for our approach with 10000 independent samples and 1.98 minutes for MCMC with 35000 iterations. The number of MCMC iterations that can be obtained with the runtime of the proposed method is only 157.
+
+
+\subsection{Leukemia Data}\label{subsec:leuk}
+
+In this example, we implemented our proposed procedure to fit a Cox PH model to the Leukemia data set analyzed by \cite{inlacoxph} as well as previously by \cite{spde,leukaemia}. The dataset contains information from $n=1043$ adult leukemia patients, with $16\%$ of observations right-censored. We are interested in quantifying the relationship between survival rate of leukemia patients with the Townsend deprivation index (tpi), and with their residence locations, controlling effect of the age of the patient, the count of white blood cells at diagnosis (wbc), and sex of the patients.
+
+The effects of age, sex and white blood cell count were modeled linearly. The deprivation index (tpi) was modeled as a semi-parametric effect using method described in section \ref{subsec:smooth}, with fifty equally spaced knots. Prior distributions $\beta \stackrel{iid}{\sim} \mathcal{N}(0, 1000)$, were used for the linear regression coefficients. The semi-parametric effects $\gamma_t(\text{tpi}) := \{\gamma_t(\text{tpi}_i), i\in [n]\}$ were modeled with the reference constraint $\sum_{i=1}^{n}\gamma_t(\text{tpi}_i) = 0$. The single variance parameter $\sigma_t$ was given an $\text{Exponential}$ prior with a prior median of 2. Furthermore, let $\mathcal{M}$ denote the studied region in this dataset, $\boldsymbol{s} := \{s_i, i \in [n]\} \subset \mathcal{M}$ denote the residence locations and $\gamma_s(\boldsymbol{s}) := \{\gamma_s(s_i), i \in [n]\}$ be their correponding spatial effects. To model the spatially varying Gaussian process $\gamma_s(\boldsymbol{s})$, a Matern covariance function $M_\nu(||.||;\sigma_s,\sigma_\rho)$ is used. For this Matern covariance function, we fix its shape parameter $\nu$ to be 1, and use independent Exponential priors on the standard deviation parameter $\sigma_s$ and correlation parameter $\rho_s$ such that $\mathcal{P}(\sigma_s > 1) = \mathcal{P}(\rho_s < 20 \text{km}) = 0.5$.
+For the adaptive quadrature we used in our inference, the number of grid points is set to be $K = 4$. 
+
+Figure \ref{fig:leukFig}(a) shows the posterior mean and posterior 95 \% credible interval of the exponentiated covariate effect of tpi using the proposed approach. To better understand the spatial variation of risk, we simulate $\gamma_s(\boldsymbol{s^*}):= \{\gamma_s(s_i^*), i\in [L]\}$ for a large $L$ from its correponding posterior distribution, with $s_i^*$ being an arbitrarily chosen point from the region of interest $\mathcal{M}$. This is done by first simulating $\gamma_s(\boldsymbol{s})$ from $\gamma_s(\boldsymbol{s})|Y$ using the method described in section \ref{subsec:abi}, and then simulating $\gamma_s(\boldsymbol{s}^*)$ from $\gamma_s(\boldsymbol{s}^*)|\gamma_s(\boldsymbol{s})$ using the method of \cite{schlather2015analysis}. For each $s_i^*$, we simulate 100 independent samples, and their correponding posterior means and posterior probabilities of having exponentiated effects exceeding 1.5 are shown in figure \ref{fig:leukFig}(b) and \ref{fig:leukFig}(c).
+
+There are two major differences between our analysis and the analysis in \cite{inlacoxph}. First, our analysis is carried out on partial likelihood using the proposed method, but the anlysis in \cite{inlacoxph} is carried out on full likelihood and hence requires assumption on the form of true baseline hazard function. Second, the proposed approach is able to achieve higher resolution estimate for the spatial variation than the approaches taken by \cite{inlacoxph} because we directly include the full sampled locations $\gamma_s(\boldsymbol{s})$ in the latent parameter vector of our analysis. Since $\gamma_s(\boldsymbol{s})$ has a dense precision matrix, the method of \cite{inlacoxph} approximates $\gamma_s(\boldsymbol{s})$ with a piecewise constant function with sparse precision matrix, in order to preserve the sparsity of the Hessian of its log likelihood. This will not create additional computational difficulty in the proposed approach, as the Hessian matrix is already dense.
+
+
+\section{Discussion}\label{sec:discussion}
+
+
+The methodology we proposed in this paper provides a flexible way to carry out Bayesian inference for Cox proportional hazard models with partial likelihood, that accommodates the inference for semi-parametric covariate effects, spatial variations and correlated survival times. The use of partial likelihood does not require any assumption on the baseline hazard function, which is an advantage over existing approaches for Bayesian inference in this model. We have demonstrated the accuracy and the computational efficiency of our new approach through simulation studies and analysis of two classical datasets in survival analysis. Our proposed method is an appealing option to adopt for the analysis of time-to-event data, when the inference of baseline hazard is not of primary interest.
+
+One limitation of our proposed methodology is that for analyses with sparse frailties, the type of posterior approximation will tend to be less accurate, due to the nature of the Laplace approximation \citep{Ogden2013ASR}. For such application, sampling based method such as MCMC might be preferred for higher inference accuracies, at the cost of longer runtime. 
+
+The framework of this proposed methodology can be extended to fit more complex models, by modifying the covariance structure of the covariate with semi-parametric effect or the covariance structure of the spatial variations. Because we accommodate the dense Hessian matrix of the log-likelihood, our approach could be extended to approximate Bayesian inference for other models with a dense Hessian matrix. We leave such extensions to future work.
+
+\section*{Data Availability Statement}
+The simulated data of example 4.1.1 and 4.1.2 are available in the supplementary material with this paper. Data for example 4.2 were obtained from R package "INLA" \citep{inla} and are freely available.
+Data for example 4.3 were obtained from R package "survival" \citep{survival-package} and are freely available. 
+
+
+\appendix
+
+\section{Comparison metrics with different $\sigma_\xi$ for the first simulation example}
+
+\begin{table}[h]
+  \begin{center}
+  \scalebox{0.55}{
+  \begin{tabular}{||c c c c c||}
+   \hline
+   Number of Measurements & $\xi$ Coverage Rate (Proposed/INLA)  & $\xi$ MSE (Proposed/INLA)& $\beta$ Coverage Rate (Proposed/INLA) & $\beta$ MSE (Proposed/INLA)\\
+   \hline\hline
+   m = 1 & 0.906/0.478 & 1.103/1.533 & 0.950/0.926 & 0.038/0.028 \\
+   \hline
+  m = 2 & 0.918/0.868 & 0.638/0.744 & 0.954/0.936 & 0.018/0.016 \\
+   \hline
+  m = 3 & 0.934/0.926 & 0.423/0.444 & 0.944/0.944 & 0.011/0.010 \\
+   \hline
+  m = 4 & 0.939/0.934 & 0.316/0.324 & 0.944/0.944 & 0.008/0.008 \\
+   \hline
+  m = 5 & 0.941/0.938 & 0.263/0.266 & 0.946/0.944 & 0.006/0.005 \\
+   \hline
+  m = 10 & 0.943/0.944 & 0.144/0.145 & 0.936/0.938 & 0.003/0.003 \\
+    \hline \hline
+  \end{tabular}
+  }
+  \end{center}
+  \caption{Comparison metrics in terms of MSE and posterior coverage rate from 500 independent replications when $\sigma_\xi = 1.3$, for the 60 frailty effects and the fixed effect in the first simulation study in section \ref{subsubsec:sim1}.}
+  \label{table:Sim1Agg1}
+  \end{table}
+
+  \begin{table}[h]
+    \begin{center}
+    \scalebox{0.55}{
+    \begin{tabular}{||c c c c c||}
+     \hline
+     Number of Measurements & $\xi$ Coverage Rate (Proposed/INLA)  & $\xi$ MSE (Proposed/INLA)& $\beta$ Coverage Rate (Proposed/INLA) & $\beta$ MSE (Proposed/INLA)\\
+     \hline\hline
+     m = 1 & 0.952/0.674 & 0.463/0.569 & 0.954/0.954 & 0.043/0.026 \\
+     \hline
+    m = 2 & 0.914/0.849 & 0.384/0.421 & 0.952/0.948 & 0.016/0.014 \\
+     \hline
+    m = 3 & 0.931/0.910 & 0.292/0.308 & 0.950/0.950 & 0.010/0.009 \\
+     \hline
+    m = 4 & 0.935/0.924 & 0.239/0.248 & 0.952/0.958 & 0.007/0.007 \\
+     \hline
+    m = 5 & 0.940/0.934 & 0.227/0.233 & 0.932/0.938 & 0.006/0.005 \\
+     \hline
+    m = 10 & 0.945/0.943 & 0.112/0.114 & 0.952/0.956 & 0.002/0.002 \\
+      \hline \hline
+    \end{tabular}
+    }
+    \end{center}
+    \caption{Comparison metrics in terms of MSE and posterior coverage rate from 500 independent replications when $\sigma_\xi = 0.8$, for the 60 frailty effects and the fixed effect in the first simulation study in section \ref{subsubsec:sim1}.}
+    \label{table:Sim1Agg2}
+    \end{table}
+
+    \begin{table}[h]
+      \begin{center}
+      \scalebox{0.55}{
+      \begin{tabular}{||c c c c c||}
+       \hline
+       Number of Measurements & $\xi$ Coverage Rate (Proposed/INLA)  & $\xi$ MSE (Proposed/INLA)& $\beta$ Coverage Rate (Proposed/INLA) & $\beta$ MSE (Proposed/INLA)\\
+       \hline\hline
+       m = 1 & 0.986/0.943 & 0.252/0.145 & 0.948/0.962 & 0.044/0.025 \\
+       \hline
+      m = 2 & 0.941/0.909 & 0.145/0.137 & 0.954/0.956 & 0.013/0.012 \\
+       \hline
+      m = 3 & 0.930/0.906 & 0.126/0.125 & 0.954/0.956 & 0.008/0.008 \\
+       \hline
+      m = 4 & 0.919/0.899 & 0.116/0.117 & 0.944/0.956 & 0.006/0.006 \\
+       \hline
+      m = 5 & 0.916/0.901 & 0.106/0.107 & 0.928/0.930 & 0.005/0.005 \\
+       \hline
+      m = 10 & 0.940/0.936 & 0.072/0.073 & 0.954/0.950 & 0.002/0.002 \\
+        \hline \hline
+      \end{tabular}
+      }
+      \end{center}
+      \caption{Comparison metrics in terms of MSE and posterior coverage rate from 500 independent replications when $\sigma_\xi = 0.4$, for the 60 frailty effects and the fixed effect in the first simulation study in section \ref{subsubsec:sim1}.}
+      \label{table:Sim1Agg3}
+      \end{table}
+
+\nocite{*}% Show all bib entries - both cited and uncited; comment this line to view only cited bib entries;
+\bibliographystyle{ba}
+\bibliography{myrefs}%
+
+\clearpage
+
+
+
+\begin{table}
+\begin{center}
+\scalebox{0.55}{
+\begin{tabular}{||c c c c c||}
+ \hline
+ Number of Measurements & $\xi$ Coverage Rate (Proposed/INLA)  & $\xi$ MSE (Proposed/INLA)& $\beta$ Coverage Rate (Proposed/INLA) & $\beta$ MSE (Proposed/INLA)\\
+ \hline\hline
+ m = 1 & 0.934/0.549 & 0.659/0.903 & 0.946/0.934 & 0.042/0.027 \\
+ \hline
+m = 2 & 0.918/0.848 & 0.491/0.567 & 0.944/0.942 & 0.017/0.016 \\
+ \hline
+m = 3 & 0.934/0.919 & 0.350/0.370 & 0.950/0.952 & 0.010/0.010 \\
+ \hline
+m = 4 & 0.937/0.930 & 0.278/0.288 & 0.954/0.956 & 0.007/0.007 \\
+ \hline
+m = 5 & 0.940/0.934 & 0.227/0.233 & 0.940/0.940 & 0.006/0.006 \\
+ \hline
+m = 10 & 0.944/0.944 & 0.126/0.127 & 0.944/0.942 & 0.002/0.002 \\
+  \hline \hline
+\end{tabular}
+}
+\end{center}
+\caption{Comparison metrics in terms of MSE and posterior coverage rate from 500 independent replications, for the 60 frailty effects and the fixed effect in the first simulation study in section \ref{subsubsec:sim1}.}
+\label{table:Sim1Agg}
+\end{table}
+
+
+\begin{table}
+  \begin{center}
+  \scalebox{0.99}{
+  \begin{tabular}{||c c c c c||}
+   \hline
+   Number of Measurements & $\sigma_\xi$  & $\beta$ & $\xi_i$ (max KS) & $\xi_i$ (mean KS) \\
+   \hline\hline
+   m = 2 & 0.104 & 0.016 & 0.059 & 0.039 \\
+   \hline
+  m = 10 & 0.016 & 0.010 & 0.033 & 0.019 \\
+    \hline \hline
+  \end{tabular}
+  }
+  \end{center}
+  \caption{KS statistic for each parameter in the first simulation study in section \ref{subsubsec:sim1}, to compare the proposed approach with MCMC.}
+  \label{table:Sim1KS}
+  \end{table}
+
+
+
+
+
+\begin{figure}[ht]
+\centering
+\subfigure[Simple stepwise baseline]{
+  \includegraphics[width=0.45\textwidth,height=2.6in]{simple_base.png}
+}
+\subfigure[Oscillating stepwise baseline]{
+  \includegraphics[width=0.45\textwidth,height=2.6in]{stepwise_base.png}
+}
+\subfigure[Complicated baseline]{
+	\includegraphics[width=0.5\textwidth,height=2.6in]{com_base.png}
+}
+\caption{True Baseline Hazards in the two examples in \ref{subsec:sim}.}
+\label{fig:truebase}
+\end{figure}
+
+
+\begin{figure}[ht]
+\centering
+\subfigure[Simple stepwise baseline]{
+  \includegraphics[width=0.45\textwidth,height=2.5in]{simple_box.png}
+}
+\subfigure[Oscillating stepwise baseline]{
+  \includegraphics[width=0.45\textwidth,height=2.5in]{stepwise_box.png}
+}
+\subfigure[Complicated baseline]{
+	\includegraphics[width=0.55\textwidth,height=2.5in]{com_box.png}
+}
+\caption{Results for the second simulation in section \ref{subsubsec:sim2}. (a): Box-plot of MSE from 300 replications with simple baseline, using INLA and the proposed method. (b): Box-plot of MSE from 300 replications with oscillating baseline, using INLA and the proposed method. (c): Box-plot of MSE from 300 replications with complicated baseline, using INLA and the proposed method.}
+\label{fig:SimAggBox}
+\end{figure}
+
+
+
+\begin{table}
+\begin{center}
+\scalebox{0.7}{
+\begin{tabular}{||c c c c c||}
+ \hline
+ Baseline Hazards & $\gamma$ Coverage Rate (Proposed) & $\gamma$ Coverage Rate (INLA) & $\gamma$ MSE (Proposed)& $\gamma$ MSE (INLA)\\
+ \hline\hline
+ Simple Baseline & 0.969 & 0.974 & 0.0116 & 0.0122 \\
+ \hline
+Oscillating Baseline  & 0.968 & 0.949 & 0.0117 & 0.0148 \\
+ \hline
+Complicated Baseline & 0.968 & 0.659 & 0.0117 & 0.0448 \\
+  \hline \hline
+\end{tabular}
+}
+\end{center}
+\caption{Comparison metrics in terms of MSE and posterior coverage rate from 300 independent replications, for the three baselines in the second simulation study in section \ref{subsubsec:sim2}.}
+\label{table:Sim2Agg}
+\end{table}
+
+
+
+
+\begin{figure}[ht]
+  \centering
+  \subfigure[Posterior distributions of $\sigma_\xi$]{
+    \includegraphics[width=0.8\textwidth,height= 3.5in]{kidneyHyper.png}
+  }
+  \caption{Posterior of the variance parameter $\sigma_\xi$ for the kidney data in section \ref{subsec:kidney}. Posterior distribution for $\sigma_\xi$ obtained using the proposed method(solid line), using MCMC(gray histogram) and using INLA (dashed).}
+  \label{fig:kidneyHyper}
+  \end{figure}
+  
+  
+
+
+
+\begin{table}
+  \begin{center}
+  \scalebox{0.99}{
+  \begin{tabular}
+  {|p{3cm}|
+  p{1cm}|p{1cm}p{1cm}|p{1cm}p{1cm}|p{1cm}p{1cm}||}
+  \hline
+  \cline{1-8}
+        \multicolumn{1}{l}{} &
+        \multicolumn{1}{l}{} &
+        \multicolumn{2}{c}{Proposed} &
+        \multicolumn{2}{c}{INLA} &
+        \multicolumn{2}{c}{MCMC} \\
+        \hline
+        Variables/Reference & Levels & {Mean} & {SD} & {Mean} & {SD} & {Mean} & {SD} \\
+   \hline
+   Age & & 0.00484 & 0.0147 & 0.00235 & 0.0130 & 0.00516 & 0.0158  \\
+   Sex/Male & Female & -1.65  & 0.473  & -1.64 & 0.385 & -1.72 & 0.507 \\
+   Disease Type/Other & GN & 0.172 & 0.538 &  0.111 & 0.474 & 0.172 & 0.576 \\
+    & AN & 0.394 & 0.542 & 0.519 & 0.467 & 0.415 & 0.573 \\
+    & PKD & -1.19 & 0.826  & -1.06 & 0.708 & -1.26 & 0.859 \\
+  \hline
+  \end{tabular}
+  }
+  \end{center}
+  \caption{Estimated means and standard deviations of linear effects by proposed method, INLA and MCMC for the kidney data in section \ref{subsec:kidney}. }
+  \label{table:KidneyFixed}
+  \end{table}
+  
+  
+
+  
+
+  \begin{figure}[ht]
+    \centering
+    \subfigure[$\exp(\gamma_t(\text{tpi}))$]{
+      \includegraphics[width=0.45\textwidth,height=2.5in]{leuk_tpi.png}
+    }
+    \subfigure[Posterior mean of $\gamma_s(s)$]{
+      \includegraphics[width=0.45\textwidth,height=2.5in]{leuk_spatial_mean.png}
+    }
+    \subfigure[Posterior probability of $\gamma_s(s_i) > 1.5$]{
+      \includegraphics[width=0.55\textwidth,height=2.5in]{leuk_spatial_prob.png}
+    }
+    \caption{Results for the leukemia data in section \ref{subsec:leuk}, (a): Posterior mean of Exponentiated tpi effect (solid) and its 95 \% credible interval (dashed). (b): Posterior mean of Exponentiated effects of residence locations (c): Posterior probability of the Exponentiated effect of residence locations being larger than 1.5.}
+    \label{fig:leukFig}
+    \end{figure}
+    
+
+
+
+
+\end{document}
+

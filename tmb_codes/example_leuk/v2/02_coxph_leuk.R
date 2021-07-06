@@ -38,7 +38,7 @@ p <- 4 # 4 = cubic
 # Order of derivative penalty
 m <- 2
 # Number of INTERIOR knots
-d <- 20
+d <- 46
 # Number of knots
 T <- d + p
 # The knots
@@ -269,7 +269,7 @@ stanmod <- tmbstan(
 end_time <- Sys.time()
 runtime_MCMC <- end_time - start_time
 runtime_MCMC
-
+save(stanmod, file = "stanmod.Rdat")
 
 summ <- summary(stanmod)
 U_mcmc <- summ$summary[1:(d+m),1]
