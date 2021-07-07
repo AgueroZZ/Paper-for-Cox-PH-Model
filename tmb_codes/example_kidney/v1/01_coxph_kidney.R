@@ -124,7 +124,7 @@ colnames(post_sum_aghq) <- c(c(1:K),"age","sex","GN","AN","PKD")
 prior.prec <- list(prec = list(prior = "pc.prec",
                                param = c(tmbdat$u, tmbdat$a)))
 formula <- inla.surv(times,status)~ age + sex + GN + AN + PKD + f(id, model = "iid", hyper = prior.prec)
-Inlaresult <- inla(formula = formula, control.fixed = list(prec = 0.001), data = data, family = "coxph")
+Inlaresult <- inla(formula = formula, control.fixed = list(prec = 0.001), data = data, family = "coxph", control.compute=list(config = TRUE))
 ### beta:
 Inlaresult$summary.fixed
 
@@ -244,3 +244,49 @@ mean(KS_vec)
 max(KS_vec)
 
 
+
+
+############## Sampling from INLA:
+set.seed(123)
+inlasample <- inla.posterior.sample(10000, result = Inlaresult)
+
+### hyper
+inla.varpara.sample <- numeric(10000)
+for (i in 1:10000) {
+  inla.varpara.sample[i] <- inlasample[[i]]$hyperpar[1]
+}
+ks.test(stansamps$sigma,1/sqrt(inla.varpara.sample))$statistic
+
+### fixed:
+inla.fx.sample <- matrix(nrow = 5, ncol = 10000)
+for (i in 1:10000) {
+  for (j in 1:5) {
+    inla.fx.sample[j,i] <- inlasample[[i]]$latent[303 + j]
+  }
+}
+KS_vec <- c()
+for(i in 1:5){
+  fixed_inla <- inla.fx.sample[i,]
+  ii <- 38 + i
+  fixed_mcmc <- STAN_samples$W[,ii]
+  KS_vec[i] <- ks.test(fixed_mcmc,fixed_inla)$statistic
+}
+mean(KS_vec)
+max(KS_vec)
+
+
+########### Frailties KS:
+inla.rd.sample <- matrix(nrow = 38, ncol = 10000)
+for (i in 1:10000) {
+  for (j in 1:38) {
+    inla.rd.sample[j,i] <- inlasample[[i]]$latent[248 + j]
+  }
+}
+KS_vec <- c()
+for(i in 1:38){
+  xi_inla <- inla.rd.sample[i,]
+  xi_mcmc <- STAN_samples$W[,i]
+  KS_vec[i] <- ks.test(xi_mcmc,xi_inla)$statistic
+}
+mean(KS_vec)
+max(KS_vec)

@@ -347,3 +347,41 @@ for(i in 1:60){
 }
 mean(KS_vec)
 max(KS_vec)
+
+
+
+
+############## Sampling from INLA:
+set.seed(123)
+prior.prec <- list(prec = list(prior = "pc.prec",
+                               param = c(tmbdat$u, tmbdat$a)))
+formula <- inla.surv(t,cens)~ x + f(group, model = "iid", hyper = prior.prec)
+Inlaresult <- inla(formula = formula, control.fixed = list(prec = 0.001), data = dat, family = "coxph",control.compute=list(config = TRUE))
+inlasample <- inla.posterior.sample(10000, result = Inlaresult)
+### hyper
+inla.varpara.sample <- numeric(10000)
+for (i in 1:10000) {
+  inla.varpara.sample[i] <- inlasample[[i]]$hyperpar[1]
+}
+ks.test(stansamps$sigma,1/sqrt(inla.varpara.sample))$statistic
+### fixed
+inla.fixed.sample <- numeric(10000)
+for (i in 1:10000) {
+  inla.fixed.sample[i] <- inlasample[[i]]$latent[length(inlasample[[i]]$latent)]
+}
+ks.test(beta_mcmc,inla.fixed.sample)$statistic
+### random:
+inla.random.sample <- matrix(nrow = 60, ncol = 10000)
+for (i in 1:10000) {
+  for (j in 1:60) {
+    inla.random.sample[j,i] <- inlasample[[i]]$latent[624 + j]
+  }
+}
+KS_vec <- c()
+for(i in 1:60){
+  xi_inla <- inla.random.sample[i,]
+  xi_mcmc <- STAN_samples$W[,i]
+  KS_vec[i] <- ks.test(xi_mcmc,xi_inla)$statistic
+}
+mean(KS_vec)
+max(KS_vec)
