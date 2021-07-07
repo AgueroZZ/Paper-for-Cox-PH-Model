@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: revision04.aux
+The style file: ba.bst
+Database file #1: myrefs.bib
+Warning--empty journal in kneib2005geoadditive
+You've used 44 entries,
+            2760 wiz_defined-function locations,
+            861 strings with 11605 characters,
+and the built_in function-call counts, 25066 in all, are:
+= -- 2067
+> -- 911
+< -- 28
++ -- 347
+- -- 288
+* -- 1916
+:= -- 3928
+add.period$ -- 173
+call.type$ -- 44
+change.case$ -- 273
+chr.to.int$ -- 43
+cite$ -- 45
+duplicate$ -- 1823
+empty$ -- 1913
+format.name$ -- 411
+if$ -- 4846
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 390
+newline$ -- 272
+num.names$ -- 176
+pop$ -- 658
+preamble$ -- 1
+purify$ -- 271
+quote$ -- 0
+skip$ -- 656
+stack$ -- 0
+substring$ -- 1314
+swap$ -- 1062
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 396
+warning$ -- 1
+while$ -- 193
+width$ -- 0
+write$ -- 617
+(There was 1 warning)
