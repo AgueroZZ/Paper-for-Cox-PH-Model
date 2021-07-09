@@ -133,12 +133,12 @@ We propose a flexible and scalable approximate Bayesian inference methodology fo
 For problems involving time-to-event data, the combination of Cox proportional hazard (Cox PH) models and inference via partial likelihood has been the dominant methodology following its development by Cox \citep{coxph}. The Cox PH model assumes that any two subjects' event hazards are proportional as a function of time, with the ratio depending on unknown covariate effects which are inferred from the observed data. Event times may be correlated within the sample, for example when the response is time to kidney failure for the left and right kidneys from the same subject. Inference that is conducted via partial likelihood does not require assumptions to be made about the form of the baseline hazard. Further, the use of Bayesian inference with the Cox PH model is desirable as this yields model-based estimation and uncertainty quantification for all parameters of interest in the presence of complex models for the hazard, which would be difficult to achieve otherwise. However, existing methods for approximate Bayesian inference based on Integrated Nested Laplace Approximations (INLA) \citep{inla} cannot be applied to the Cox PH model with partial likelihood because the Hessian matrix of the log partial-likelihood is fully dense while INLA requires this matrix to be diagonal.
 
 
-Alternative methods of doing Bayesian inference on this kind of survival model have been considered in the literature. \cite{BayesianNonpara} considered a fully non-parametric approach for Bayesian survival analysis, where the entire hazard function is modelled with an extended gamma process prior and the posterior distribution is derived to be another extended gamma process. \cite{BayesianPartialMCMC} considered Bayesian analysis on Cox PH model on partial likelihood and on full likelihood with a extended gamma process prior for the baseline hazard, and carried out inferences based on Markov Chain Monte Carlo (MCMC). \cite{inlacoxph} considered application of the INLA methodology to the Cox PH model, using the full likelihood with baseline hazard modeled semi-parametrically. \cite{PartialandFull1} derived the partial likelihood to be the limiting posterior when baseline hazards are modelled with noninformative priors, and \cite{PartialandFull2} later extended the result to allow the inclusion of grouped survival data, and implemented partial likelihood based Bayesian inference with a Gibbs sampling algorithm. \cite{henschel2009semiparametric} proposed a Bayesian inference method using MCMC on the full likelihood, with baseline hazard function modelled either as piecewise constant or as linear combination of B splines, and they accommodated the inclusion of different types of frailties in their method. \cite{hennerfeind2006geoadditive} developed a general geo-additive Cox PH model that allows the inclusion of components such as non-linear covariate effect, spatial effect and group level frailties, with inference carried out using MCMC on full likelihood and baseline hazards modelled using P splines. \cite{kneib2005geoadditive} generalized the method of \cite{hennerfeind2006geoadditive} to acommodate left truncation, left censoring, and interval censoring of the survival times. Most of the existing methods for Bayesian inference of Cox PH model have been utlizing MCMC method to obtain the posterior, and are based on the full likelihood with an explicit form to model the unknown baseline hazard.
+Alternative methods of doing Bayesian inference on this kind of survival model have been considered in the literature. \cite{BayesianNonpara} considered a fully non-parametric approach for Bayesian survival analysis, where the entire hazard function is modelled with an extended gamma process prior and the posterior distribution is derived to be another extended gamma process. \cite{BayesianPartialMCMC} considered Bayesian analysis on Cox PH model on partial likelihood and on full likelihood with a extended gamma process prior for the baseline hazard, and carried out inferences based on Markov Chain Monte Carlo (MCMC). \cite{inlacoxph} considered application of the INLA methodology to the Cox PH model, using the full likelihood with baseline hazard modeled semi-parametrically. \cite{PartialandFull1} derived the partial likelihood to be the limiting posterior when baseline hazards are modelled with noninformative priors, and \cite{PartialandFull2} later extended the result to allow the inclusion of grouped survival data, and implemented partial likelihood based Bayesian inference with a Gibbs sampling algorithm. \cite{henschel2009semiparametric} proposed a Bayesian inference method using MCMC on the full likelihood, with baseline hazard function modelled either as piecewise constant or as linear combination of B splines, and they accommodated the inclusion of different types of frailties in their method. \cite{hennerfeind2006geoadditive} developed a general geo-additive Cox PH model that allows the inclusion of components such as non-linear covariate effect, spatial effect and group level frailties, with inference carried out using MCMC on full likelihood and baseline hazards modelled using P splines. \cite{kneib2005geoadditive} generalized the method of \cite{hennerfeind2006geoadditive} to acommodate left truncation, left censoring, and interval censoring of the survival times. Most of the existing methods for Bayesian inference of Cox PH model have been utilizing MCMC method to obtain the posterior, and are based on the full likelihood with an explicit form to model the unknown baseline hazard.
 
 
 
 \cite{casecross} developed an approximate Bayesian inference methodology for case-crossover model, which can be viewed as a special case of Cox PH model, by applying the approximation strategy of INLA to a log-partial likelihood with a non-diagonal Hessian matrix. 
-Their methodology includes semi-parametric covariate effects and yields full posterior uncertainty for the corresponding smoothness parameters, an improvement over existing frequentist methods. The partial likelihood they considered correponds to one of the simplest special case of the general Cox PH model, and the Hessian matrix of their log-partial likelihood is block-diagonal and sparse. In contrast, the Hessian matrix of log-partial likelihood of Cox PH model is generally fully dense, leading to increased computational burden when compared to the model considered by \cite{casecross}. Further, they use a manual integration strategy which requires the user to supply their own quadrature points, which requires specialist knowledge to do properly. This limits the practical utility of their method. In order to make approximate Bayesian inferences for the Cox PH model with partial likelihood, an alternative computational strategy is needed.
+Their methodology includes semi-parametric covariate effects and yields full posterior uncertainty for the corresponding smoothness parameters, an improvement over existing frequentist methods. The partial likelihood they considered corresponds to one of the simplest special case of the general Cox PH model, and the Hessian matrix of their log-partial likelihood is block-diagonal and sparse. In contrast, the Hessian matrix of log-partial likelihood of Cox PH model is generally fully dense, leading to increased computational burden when compared to the model considered by \cite{casecross}. Further, they use a manual integration strategy which requires the user to supply their own quadrature points, which requires specialist knowledge to do properly. This limits the practical utility of their method. In order to make approximate Bayesian inferences for the Cox PH model with partial likelihood, an alternative computational strategy is needed.
 
 
 
@@ -427,7 +427,7 @@ Data for example 4.3 were obtained from R package "survival" \citep{survival-pac
     \label{table:Sim1Agg2}
     \end{table}
 
-    \begin{table}[h]
+    \begin{table}[ht]
       \begin{center}
       \scalebox{0.55}{
       \begin{tabular}{||c c c c c||}
@@ -462,106 +462,65 @@ Data for example 4.3 were obtained from R package "survival" \citep{survival-pac
 
 
 \begin{table}
-\begin{center}
-\scalebox{0.55}{
-\begin{tabular}{||c c c c c||}
- \hline
- Number of Measurements & $\xi$ Coverage Rate (Proposed/INLA)  & $\xi$ MSE (Proposed/INLA)& $\beta$ Coverage Rate (Proposed/INLA) & $\beta$ MSE (Proposed/INLA)\\
- \hline\hline
- m = 1 & 0.934/0.549 & 0.659/0.903 & 0.946/0.934 & 0.042/0.027 \\
- \hline
-m = 2 & 0.918/0.848 & 0.491/0.567 & 0.944/0.942 & 0.017/0.016 \\
- \hline
-m = 3 & 0.934/0.919 & 0.350/0.370 & 0.950/0.952 & 0.010/0.010 \\
- \hline
-m = 4 & 0.937/0.930 & 0.278/0.288 & 0.954/0.956 & 0.007/0.007 \\
- \hline
-m = 5 & 0.940/0.934 & 0.227/0.233 & 0.940/0.940 & 0.006/0.006 \\
- \hline
-m = 10 & 0.944/0.944 & 0.126/0.127 & 0.944/0.942 & 0.002/0.002 \\
-  \hline \hline
-\end{tabular}
-}
-\end{center}
-\caption{Comparison metrics in terms of MSE and posterior coverage rate from 500 independent replications, for the 60 frailty effects and the fixed effect in the first simulation study in section \ref{subsubsec:sim1}.}
-\label{table:Sim1Agg}
-\end{table}
-
-
-\begin{table}
   \begin{center}
-  \scalebox{0.65}{
-  \begin{tabular}{||c c c c c||}
+  \scalebox{0.99}{
+  \begin{tabular}{|p{5cm}|
+  p{1cm}|p{1cm}|p{2cm}p{2cm}||}
+  \hline
+  \cline{1-5}
+        \multicolumn{1}{l}{} &
+        \multicolumn{1}{l}{$\sigma_\xi$} &
+        \multicolumn{1}{l}{$\beta$} &
+        \multicolumn{2}{c}{$\xi_i$} \\
+        \hline
+        Number of Measurements & KS  & KS & max KS & mean KS  \\
    \hline
-   Number of Measurements & $\sigma_\xi$(Proposed/INLA)  & $\beta$(Proposed/INLA) & $\xi_i$ max KS(Proposed/INLA) & $\xi_i$ mean KS(Proposed/INLA) \\
    \hline\hline
-   m = 2 & 0.104/0.327 & 0.016/0.032 & 0.059/0.279 & 0.039/0.114 \\
+   m = 2 & 0.104 & 0.016 & 0.059 & 0.039 \\
    \hline
-  m = 10 & 0.016/0.190 & 0.010/0.026 & 0.033/0.120 & 0.019/0.054 \\
+  m = 10 & 0.016 & 0.010 & 0.033 & 0.019 \\
     \hline \hline
   \end{tabular}
   }
   \end{center}
-  \caption{KS statistic for each parameter in the first simulation study in section \ref{subsubsec:sim1}, to compare the proposed approach and INLA approach with MCMC.}
+  \caption{KS statistic for each parameter in the first simulation study in section \ref{subsubsec:sim1}, to compare the proposed approach with MCMC.}
   \label{table:Sim1KS}
   \end{table}
 
 
 
 
-
 \begin{figure}[ht]
 \centering
 \subfigure[Simple stepwise baseline]{
-  \includegraphics[width=0.45\textwidth,height=2.6in]{simple_base.png}
+  \includegraphics[width=0.31\textwidth]{simple_base.png}
 }
 \subfigure[Oscillating stepwise baseline]{
-  \includegraphics[width=0.45\textwidth,height=2.6in]{stepwise_base.png}
+  \includegraphics[width=0.31\textwidth]{stepwise_base.png}
 }
 \subfigure[Complicated baseline]{
-	\includegraphics[width=0.5\textwidth,height=2.6in]{com_base.png}
+	\includegraphics[width=0.31\textwidth]{com_base.png}
 }
 \caption{True Baseline Hazards in the two examples in \ref{subsec:sim}.}
 \label{fig:truebase}
 \end{figure}
 
 
+
 \begin{figure}[ht]
 \centering
-\subfigure[Simple stepwise baseline]{
-  \includegraphics[width=0.45\textwidth,height=2.5in]{simple_box.png}
+\subfigure[MSE Comparison]{
+  \includegraphics[width=0.45\textwidth]{sim2_box.png}
 }
-\subfigure[Oscillating stepwise baseline]{
-  \includegraphics[width=0.45\textwidth,height=2.5in]{stepwise_box.png}
+\subfigure[Coverage Rate Comparison]{
+  \includegraphics[width=0.45\textwidth]{sim2_bar.png}
 }
-\subfigure[Complicated baseline]{
-	\includegraphics[width=0.55\textwidth,height=2.5in]{com_box.png}
-}
-\caption{Results for the second simulation in section \ref{subsubsec:sim2}. (a): Box-plot of MSE from 300 replications with simple baseline, using INLA and the proposed method. (b): Box-plot of MSE from 300 replications with oscillating baseline, using INLA and the proposed method. (c): Box-plot of MSE from 300 replications with complicated baseline, using INLA and the proposed method.}
-\label{fig:SimAggBox}
+\caption{Results for the second simulation in section \ref{subsubsec:sim2}. (a): Box-plot of MSE from 300 replications with different baseline settings, using INLA (red) and the proposed method (blue). (b): Bar-plot of Coverage Rate of 95\% posterior credible intervals from 300 replications with different baseline settings, using INLA (red) and the proposed method (blue). The red horizontal line is the nominal rate of 95\%. }
+\label{fig:Sim2Plot}
 \end{figure}
 
 
 
-\begin{table}
-\begin{center}
-\scalebox{0.7}{
-\begin{tabular}{||c c c c c||}
- \hline
- Baseline Hazards & $\gamma$ Coverage Rate (Proposed) & $\gamma$ Coverage Rate (INLA) & $\gamma$ MSE (Proposed)& $\gamma$ MSE (INLA)\\
- \hline\hline
- Simple Baseline & 0.969 & 0.974 & 0.0116 & 0.0122 \\
- \hline
-Oscillating Baseline  & 0.968 & 0.949 & 0.0117 & 0.0148 \\
- \hline
-Complicated Baseline & 0.968 & 0.659 & 0.0117 & 0.0448 \\
-  \hline \hline
-\end{tabular}
-}
-\end{center}
-\caption{Comparison metrics in terms of MSE and posterior coverage rate from 300 independent replications, for the three baselines in the second simulation study in section \ref{subsubsec:sim2}.}
-\label{table:Sim2Agg}
-\end{table}
 
 
 
@@ -623,7 +582,7 @@ Complicated Baseline & 0.968 & 0.659 & 0.0117 & 0.0448 \\
     \subfigure[Posterior probability of $\gamma_s(s_i) > 1.5$]{
       \includegraphics[width=0.55\textwidth,height=2.5in]{leuk_spatial_prob.png}
     }
-    \caption{Results for the leukemia data in section \ref{subsec:leuk}, (a): Posterior mean of Exponentiated tpi effect (solid) and its 95 \% credible interval (dashed). (b): Posterior mean of Exponentiated effects of residence locations (c): Posterior probability of the Exponentiated effect of residence locations being larger than 1.5.}
+    \caption{Results for the leukemia data in section \ref{subsec:leuk}, (a): Posterior mean of Exponentiated tpi effect (solid) and its 95\% credible interval (dashed). (b): Posterior mean of Exponentiated effects of residence locations (c): Posterior probability of the Exponentiated effect of residence locations being larger than 1.5.}
     \label{fig:leukFig}
     \end{figure}
     
