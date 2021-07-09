@@ -203,7 +203,6 @@ whereistheKS <- which.max(abs(stanecdf - quadecdf))
 abline(v = tt[whereistheKS])
 plot(tt,abs(stanecdf - quadecdf),type='l')
 
-
 ggplot(stansamps, aes(x = sigma)) + 
   geom_histogram(fill = "gray", color = "gray", stat = "density") + 
   geom_line(data = logpostsigma, aes(x = transparam, y = pdf_transparam)) + xlim(0,3) +
@@ -290,3 +289,90 @@ for(i in 1:38){
 }
 mean(KS_vec)
 max(KS_vec)
+
+
+
+
+
+
+
+
+#### Plotting
+
+### hyperparameter
+ggplot(stansamps, aes(x = sigma)) + 
+  geom_histogram(fill = "gray", color = "gray", stat = "density") + 
+  geom_line(data = logpostsigma, aes(x = transparam, y = pdf_transparam)) + xlim(0,3) +
+  geom_line(data = inla_hyper, aes(x,y), linetype = "dashed") + xlab("SD") + ylab("Density") +
+  theme_classic(base_size = TEXT_SIZE) 
+
+### fixed effect
+
+### age:
+age_inla <- inla.fx.sample[1,]
+age_inla_dens <- density(age_inla, bw = 0.005)
+age_inla_dens <- tibble(x = age_inla_dens$x, y = age_inla_dens$y)
+age_proposed_dens <- density(samps$samps[39,], bw = 0.005)
+age_proposed_dens <- tibble(x = age_proposed_dens$x, y = age_proposed_dens$y)
+
+ggplot(tibble(age = STAN_samples$W[, 39]), aes(x = age)) + 
+  geom_histogram(fill = "gray", color = "gray", stat = "density", bw = 0.005) + 
+  geom_line(data = age_proposed_dens, aes(x = x, y = y), linetype = "solid") + xlim(-0.1,0.1) +
+  geom_line(data = age_inla_dens, aes(x,y), linetype = "dashed") + xlab("Age") + ylab("Density") +
+  theme_classic(base_size = TEXT_SIZE) 
+
+
+### sex:
+sex_inla <- inla.fx.sample[2,]
+sex_inla_dens <- density(sex_inla, bw = 0.1)
+sex_inla_dens <- tibble(x = sex_inla_dens$x, y = sex_inla_dens$y)
+sex_proposed_dens <- density(samps$samps[40,], bw = 0.1)
+sex_proposed_dens <- tibble(x = sex_proposed_dens$x, y = sex_proposed_dens$y)
+
+ggplot(tibble(sex = STAN_samples$W[, 40]), aes(x = sex)) + 
+  geom_histogram(fill = "gray", color = "gray", stat = "density", bw = 0.1) + 
+  geom_line(data = sex_proposed_dens, aes(x = x, y = y), linetype = "solid") + xlim(-4,1) +
+  geom_line(data = sex_inla_dens, aes(x,y), linetype = "dashed") + xlab("Sex") + ylab("Density") +
+  theme_classic(base_size = TEXT_SIZE) 
+
+
+### GN:
+GN_inla <- inla.fx.sample[3,]
+GN_inla_dens <- density(GN_inla, bw = 0.12)
+GN_inla_dens <- tibble(x = GN_inla_dens$x, y = GN_inla_dens$y)
+GN_proposed_dens <- density(samps$samps[41,], bw = 0.12)
+GN_proposed_dens <- tibble(x = GN_proposed_dens$x, y = GN_proposed_dens$y)
+
+ggplot(tibble(GN = STAN_samples$W[, 41]), aes(x = GN)) + 
+  geom_histogram(fill = "gray", color = "gray", stat = "density", bw = 0.12) + 
+  geom_line(data = GN_proposed_dens, aes(x = x, y = y), linetype = "solid") + xlim(-2,3) +
+  geom_line(data = GN_inla_dens, aes(x,y), linetype = "dashed") + xlab("GN") + ylab("Density") +
+  theme_classic(base_size = TEXT_SIZE) 
+
+
+### AN:
+AN_inla <- inla.fx.sample[4,]
+AN_inla_dens <- density(AN_inla, bw = 0.12)
+AN_inla_dens <- tibble(x = AN_inla_dens$x, y = AN_inla_dens$y)
+AN_proposed_dens <- density(samps$samps[42,], bw = 0.12)
+AN_proposed_dens <- tibble(x = AN_proposed_dens$x, y = AN_proposed_dens$y)
+
+ggplot(tibble(AN = STAN_samples$W[, 42]), aes(x = AN)) + 
+  geom_histogram(fill = "gray", color = "gray", stat = "density", bw = 0.12) + 
+  geom_line(data = AN_proposed_dens, aes(x = x, y = y), linetype = "solid") + xlim(-2,3) +
+  geom_line(data = AN_inla_dens, aes(x,y), linetype = "dashed") + xlab("AN") + ylab("Density") +
+  theme_classic(base_size = TEXT_SIZE) 
+
+### PKD:
+PKD_inla <- inla.fx.sample[5,]
+PKD_inla_dens <- density(PKD_inla, bw = 0.2)
+PKD_inla_dens <- tibble(x = PKD_inla_dens$x, y = PKD_inla_dens$y)
+PKD_proposed_dens <- density(samps$samps[43,], bw = 0.2)
+PKD_proposed_dens <- tibble(x = PKD_proposed_dens$x, y = PKD_proposed_dens$y)
+
+ggplot(tibble(PKD = STAN_samples$W[, 43]), aes(x = PKD)) + 
+  geom_histogram(fill = "gray", color = "gray", stat = "density", bw = 0.2) + 
+  geom_line(data = PKD_proposed_dens, aes(x = x, y = y), linetype = "solid") + xlim(-4,3) +
+  geom_line(data = PKD_inla_dens, aes(x,y), linetype = "dashed") + xlab("PKD") + ylab("Density") +
+  theme_classic(base_size = TEXT_SIZE) 
+
