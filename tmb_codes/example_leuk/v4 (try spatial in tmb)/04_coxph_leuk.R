@@ -365,3 +365,185 @@ plot(ukBorderouter,add = TRUE)
 points(pointsdata,pch = ".")
 mapmisc::legendBreaks('topright', predcols, cex=1.5, bty='n')
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### Study the factorization time of H matrix:
+Mode <- quad$modesandhessians$mode[[1]]
+Theta_ori <- c(quad$modesandhessians$theta2[1], quad$modesandhessians$theta3[1], quad$modesandhessians$theta1[1])
+Theta <- Theta_ori
+Theta[1] <- log(get_sigma(exp(Theta_ori[1]), exp(Theta_ori[2])))
+Theta[2] <- log(get_rho(exp(Theta_ori[1]), exp(Theta_ori[2])))
+Theta[3] <- -0.5 * Theta_ori[3]
+
+
+##### From the novel method (without epsilon noise):
+Hnew <- quad$modesandhessians$H[[1]]
+BeginTime <- Sys.time()
+chol(Hnew)
+EndTime <- Sys.time()
+newTime <- EndTime - BeginTime
+
+
+##### From the old method (with epsilon noise):
+
+### Compute the old C matrix:
+
+# Setup the fixed effect term and the design matrix
+D <- abcoxph:::create_diff_matrix(n)
+X <- as(sparse.model.matrix(times ~ -1 + age + sex + wbc ,data = data),'dgTMatrix')
+BX <- as(cbind(B,X),'dgTMatrix')
+
+Amat <- Diagonal(n = nrow(data),x = 1)
+censor <- data$cens[-1] # 1 == not censored, confusing but more useful.
+
+# Zmat is the differenced design matrix
+Zmat <- D %*% cbind(BX,Amat) 
+
+make_delta <- function(W) {
+  as.numeric(Zmat %*% cbind(W))
+}
+
+Delta <- make_delta(Mode)
+oldW <- c(Delta, Mode)
+
+######### some necessary functions
+compute_one_denominator <- function(delta,i) {
+  # All of the likelihood quantities require that denominator
+  # vector for each observation. It's a cumulative sum. Write
+  # one function that computes it efficiently.
+  # delta: vector of length n
+  # i: index of denominator you want
+  n <- length(delta)
+  dd <- delta[i] - delta[i:n]
+  exp(matrixStats::logSumExp(dd)) - 1
+}
+
+compute_denominator <- function(delta) {
+  map(1:length(delta),~compute_one_denominator(delta,.x)) %>% reduce(c)
+}
+
+log_likelihood <- function(W) {
+  delta <- make_delta(W)
+  denom <- compute_denominator(delta)
+  -sum(censor * log(1 + denom))
+}
+
+grad_log_likelihood_one <- function(W,i) {
+  delta <- make_delta(W)
+  n <- length(delta)
+  if (censor[i] == 0) return(sparseVector(0,0,n))
+  denom <- compute_one_denominator(delta,i)
+  dd <- delta[i] - delta[i:n]
+  out <- exp(dd) / (1 + denom)
+  out <- c(rep(0,i-1),out)
+  out[i] <- out[i] - 1
+  out
+}
+
+grad_log_likelihood_subset <- function(W,I) {
+  # I: subset of 1...n
+  map(I,~grad_log_likelihood_one(W,.x)) %>% reduce(~.x + .y)
+}
+
+grad_log_likelihood <- function(W) grad_log_likelihood_subset(W,which(censor==1))
+
+
+make_hess_vec <- function(delta,i) {
+  # Make the vector that is used to create the hessian
+  n <- length(delta)
+  denom <- compute_one_denominator(delta,i)
+  if (censor[i] == 0) return(sparseVector(0,0,n))
+  dd <- delta[i] - delta[i:n]
+  out <- exp(dd) / (1 + denom)
+  c(rep(0,i-1),out)
+}
+
+
+hessian_log_likelihood <- function(W) {
+  delta <- make_delta(W)
+  n <- length(delta)
+  gg <- map(which(censor==1),~make_hess_vec(delta,.x))
+  diag(as.numeric(reduce(gg,~.x+.y))) - tcrossprod(gg %>% reduce(cbind))
+}
+
+oldC <- hessian_log_likelihood(Mode)
+oldC <- bdiag(oldC, diag(0,length(Mode),length(Mode)))
+
+### Compute the Old Q matrix:
+
+Q_matrix <- function(theta) {
+  tau <- exp(7)
+  I <- Diagonal(n-1)
+  # theta = log(sigma), log(rho), log(Sigma)
+  theta <- as.numeric(unname(theta))
+  # RW2 is P matrix
+  PrecRW <-  exp(theta[3]) * P
+  # Matern
+  PrecMatern <- geostatsp::matern(
+    pointsdata,
+    param = c("variance" = exp(2 * theta[1]),"range" = exp(theta[2]),"shape" = 1),
+    type = "precision"
+  )
+  # fixed effect
+  PrecBeta <- beta_prec * diag(p)
+  # Transformed Design matrix:
+  DA <- D %*% Amat
+  DB <- D %*% Bmat
+  DX <- D %*% Xmat
+  tau * rbind(
+    cbind(I, -DA, -DB, -DX),
+    cbind(-t(DA), (1/tau)* PrecMatern + t(DA)%*%DA, t(DA)%*%DB, t(DA)%*%DX),
+    cbind(-t(DB), t(DB)%*%DA, (1/tau)*PrecRW + t(DB)%*%DB, t(DB)%*%DX),
+    cbind(-t(DX), t(DX)%*%DA, t(DX)%*%DB, (1/tau)*PrecBeta + t(DX)%*%DX)
+  )
+}
+
+oldQ <- Q_matrix(Theta)
+
+### Factorize an old H matrix:
+oldH <- oldC + oldQ
+BeginTime <- Sys.time()
+chol(oldH)
+EndTime <- Sys.time()
+oldTime <- EndTime - BeginTime
+
+#### Compare factorization time between two methods:
+newTime
+oldTime
+
+#### Compare the memory difference between two methods:
+print(object.size(Hnew), units = "Mb")
+print(object.size(oldH), units = "Mb")
