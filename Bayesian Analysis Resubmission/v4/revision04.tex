@@ -78,7 +78,9 @@ St Michael's Hospital,
 \end{aug}
 
 \begin{abstract}
-We propose a flexible and scalable approximate Bayesian inference methodology for the Cox Proportional Hazards model with partial likelihood. The model we consider includes semi-parametric covariate effects and correlated survival times. The proposed method is based on nested approximations and adaptive quadrature, and the computational burden of working with the log-partial likelihood is mitigated through automatic differentiation and Laplace approximation. We provide two simulation studies to show the accuracy of the proposed approach, compared with the existing methods. We demonstrate the practical utility of our method and its computational advantages over MCMC methods through the analysis of Leukemia survival times, with a semi-parametric covariate effect, and Kidney infection times, which are paired. An R package implementing our method will be released publicly.
+We propose a flexible and scalable approximate Bayesian inference methodology for the Cox Proportional Hazards model with partial likelihood. The model we consider includes semi-parametric covariate effects and correlated survival times. The proposed method is based on nested approximations and adaptive quadrature, and the computational burden of working with the log-partial likelihood is mitigated through automatic differentiation and Laplace approximation. We provide two simulation studies to show the accuracy of the proposed approach, compared with the existing methods.
+We demonstrate the practical utility of our method and its computational advantages over MCMC methods through the analysis of Kidney infection times, which are paired, and the analysis of Leukemia survival times with a semi-parametric covariate effect and spatial variation. An R package implementing our method will be released publicly.
+
 \end{abstract}
 
 %% ** Keywords **
@@ -133,7 +135,7 @@ We propose a flexible and scalable approximate Bayesian inference methodology fo
 For problems involving time-to-event data, the combination of Cox proportional hazard (Cox PH) models and inference via partial likelihood has been the dominant methodology following its development by Cox \citep{coxph}. The Cox PH model assumes that any two subjects' event hazards are proportional as a function of time, with the ratio depending on unknown covariate effects which are inferred from the observed data. Event times may be correlated within the sample, for example when the response is time to kidney failure for the left and right kidneys from the same subject. Inference that is conducted via partial likelihood does not require assumptions to be made about the form of the baseline hazard. Further, the use of Bayesian inference with the Cox PH model is desirable as this yields model-based estimation and uncertainty quantification for all parameters of interest in the presence of complex models for the hazard, which would be difficult to achieve otherwise. However, existing methods for approximate Bayesian inference based on Integrated Nested Laplace Approximations (INLA) \citep{inla} cannot be applied to the Cox PH model with partial likelihood because the Hessian matrix of the log partial-likelihood is fully dense while INLA requires this matrix to be diagonal.
 
 
-Alternative methods of doing Bayesian inference on this kind of survival model have been considered in the literature. \cite{BayesianNonpara} considered a fully non-parametric approach for Bayesian survival analysis, where the entire hazard function is modelled with an extended gamma process prior and the posterior distribution is derived to be another extended gamma process. \cite{BayesianPartialMCMC} considered Bayesian analysis on Cox PH model on partial likelihood and on full likelihood with a extended gamma process prior for the baseline hazard, and carried out inferences based on Markov Chain Monte Carlo (MCMC). \cite{inlacoxph} considered application of the INLA methodology to the Cox PH model, using the full likelihood with baseline hazard modeled semi-parametrically. \cite{PartialandFull1} derived the partial likelihood to be the limiting posterior when baseline hazards are modelled with noninformative priors, and \cite{PartialandFull2} later extended the result to allow the inclusion of grouped survival data, and implemented partial likelihood based Bayesian inference with a Gibbs sampling algorithm. \cite{henschel2009semiparametric} proposed a Bayesian inference method using MCMC on the full likelihood, with baseline hazard function modelled either as piecewise constant or as linear combination of B splines, and they accommodated the inclusion of different types of frailties in their method. \cite{hennerfeind2006geoadditive} developed a general geo-additive Cox PH model that allows the inclusion of components such as non-linear covariate effect, spatial effect and group level frailties, with inference carried out using MCMC on full likelihood and baseline hazards modelled using P splines. \cite{kneib2005geoadditive} generalized the method of \cite{hennerfeind2006geoadditive} to acommodate left truncation, left censoring, and interval censoring of the survival times. Most of the existing methods for Bayesian inference of Cox PH model have been utilizing MCMC method to obtain the posterior, and are based on the full likelihood with an explicit form to model the unknown baseline hazard.
+Alternative methods of doing Bayesian inference on this kind of survival model have been considered in the literature. \cite{BayesianNonpara} considered a fully non-parametric approach for Bayesian survival analysis, where the entire hazard function is modelled with an extended gamma process prior and the posterior distribution is derived to be another extended gamma process. \cite{BayesianPartialMCMC} considered Bayesian analysis on Cox PH model on partial likelihood and on full likelihood with a extended gamma process prior for the baseline hazard, and carried out inferences using Markov Chain Monte Carlo (MCMC). \cite{inlacoxph} considered application of the INLA methodology to the Cox PH model, using the full likelihood with baseline hazard modeled semi-parametrically. \cite{PartialandFull1} derived the partial likelihood to be the limiting posterior when baseline hazards are modelled with noninformative priors, and \cite{PartialandFull2} later extended the result to allow the inclusion of grouped survival data, and implemented partial likelihood based Bayesian inference with a Gibbs sampling algorithm. \cite{henschel2009semiparametric} proposed a Bayesian inference method using MCMC on the full likelihood, with baseline hazard function modelled either as piecewise constant or as linear combination of B splines, and they accommodated the inclusion of different types of frailties in their method. \cite{hennerfeind2006geoadditive} developed a general geo-additive Cox PH model that allows the inclusion of components such as non-linear covariate effect, spatial effect and group level frailties, with inference carried out using MCMC on full likelihood and baseline hazards modelled using P splines. \cite{kneib2005geoadditive} generalized the method of \cite{hennerfeind2006geoadditive} to acommodate left truncation, left censoring, and interval censoring of the survival times. Most of the existing methods for Bayesian inference of Cox PH model have been utilizing MCMC method to obtain the posterior, and are based on the full likelihood with an explicit form to model the unknown baseline hazard.
 
 
 
@@ -142,7 +144,7 @@ Their methodology includes semi-parametric covariate effects and yields full pos
 
 
 
-In this paper, we improve upon the posterior approximation methodology of \cite{casecross} and apply it to fitting Cox PH models with partial likelihood, with fixed and semi-parametric covariate effects, spatial effects and frailties for modelling correlations between survival times. Through two simulation studies, we illustrate the circumstances under which the proposed method yields improved results compared to existing methods based on full likelihood, and demonstrate the accuracy of the posterior approximation and its computational advantages compared to partial likelihood method fit with MCMC. Through the analysis of two classical datasets with correlated survival times, semi-parametric effects and spatial variations, we show the practical utility of the proposed method.
+In this paper, we improve upon the posterior approximation methodology of \cite{casecross} and apply it to fitting Cox PH models with partial likelihood, with fixed and semi-parametric covariate effects, spatial effects and frailties for modelling correlations between survival times. Through two simulation studies, we illustrate the circumstances under which the proposed method yields improved results compared to existing methods based on full likelihood, and demonstrate the accuracy of the posterior approximation and its computational advantages compared to partial likelihood method fit with MCMC. We then further demonstrate the practical utility of the proposed method through the analysis of two classical datasets with correlated survival times, semi-parametric effects and spatial variations. 
 
 
 The remainder of this paper is organized as follows. In \S\ref{sec:model} we describe the semi-parametric Cox PH model and the method of semi-parametric smoothing that will be used in this paper. In \S\ref{sec:method}, we describe our proposed methodology and the introduced improvements to solve the computational challenges presented by the complicated partial likelihood. In \S\ref{sec:example} we illustrate advantages of the proposed methodology in two simulation studies and through the analysis of the Kidney catheter data analyzed by \cite{kidney} and Leukemia survival data analyzed by \cite{inlacoxph}. We conclude in \S\ref{sec:discussion} with a discussion.
@@ -303,9 +305,11 @@ We will provide two simulation studies to demonstrate the accuracy of our propos
 In the first simulation study, we considered the Bayesian inference problem for models with sparse frailties. In other words, survival times were correlated within groups while the number of observations in each group is small. We randomly generated $n = 60$ groups, each group with $n_i \equiv m$ observations. The group-level frailties $\{\xi_i, i\in [n] \}$ were simulated independently from $\mathcal{N}(0,\sigma_\xi^{2})$, with varying levels of $\sigma_{\xi}$. Besides the independent frailties, we also assumed there is a covariate $x$ generated from $\mathcal{N}(0,1)$, with covariate effect $\beta = 0.2$. Among all the survival times generated in this study, $10\%$ of observations were randomly selected to be right-censored. In this simulation study, we consider the baseline function to be a simple step function. This choice of piecewise constant baseline function corresponds to the piecewise Exponential model, which is a type of Cox PH model that is frequently used in the literature \citep{piecewiseExp}.
 The baseline hazard function in this simulation study is shown in Figure \ref{fig:truebase}(a). We consider six different levels of frailty sparsity in this simulation study by respectively setting $m$ to $1$, $2$, $3$, $4$, $5$ and $10$. The parameters of primary interest in this study are the group level frailties.
 
-The fixed effect $\beta$ was given a prior $\mathcal{N}(0,1000)$. The variance parameter $\sigma_\xi$ was given an Exponential prior with median of 1, which is a \emph{penalized complexity} prior of \cite{pcprior}. The same priors were used for implementations of both our proposed method and of INLA. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter was set to be $K = 15$. For the implementation of INLA, we used its first order random walk model for the baseline hazard run under its default settings. To compare the accuracies between the two methods, we used the metrics of posterior mean square error (MSE) and coverage rates of the $95\%$ posterior credible intervals, for both the fixed effect parameter and the frailties. All the metrics were computed by averaging through 500 independent replications.
+The fixed effect $\beta$ was given a prior $\mathcal{N}(0,1000)$. The variance parameter $\sigma_\xi$ was given an Exponential prior with median of 1, which is a \emph{penalized complexity} prior of \cite{pcprior}. The same priors were used for implementations of both our proposed method and of INLA. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter was set to be $K = 15$. For the implementation of INLA, we used its first order random walk model for the baseline hazard run under its default settings. To compare the accuracies between the two methods, we used the metrics of posterior mean square error (MSE) and coverage rates of the $95\%$ posterior credible intervals, for both the fixed effect parameter and the frailties. All the metrics were computed by averaging through 500 independent replications. 
 
-The comparison metrics when $\sigma_\xi = 1$ are shown in Table (\ref{table:Sim1Agg}). Based on the table, it can be noticed that our proposed method in general gives more accurate inferential results than INLA, both in terms of smaller MSE and coverage rates closer to the nominal level (i.e. $95\%$), and these differences get larger as the frailties get sparser (smaller $m$). 
+The comparison metrics when $\sigma_\xi = 1$ are shown in Figure (\ref{fig:Sim1Plot}). Based on the Figure (\ref{fig:Sim1Plot})(a) and (b), it can be noticed that our proposed method in general gives more accurate inferential results than INLA for frailty effects, both in terms of smaller MSE and coverage rates closer to the nominal level (i.e. $95\%$), and these differences get larger as the frailties get sparser (smaller $m$). 
+The comparison metrics for fixed effect are similar between the two approaches, as shown by Figure (\ref{fig:Sim1Plot})(c) and (d).
+
 For completeness, we also implemented the same simulation setting for $\sigma_\xi = 0.4, 0.8$ and $1.3$. As $\sigma_\xi$ grows, we found that as contrast to the other method, inferences from the proposed method are more robust to the sparse frailties, especially in terms of coverage probability for $\boldsymbol{\xi}$. The detailed comparison metrics for each setting of $\sigma_\xi$ can be found in the appendix. These results show that unless the group level frailties have trivial variation, the proposed method yields more reliable result than INLA, especially when frailties are sparse.
 
 The simulation result above seems to be related to the type of full likelihood INLA utilized in its inference \citep{inlacoxph}. In \cite{coxdiscussion}, Cox pointed out one problem associated with the use of the type of full likelihood considered by \cite{inlacoxph}, that is the large number of parameters introduced in order to model the unknown baseline hazard function. In this simulation study, the sample size is only $60m$, but the latent parameter contains more than $60$ parameters not counting the additional parameters INLA introduced for modeling the baseline hazard, which is likely to become a problem if $m$ is small. 
@@ -313,7 +317,7 @@ The simulation result above seems to be related to the type of full likelihood I
 To demonstrate the accuracy of our proposed approximation and the computational advantage compared to existing method, we also fitted the same partial likelihood model using MCMC method, through STAN's No U-turn Sampler (NUTS) \citep{NUTS}, using two replications where $\sigma_\xi = 1$ and $m = 10$ and $2$ respectively. With four chains each with $35000$ total iterations with $25000$ warmups running in parallel, MCMC took a total time of $40.89$ minutes when $m = 10$ and $3.56$ minutes when $m = 2$. As a comparison, the proposed method only took $29.64$ seconds when $m = 10$ and $1.31$ seconds when $m = 2$, to obtain $10000$ independent samples of $\boldsymbol{W}$ from the approximate posterior. The average times to take one sample in MCMC are $0.07$ and $0.005$ seconds respectively for $m = 10$ and $m = 2$, but for the proposed method are only respectively $0.003$ and $0.0001$ seconds.
 
 
-The difference between posterior distributions yielded by MCMC method and the approximate posterior obtained by the proposed method is quantified using Kolmogorv-Smirov (KS) statistic, which measures the maximal absolute difference between the two cumulative posterior distributions. The KS statistics have been computed for both $\sigma_\xi$ and $\beta$, as well as the mean and maximal KS statistic for the $60$ frailties. As a comparison, these KS statistics are also computed for the approximate posterior obtained by INLA. These results are summarized in Table (\ref{table:Sim1KS}).  As illustrated in the table, the proposed method yielded approximate posteriors that are very similar to those yielded by MCMC method, but took significantly shorter time for computation than MCMC. As $m$ decreases from $10$ to $2$, the accuracies of both the proposed posterior approximation and the INLA posterior approximation decrease, in particular for the variance parameter $\sigma_\xi$. That is because of the use of Laplace approximation for $\pi(\sigma_\xi|\boldsymbol{y})$, which has been known to be less accurate when random effects are sparse \citep{Ogden2013ASR}. However, the result from our proposed method is still more accurate than the existing Laplace approximation based method as shown in Table (\ref{table:Sim1Agg}) and closer to MCMC result as shown in Table (\ref{table:Sim1KS}).
+The difference between posterior distributions yielded by MCMC method and the approximate posterior obtained by the proposed method is quantified using Kolmogorv-Smirov (KS) statistic, which measures the maximal absolute difference between the two cumulative posterior distributions. The KS statistics have been computed for both $\sigma_\xi$ and $\beta$, as well as the mean and maximal KS statistic for the $60$ frailties. These results are summarized in Table (\ref{table:Sim1KS}).  As illustrated in the table, the proposed method yielded approximate posteriors that are very similar to those yielded by MCMC method, but took significantly shorter time for computation than MCMC. As $m$ decreases from $10$ to $2$, the KS statistic for $\sigma_\xi$ increases by 0.088. That is because of the use of Laplace approximation for $\pi(\sigma_\xi|\boldsymbol{y})$, which has been known to be less accurate when random effects are sparse \citep{Ogden2013ASR}. However, the result from our proposed method is still more accurate than the existing Laplace approximation based method as shown in Figure (\ref{fig:Sim1Plot}).
 
 
 
@@ -324,9 +328,9 @@ To compare the accuracy of our method with INLA when the smoothness assumption f
 To infer the unknown risk function $\gamma$, we used the Bayesian cubic B-spline smoothing method mentioned in section \ref{subsec:smooth} in our proposed method, with $50$ equally spaced knots. For the smoothing method in INLA, we placed the values of $u$ into $50$ discrete bins, and fitted its second-order random walk model for $\gamma$ \citep{rw2}. As shown in \cite{casecross}, the Bayesian semi-parametric smoothing methods we considered here are not sensitive to the choice of number and placement of knots. 
 As before, we implemented INLA under its default setting, with a first-order random walk model for the baseline hazard. This implicitly assumes that $h_{0}(t)$ is smooth. In contrast, our procedure does not infer $h_{0}(t)$, and does not make assumptions about its smoothness. In both of the smoothing methods, the single variance parameter $\sigma$ that controls the smoothness of $\gamma$, was modeled with an Exponential($\lambda$) prior with $\lambda$ chosen such that $\mathbb{P}\left( \sigma > 2\right) = 0.5$. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter to is set to be $K = 7$. As in the first simulation study, we compared the accuracy of our proposed method with INLA, using the metrics of MSE computed using posterior mean and coverage rate computed using the $95\%$ posterior credible interval. These metrics were computed from 300 independent replications.
 
-The comparison metrics under the three settings of baseline hazard are shown in Figure (\ref{fig:SimAggBox}) and Table (\ref{table:Sim2Agg}). Figure(\ref{fig:SimAggBox}) shows boxplots of the mean squared errors provided by the two methods for $\{\gamma(u_i)\}_{i=1}^n$ in each replication. Based on the boxplots, the proposed method provides inference results that are at least as accurate as INLA in terms of MSE, in all the settings. The same observation can be made from the Table (\ref{table:Sim2Agg}), where the proposed method provides consistent coverage rate that is close to the nominal level $95\%$ in all the settings. 
+The comparison metrics under the three settings of baseline hazard are shown in Figure (\ref{fig:Sim2Plot}). Figure(\ref{fig:Sim2Plot})(a) shows boxplots of the mean squared errors provided by the two methods for $\{\gamma(u_i)\}_{i=1}^n$ in each replication, for the three different settings of baseline hazard function. Based on the boxplots, the proposed method provides inference results that are at least as accurate as INLA in terms of MSE in all the settings. At the same time, as shown in Figure(\ref{fig:Sim2Plot})(b) the proposed method provides consistent coverage rate that is close to the nominal level $95\%$ in all the settings, but INLA has coverage rate lower than the nominal level when baseline hazard is complicated. 
 
-While the performance of the proposed method is not affected by the choice of true baseline hazard function, the performance of INLA is sensitive to the true baseline hazard function, as shown in the corresponding boxplots and table. This is not unexpected as the full-likelihood used in INLA's inference implicitly requires that the baseline hazard is smooth enough to be approximated well by its first-order random walk, which will not hold under setting such as Figure (\ref{fig:truebase})(c) where the baseline hazard is varying rapidly as time changes. On the other hand, the inference of our proposed method relies on the partial likelihood, which makes no assumption on the form of the baseline hazard, and hence unaffected by the wiggliness of baseline hazard in this study. 
+While the performance of the proposed method is not affected by the choice of true baseline hazard function, the performance of INLA is sensitive to the true baseline hazard function, as shown in the corresponding boxplots and barplots. This is not unexpected as the full-likelihood used in INLA's inference implicitly requires that the baseline hazard is smooth enough to be approximated well by its first-order random walk, which will not hold under setting such as Figure (\ref{fig:truebase})(c) where the baseline hazard is varying rapidly as time changes. On the other hand, the inference of our proposed method relies on the partial likelihood, which makes no assumption on the form of the baseline hazard, and hence unaffected by the wiggliness of baseline hazard in this study. 
 
 Again, to assess the accuracy of the proposed posterior approximation, we fitted the same partial likelihood model using MCMC using NUTS with four chains each with 10000 iterations and 8000 warmups, for an arbitrarily chosen replication. The KS statistic for variance parameter $\sigma$ that controls the smoothness of the inferred $\gamma$ is 0.035, and the maximum and mean KS statistics for the risk function evaluations $\{\gamma(u_i)\}_{i=1}^n$ are 0.027 and 0.021. We also computed the mean and maximum absolute difference between the posterior mean for $\{\gamma(u_i)\}_{i=1}^n$ given by the proposed method and by MCMC, which are respectively 0.002 and 0.007. The small KS statistics and absolute difference between posterior mean demonstrate that the proposed posterior approximation is comparable to MCMC. On the other hand, the average runtime of each Markov chain was around 18.7 hours for MCMC method to get 10000 iterations, but the proposed method with 10000 independent samples only requires 28.3 seconds, which is a huge improvement in computational time.
 
@@ -337,12 +341,12 @@ Again, to assess the accuracy of the proposed posterior approximation, we fitted
 We first analyzed this dataset on partial likelihood using the propose method, with $\mathcal{N}(0, 1000)$ priors on the linear covariate effects for age, sex and pre-existing disease types. Subject-specific intercepts $\xi_{i}\overset{iid}{\sim}\mathcal{N}(0,\sigma^{2}_{\xi})$ were included to account for correlation between kidneys from the same subject. We used an $\text{Exponential}$ prior distribution for $\sigma_{\xi}$ with median 2. For the adaptive quadrature we used in our inference, the number of grid points for variance parameter to is set to be 15. Ties are handled using the method of \cite{Breslow}.
 As a comparison, we also used INLA to fit a Cox PH model to these grouped data on its full likelihood, with the same set of priors as above. The setting for baseline hazard is set to default in INLA's implementation.
 
-Table (\ref{table:KidneyFixed}) shows the results of our procedure compared to the results obtained using INLA and MCMC. Based on the table, our procedure gave different posterior means and reported larger posterior standard deviations compared to INLA, especially for the effects of different disease types. This is also reflected in Figure (\ref{fig:kidneyHyper}), where our posterior distribution for $\sigma_{\xi}$ is wider than that of INLA. As we have shown in section \ref{subsubsec:sim1}, when sparse frailties exist, Bayesian inference on partial likelihood tends to be more stable than on full-likelihood. On the other hand, results from the proposed method are shown to be much closer to MCMC than results from INLA, which again demonstrates the accuracy of the proposed posterior approximation.
+Table (\ref{table:KidneyFixed}) shows the results of our procedure compared to the results obtained using INLA and MCMC. Based on the table, our procedure gave different posterior means and reported larger posterior standard deviations compared to INLA, especially for the effects of different disease types. These results are also summarized in Figure (\ref{fig:kidneyPos}), where the posteriors obtained from the proposed method are shown to be much closer to MCMC than posteriors obtained from INLA. As we have shown in section \ref{subsubsec:sim1}, when sparse frailties exist, Bayesian inference on partial likelihood tends to be more stable than on full-likelihood. 
 
 Again, to quantify the difference between the proposed posterior approximation and the posterior yielded by MCMC, we computed the KS statistics for the $5$ fixed covariate effects, the $38$ patient level frailties and the variance parameter $\sigma_\xi$. The KS statistic for $\sigma_\xi$ is 0.083, and the mean/maximal KS statistics for fixed effects and frailties are respectively 0.034/0.069 and 0.036/0.051. 
 As a comparison, when using INLA, the KS statistics for $\sigma_\xi$ is 0.357, and the mean/maximal KS statistics for fixed effects and frailties are respectively 0.102/0.127 and 0.143/0.278.
 
-The KS statistics show that the proposed method give similar posteriors to MCMC method, for most of the parameters. As shown in the table, the posterior for the variance parameter $\sigma_\xi$ is approximated less accurately compared to other parameters, because of the problem with Laplace approximation for sparse frailties \citep{Ogden2013ASR}. This deviation can also be noticed from Figure (\ref{fig:kidneyHyper}). However, the inference for $\sigma_\xi$ obtained from the proposed method is still closer to MCMC result than that from INLA for all the parameters. The runtimes are respectively 0.64 seconds for our approach with 10000 independent samples and 1.98 minutes for MCMC with 35000 iterations with 25000 warmups. The number of MCMC iterations that can be obtained with the runtime of the proposed method is only 157.
+The KS statistics show that the proposed method give similar posteriors to MCMC method, for most of the parameters. As shown in the table, the posterior for the variance parameter $\sigma_\xi$ is approximated less accurately compared to other parameters, because of the problem with Laplace approximation for sparse frailties \citep{Ogden2013ASR}. This deviation can also be noticed from Figure (\ref{fig:kidneyPos})(a). However, the inference for $\sigma_\xi$ obtained from the proposed method is still closer to MCMC result than that from INLA for all the parameters. The runtimes are respectively 0.64 seconds for our approach with 10000 independent samples and 1.98 minutes for MCMC with 35000 iterations with 25000 warmups. The number of MCMC iterations that can be obtained with the runtime of the proposed method is only 157.
 
 
 \subsection{Leukemia Data}\label{subsec:leuk}
@@ -370,12 +374,13 @@ The framework of this proposed methodology can be extended to fit more complex m
 The simulated data of example 4.1.1 and 4.1.2 are available in the supplementary material with this paper. Data for example 4.2 were obtained from R package "INLA" \citep{inla} and are freely available.
 Data for example 4.3 were obtained from R package "survival" \citep{survival-package} and are freely available. 
 
+\clearpage
 
 \appendix
 
 \section{Comparison metrics with different $\sigma_\xi$ for the first simulation example}
 
-\begin{table}[h]
+\begin{table}[ht]
   \begin{center}
   \scalebox{0.55}{
   \begin{tabular}{||c c c c c||}
@@ -400,8 +405,8 @@ Data for example 4.3 were obtained from R package "survival" \citep{survival-pac
   \caption{Comparison metrics in terms of MSE and posterior coverage rate from 500 independent replications when $\sigma_\xi = 1.3$, for the 60 frailty effects and the fixed effect in the first simulation study in section \ref{subsubsec:sim1}.}
   \label{table:Sim1Agg1}
   \end{table}
-
-  \begin{table}[h]
+  
+  \begin{table}[ht]
     \begin{center}
     \scalebox{0.55}{
     \begin{tabular}{||c c c c c||}
@@ -451,13 +456,71 @@ Data for example 4.3 were obtained from R package "survival" \citep{survival-pac
       \end{center}
       \caption{Comparison metrics in terms of MSE and posterior coverage rate from 500 independent replications when $\sigma_\xi = 0.4$, for the 60 frailty effects and the fixed effect in the first simulation study in section \ref{subsubsec:sim1}.}
       \label{table:Sim1Agg3}
-      \end{table}
+      \end{table}    
+
+\clearpage
+
+
+
 
 \nocite{*}% Show all bib entries - both cited and uncited; comment this line to view only cited bib entries;
 \bibliographystyle{ba}
 \bibliography{myrefs}%
 
+
+
+
 \clearpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{figure}
+\centering
+\subfigure[Simple stepwise baseline]{
+  \includegraphics[width=0.31\textwidth]{simple_base.png}
+}
+\subfigure[Oscillating stepwise baseline]{
+  \includegraphics[width=0.31\textwidth]{stepwise_base.png}
+}
+\subfigure[Complicated baseline]{
+	\includegraphics[width=0.31\textwidth]{com_base.png}
+}
+\caption{True Baseline Hazards in the two examples in \ref{subsec:sim}.}
+\label{fig:truebase}
+\end{figure}
+
+
+
+
+
+
+\begin{figure}
+\centering
+\subfigure[MSE for frailty]{
+  \includegraphics[width=0.45\textwidth]{sim1_fraMSE.png}
+}
+\subfigure[Coverage Rate for frailty]{
+  \includegraphics[width=0.45\textwidth]{sim1_fraCov.png}
+}
+\subfigure[MSE for fixed effect]{
+  \includegraphics[width=0.45\textwidth]{sim1_betaMSE.png}
+}
+\subfigure[Coverage Rate for fixed effect]{
+  \includegraphics[width=0.45\textwidth]{sim1_betaCov.png}
+}
+\caption{Results for the first simulation in section \ref{subsubsec:sim1}. (a): Box-plot of MSE of frailties from 500 replications with different m settings, using INLA (red) and the proposed method (blue). (b): Bar-plot of Coverage Rate of 95\% posterior credible intervals of frailties from 500 replications with different m settings, using INLA (red) and the proposed method (blue). The red horizontal line is the nominal rate of 95\%. (c): Box-plot of MSE of fixed effect from 500 replications with different m settings, using INLA (red) and the proposed method (blue). (d): Bar-plot of Coverage Rate of 95\% posterior credible intervals of fixed effect from 500 replications with different m settings, using INLA (red) and the proposed method (blue). The red horizontal line is the nominal rate of 95\%.  }
+\label{fig:Sim1Plot}
+\end{figure}
 
 
 
@@ -490,24 +553,9 @@ Data for example 4.3 were obtained from R package "survival" \citep{survival-pac
 
 
 
-\begin{figure}[ht]
-\centering
-\subfigure[Simple stepwise baseline]{
-  \includegraphics[width=0.31\textwidth]{simple_base.png}
-}
-\subfigure[Oscillating stepwise baseline]{
-  \includegraphics[width=0.31\textwidth]{stepwise_base.png}
-}
-\subfigure[Complicated baseline]{
-	\includegraphics[width=0.31\textwidth]{com_base.png}
-}
-\caption{True Baseline Hazards in the two examples in \ref{subsec:sim}.}
-\label{fig:truebase}
-\end{figure}
 
 
-
-\begin{figure}[ht]
+\begin{figure}
 \centering
 \subfigure[MSE Comparison]{
   \includegraphics[width=0.45\textwidth]{sim2_box.png}
@@ -525,13 +573,30 @@ Data for example 4.3 were obtained from R package "survival" \citep{survival-pac
 
 
 
-\begin{figure}[ht]
+\begin{figure}
   \centering
-  \subfigure[Posterior distributions of $\sigma_\xi$]{
-    \includegraphics[width=0.8\textwidth,height= 3.5in]{kidneyHyper.png}
+  \subfigure[Posteriors of $\sigma_\xi$]{
+    \includegraphics[width=0.29\textwidth]{kidneyHyper.png}
   }
-  \caption{Posterior of the variance parameter $\sigma_\xi$ for the kidney data in section \ref{subsec:kidney}. Posterior distribution for $\sigma_\xi$ obtained using the proposed method(solid line), using MCMC(gray histogram) and using INLA (dashed).}
-  \label{fig:kidneyHyper}
+    \subfigure[Posteriors of $\beta_\text{Age}$]{
+    \includegraphics[width=0.29\textwidth]{kid_age.png}
+  }
+  \subfigure[Posteriors of $\beta_\text{Sex}$]{
+    \includegraphics[width=0.29\textwidth]{kid_sex.png}
+  }
+    \subfigure[Posteriors of $\beta_\text{GN}$]{
+    \includegraphics[width=0.29\textwidth]{kid_gn.png}
+  }
+      \subfigure[Posteriors of $\beta_\text{AN}$]{
+    \includegraphics[width=0.29\textwidth]{kid_an.png}
+  }
+        \subfigure[Posteriors of $\beta_\text{PKD}$]{
+    \includegraphics[width=0.29\textwidth]{kid_pkd.png}
+  }
+  
+  
+  \caption{Posteriors of parameters for the kidney data in section \ref{subsec:kidney}. Posterior distribution obtained using the proposed method(solid line), using MCMC(gray histogram) and using INLA (dashed).}
+  \label{fig:kidneyPos}
   \end{figure}
   
   
@@ -571,7 +636,7 @@ Data for example 4.3 were obtained from R package "survival" \citep{survival-pac
 
   
 
-  \begin{figure}[ht]
+  \begin{figure}
     \centering
     \subfigure[$\exp(\gamma_t(\text{tpi}))$]{
       \includegraphics[width=0.45\textwidth,height=2.5in]{leuk_tpi.png}
@@ -586,7 +651,6 @@ Data for example 4.3 were obtained from R package "survival" \citep{survival-pac
     \label{fig:leukFig}
     \end{figure}
     
-
 
 
 
